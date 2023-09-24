@@ -10,27 +10,27 @@
 
     <div class="sidebar">
         <div class="logo">
-            <img src="icons/logo.png" alt="Logo">
+            <img th:src="@{/icons/logo.png}" alt="Logo">
         </div>
         <div class="icons">
-            <a class="profile" id="selected" href=""> <img src="icons/profile.svg" alt="Profile"> </a>
-            <a class="calendar" href="#caledar"> <img src="icons/calendar.svg" alt="Calendar"> </a>
-            <a class="statistic" href="#statitic"> <img src="icons/statistic.svg" alt="Statistic"> </a>
-            <a class="logout" href="#logout"> <img src="icons/log-out.svg" alt="Log out"> </a>
+            <a class="profile" id="selected" href=""> <img th:src="@{/icons/profile.svg}" alt="Profile"> </a>
+            <a class="calendar" href="#caledar"> <img th:src="@{/icons/calendar.svg}" alt="Calendar"> </a>
+            <a class="statistic" href="#statitic"> <img th:src="@{/icons/statistic.svg}" alt="Statistic"> </a>
+            <a class="logout" href="#logout"> <img th:src="@{/icons/logout.svg}" alt="Log out"> </a>
         </div>
     </div>
 
     <div class="content">
         <div class="profile-info">
             <div class="first-column">
-                <img src="icons/profile.svg" alt="Profile Photo" class="profile-photo">
-                <p class="email">ivan@gmail.com</p>
+                <img th:src="@{/icons/profile.svg}" alt="Profile Photo" class="profile-photo">
+                <p class="email" th:text="'ваша почта: ' + ${member.email}"></p>
                 <p class="last-visit">Последняя тренировка: вчера</p>
                 <p class="payment-date">Ближайшая оплата абонемента: завтра</p>
             </div>
             <div class="info">
-                <p class="name">Иванов Иван</p>
-                <p class="level">Уровень: золотой</p>
+                <p class="name" th:text="${member.first_name + ' ' + member.second_name}"></p>
+                <p class="level" th:text="'Уровень: ' + ${roleName}"></p>
             </div>
             <div class="third-column">
                 <p class="achievements">Ваши достижения</p>
