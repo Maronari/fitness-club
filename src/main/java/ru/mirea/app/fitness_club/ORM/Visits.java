@@ -1,25 +1,27 @@
 package ru.mirea.app.fitness_club.ORM;
 
+import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "clubs")
-@NoArgsConstructor
+@Table(name = "visit_history")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
-public class Clubs {
+public class Visits {
     @Id
-    private String club_name;
-    private String adress;
+    private int id_visit;
+    private Date visit_date;
 
-    @OneToMany(mappedBy = "club")
-    private Set<Members> members;
+    @ManyToMany(mappedBy = "visits")
+    Set<Members> projects = new HashSet<>();
 }

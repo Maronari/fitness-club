@@ -89,6 +89,12 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<resources>
+						<resource>
+							<directory>src/main/resources</directory>
+							<filtering>true</filtering>
+						</resource>
+					</resources>
 				</configuration>
 			</plugin>
 		</plugins>

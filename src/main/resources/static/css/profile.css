@@ -58,6 +58,9 @@ body {
 }
 
 .name,
+.birth-date,
+.gender,
+.phone-number,
 .email,
 .last-visit,
 .level,
@@ -70,6 +73,8 @@ body {
 
 .achievements {
     background-color: lightgray;
+    display: grid;
+    grid-template-columns: auto;
     padding: 10px;
     width: 450px;
     height: 100px;

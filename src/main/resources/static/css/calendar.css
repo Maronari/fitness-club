@@ -1,0 +1,14 @@
+#selected {
+    width: 70px;
+    height: 70px;
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+#selected img {
+    display: block;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    padding-top: 5px;
+}
