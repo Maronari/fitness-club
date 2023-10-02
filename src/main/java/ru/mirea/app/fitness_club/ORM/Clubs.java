@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Clubs {
     @Id
     private String club_name;
-    private String adress;
+    private String address;
 
     @OneToMany(mappedBy = "club")
     private Set<Members> members;
