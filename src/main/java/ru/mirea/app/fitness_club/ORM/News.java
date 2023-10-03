@@ -12,19 +12,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "inbody_analyses")
+@Table(name = "news")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class InbodyAnalyses {
+public class News {
     @Id
-    private int id_inbody_analyses;
-    private float height;
-    private float weight;
-    private float bmi;
-    private float fat_percent;
-    private float muscle_percent;
+    private int id_news;
+    private String news_title;
+    private String news_text;
 
-    @OneToMany(mappedBy = "members_have_inbody_analyses")
-    private List<MemberInbodyAnalyses> membersInbodyAnalyses = new ArrayList<>();
+    @OneToMany(mappedBy = "clubs_has_news")
+    private List<ClubNews> clubNews = new ArrayList<>();
 }

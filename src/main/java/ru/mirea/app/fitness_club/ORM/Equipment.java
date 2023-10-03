@@ -14,20 +14,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "equipment_statistics")
+@Table(name = "equipment")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class EquipmentStatistics {
+public class Equipment {
     @Id
     @OneToOne
-    @JoinColumn(name = "id_activity")
-    private ActivityType id_activity;
+    @JoinColumn(name = "id_equipment_type")
+    private EquipmentType equipmentType;
+    
+    @Id
+    private int id_equipment;
+    private String name;
+    private int quantity;
 
-    private int id_statistics;
-    private int approaches;
-    private int kilocalories;
-
-    @OneToMany(mappedBy = "members_have_equipment_statistics")
-    private List<MemberEquipmentStatistics> membersEquipmentStatistics = new ArrayList<>();
+    @OneToMany(mappedBy = "gyms_has_equipment")
+    private List<GymsEquipment> gymsEquipments = new ArrayList<>();
 }

@@ -23,6 +23,6 @@ public class Achievements {
     private String achievement_title;
     private String achievement_icon_url;
 
-    @OneToMany(mappedBy = "achievement")
+    @OneToMany(mappedBy = "members_have_achievements")
     private List<MemberAchievements> membersAchievements = new ArrayList<>();
 }

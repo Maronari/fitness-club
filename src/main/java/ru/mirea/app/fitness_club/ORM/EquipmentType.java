@@ -12,15 +12,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "activity_type")
+@Table(name = "equipment_type")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class ActivityType {
+public class EquipmentType {
     @Id
-    private int id_activity;
-    private String activity_name;
+    private int id_equipment_type;
+    private String type_name;
 
-    @OneToOne(mappedBy = "equipment_statistics")
-    private List<EquipmentStatistics> equipmentStatistics = new ArrayList<>();
+    @OneToOne(mappedBy = "equipment")
+    private List<Equipment> equipments = new ArrayList<>();
 }

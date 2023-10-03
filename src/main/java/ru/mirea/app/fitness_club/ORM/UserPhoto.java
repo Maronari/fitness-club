@@ -1,7 +1,6 @@
 package ru.mirea.app.fitness_club.ORM;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,15 +11,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "activity_type")
+@Table(name = "users_photo")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class ActivityType {
+public class UserPhoto {
     @Id
-    private int id_activity;
-    private String activity_name;
+    private int id_photo;
+    private String image_url;
 
-    @OneToOne(mappedBy = "equipment_statistics")
-    private List<EquipmentStatistics> equipmentStatistics = new ArrayList<>();
+    @OneToOne(mappedBy = "users_photo")
+    private Set<MemberAccounts> memberAccounts;
 }
