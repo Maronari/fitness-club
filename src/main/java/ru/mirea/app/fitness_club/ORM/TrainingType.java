@@ -11,21 +11,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "clubs")
+@Table(name = "training_type")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Clubs {
+public class TrainingType {
     @Id
-    private String club_name;
-    private String address;
+    private int id_training_type;
+    private String training_type_name;
 
-    @OneToMany(mappedBy = "members")
-    private Set<Members> members;
-
-    @OneToMany(mappedBy = "clubs")
-    private Set<StaffSchedule> staffSchedules;
-
-    @OneToMany(mappedBy = "clubs")
-    private Set<Gyms> gyms;
+    @OneToMany(mappedBy = "trainingType")
+    private Set<TrainingSchedule> trainingSchedules;
 }

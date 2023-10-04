@@ -8,9 +8,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -46,10 +45,21 @@ public class Members {
     @OneToMany(mappedBy = "member")
     private List<MemberAchievements> membersAchievements = new ArrayList<MemberAchievements>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "members_have_visits_history",
-        joinColumns = @JoinColumn(name = "id_member"),
-        inverseJoinColumns = @JoinColumn(name = "id_visit"))
-    private List<Visits> visits = new ArrayList<Visits>();
+    @OneToMany(mappedBy = "member")
+    private List<MemberVisits> membersVisits = new ArrayList<MemberVisits>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberInbodyAnalyses> memberInbodyAnalyses = new ArrayList<MemberInbodyAnalyses>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberEquipmentStatistics> memberEquipmentStatistics = new ArrayList<MemberEquipmentStatistics>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberAccounts> memberAccounts = new ArrayList<MemberAccounts>();
+
+    @OneToOne(mappedBy = "member")
+    private List<NutritionPlan> nutritionPlans = new ArrayList<NutritionPlan>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberTrainingSchedule> memberTrainingSchedules = new ArrayList<MemberTrainingSchedule>();
 }

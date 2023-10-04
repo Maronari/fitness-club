@@ -1,7 +1,5 @@
 package ru.mirea.app.fitness_club.ORM;
 
-import java.sql.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -12,21 +10,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "members_have_achievements")
+@Table(name = "clubs_has_news")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class MemberAchievements {
+public class ClubNews {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "id_member")
-    private Members member;
+    @JoinColumn(name = "club_name")
+    private Clubs clubs;
     
     @Id
     @ManyToOne
-    @JoinColumn(name = "id_achievement")
-    private Achievements achievement;
-
-    private Date receipt_date;
+    @JoinColumn(name = "id_news")
+    private News news;
 }

@@ -12,17 +12,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "achievements")
+@Table(name = "news")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Achievements {
+public class News {
     @Id
-    private int id_achievement;
-    private String achievement_description;
-    private String achievement_title;
-    private String achievement_icon_url;
+    private int id_news;
+    private String news_title;
+    private String news_text;
 
-    @OneToMany(mappedBy = "achievement")
-    private List<MemberAchievements> membersAchievements = new ArrayList<MemberAchievements>();
+    @OneToMany(mappedBy = "news")
+    private List<ClubNews> clubNews = new ArrayList<>();
 }
