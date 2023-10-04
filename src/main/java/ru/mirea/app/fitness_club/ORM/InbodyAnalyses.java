@@ -25,6 +25,6 @@ public class InbodyAnalyses {
     private float fat_percent;
     private float muscle_percent;
 
-    @OneToMany(mappedBy = "members_have_inbody_analyses")
+    @OneToMany(mappedBy = "inbodyAnalyses")
     private List<MemberInbodyAnalyses> membersInbodyAnalyses = new ArrayList<>();
 }

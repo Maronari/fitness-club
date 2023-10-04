@@ -22,6 +22,6 @@ public class Visits {
     private int id_visit;
     private Date visit_date;
 
-    @OneToMany(mappedBy = "visit_history")
+    @OneToMany(mappedBy = "visits")
     private List<MemberVisits> memberVisits = new ArrayList<>();
 }

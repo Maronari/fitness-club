@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class MemberVisits {
-
     @Id
     @ManyToOne
     @JoinColumn(name = "id_member")

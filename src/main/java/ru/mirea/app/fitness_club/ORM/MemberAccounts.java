@@ -34,12 +34,9 @@ public class MemberAccounts {
     private String account_creation_date;
     private String last_login;
 
-    @OneToOne(mappedBy = "members")
-    private List<Members> members = new ArrayList<>();
-
-    @OneToOne(mappedBy = "users_photo")
-    private List<UserPhoto> userPhotos = new ArrayList<>();
-
-    @OneToMany(mappedBy = "feedback")
+    @OneToMany(mappedBy = "id_member")
     private List<Feedback> feedbacks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member_username")
+    private List<Feedback> feedbacks2 = new ArrayList<>();
 }

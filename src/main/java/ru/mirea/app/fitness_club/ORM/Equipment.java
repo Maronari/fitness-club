@@ -29,6 +29,6 @@ public class Equipment {
     private String name;
     private int quantity;
 
-    @OneToMany(mappedBy = "gyms_has_equipment")
+    @OneToMany(mappedBy = "equipment")
     private List<GymsEquipment> gymsEquipments = new ArrayList<>();
 }

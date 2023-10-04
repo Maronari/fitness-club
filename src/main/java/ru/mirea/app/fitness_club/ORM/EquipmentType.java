@@ -21,6 +21,6 @@ public class EquipmentType {
     private int id_equipment_type;
     private String type_name;
 
-    @OneToOne(mappedBy = "equipment")
+    @OneToOne(mappedBy = "equipmentType")
     private List<Equipment> equipments = new ArrayList<>();
 }

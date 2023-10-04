@@ -22,6 +22,6 @@ public class News {
     private String news_title;
     private String news_text;
 
-    @OneToMany(mappedBy = "clubs_has_news")
+    @OneToMany(mappedBy = "news")
     private List<ClubNews> clubNews = new ArrayList<>();
 }

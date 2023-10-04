@@ -1,8 +1,5 @@
 package ru.mirea.app.fitness_club.ORM;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -28,7 +25,4 @@ public class StaffAccounts {
     @OneToOne
     @JoinColumn(name = "id_staff")
     private Staff staff;
-
-    @OneToOne(mappedBy = "staff")
-    private List<Staff> staffs = new ArrayList<>();
 }

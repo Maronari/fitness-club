@@ -20,6 +20,6 @@ public class UserPhoto {
     private int id_photo;
     private String image_url;
 
-    @OneToOne(mappedBy = "users_photo")
+    @OneToOne(mappedBy = "userPhoto")
     private Set<MemberAccounts> memberAccounts;
 }

@@ -21,6 +21,6 @@ public class Position {
     private int id_position;
     private String role_name;
 
-    @OneToMany(mappedBy = "staff")
+    @OneToMany(mappedBy = "position")
     private List<Staff> staffs = new ArrayList<>();
 }

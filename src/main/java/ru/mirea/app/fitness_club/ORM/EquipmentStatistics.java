@@ -28,6 +28,6 @@ public class EquipmentStatistics {
     private int approaches;
     private int kilocalories;
 
-    @OneToMany(mappedBy = "members_have_equipment_statistics")
+    @OneToMany(mappedBy = "equipmentStatistics")
     private List<MemberEquipmentStatistics> membersEquipmentStatistics = new ArrayList<>();
 }

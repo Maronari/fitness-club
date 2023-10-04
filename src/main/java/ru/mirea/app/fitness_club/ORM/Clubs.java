@@ -24,5 +24,8 @@ public class Clubs {
     private Set<Members> members;
 
     @OneToMany(mappedBy = "clubs")
-    private Set<Clubs> clubs;
+    private Set<StaffSchedule> staffSchedules;
+
+    @OneToMany(mappedBy = "clubs")
+    private Set<Gyms> gyms;
 }

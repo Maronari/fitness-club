@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Staff {
     @Id
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_position")
     private Position position;
     
@@ -35,6 +36,9 @@ public class Staff {
     private String staff_about;
     private int gender;
 
-    @OneToOne(mappedBy = "staff_schedule")
+    @OneToOne(mappedBy = "staff")
     private List<StaffSchedule> staffSchedules = new ArrayList<>();
+
+    @OneToOne(mappedBy = "staff")
+    private List<StaffAccounts> staffAccounts = new ArrayList<>();
 }

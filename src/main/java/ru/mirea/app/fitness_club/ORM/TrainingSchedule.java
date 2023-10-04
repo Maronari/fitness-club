@@ -35,6 +35,6 @@ public class TrainingSchedule {
     @JoinColumn(name = "id_trainer")
     private Trainers trainers;
 
-    @OneToMany(mappedBy = "members_have_training_schedule")
-    private List<MemberAchievements> membersAchievements = new ArrayList<>();
+    @OneToMany(mappedBy = "trainingSchedule")
+    private List<MemberTrainingSchedule> memberTrainingSchedules = new ArrayList<>();
 }

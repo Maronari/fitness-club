@@ -21,6 +21,6 @@ public class ActivityType {
     private int id_activity;
     private String activity_name;
 
-    @OneToOne(mappedBy = "equipment_statistics")
+    @OneToOne(mappedBy = "id_activity")
     private List<EquipmentStatistics> equipmentStatistics = new ArrayList<>();
 }

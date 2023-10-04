@@ -1,7 +1,5 @@
 package ru.mirea.app.fitness_club.ORM;
 
-import java.util.Set;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -25,7 +23,4 @@ public class NutritionPlan {
     private int plan_id;
     private String nutrition_description;
     private String start_date;
-
-    @OneToOne(mappedBy = "members")
-    private Set<Members> members;
 }

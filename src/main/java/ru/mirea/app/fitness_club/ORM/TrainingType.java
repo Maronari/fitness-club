@@ -20,6 +20,6 @@ public class TrainingType {
     private int id_training_type;
     private String training_type_name;
 
-    @OneToMany(mappedBy = "club")
-    private Set<Members> members;
+    @OneToMany(mappedBy = "trainingType")
+    private Set<TrainingSchedule> trainingSchedules;
 }
