@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 public class News {
     @Id
     private int id_news;
+    
     private String news_title;
     private String news_text;
 

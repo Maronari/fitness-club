@@ -16,18 +16,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class StaffSchedule {
+    @Id
+    private int id_schedule;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "clubs_name")
-    private Clubs clubs;
-    
-    @Id
     @OneToOne
     @JoinColumn(name = "id_staff")
     private Staff staff;
 
-    private int id_schedule;
+    @ManyToOne
+    @JoinColumn(name = "clubs_name")
+    private Clubs clubs;
+
     private int weekday;
     private int shift;
 }

@@ -1,7 +1,6 @@
 package ru.mirea.app.fitness_club.ORM;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
 
 import org.aspectj.weaver.Position;
 
@@ -23,23 +22,23 @@ import ru.mirea.app.fitness_club.ORM.Accounts.StaffAccounts;
 @Getter
 public class Staff {
     @Id
+    private int id_staff;    
+    
     @ManyToOne
     @JoinColumn(name = "id_position")
     private Position position;
     
-    @Id
-    private int id_staff;
     private String first_name;
     private String second_name;
     private int phone_number;
     private String email;
-    private String hire_date;    
+    private Date hire_date;    
     private String staff_about;
     private int gender;
 
     @OneToOne(mappedBy = "staff")
-    private List<StaffSchedule> staffSchedules = new ArrayList<>();
+    private StaffSchedule staffSchedules;
 
     @OneToOne(mappedBy = "staff")
-    private List<StaffAccounts> staffAccounts = new ArrayList<>();
+    private StaffAccounts staffAccounts;
 }

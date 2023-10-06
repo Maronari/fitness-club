@@ -23,15 +23,16 @@ import lombok.NoArgsConstructor;
 public class Clubs {
     @Id
     private String club_name;
+    
     private String address;
 
-    @OneToMany(mappedBy = "members")
+    @OneToMany(mappedBy = "clubs")
     private Set<Members> members;
 
-    @OneToMany(mappedBy = "staff_shedule")
+    @OneToMany(mappedBy = "clubs")
     private Set<StaffSchedule> staffSchedule;
 
-    @OneToMany(mappedBy = "gyms")
+    @OneToMany(mappedBy = "clubs")
     private Set<Gyms> gyms;
 
     @ManyToMany(cascade = { CascadeType.ALL })

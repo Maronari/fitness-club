@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 public class Position {
     @Id
     private int id_position;
+    
     private String role_name;
 
     @OneToMany(mappedBy = "position")

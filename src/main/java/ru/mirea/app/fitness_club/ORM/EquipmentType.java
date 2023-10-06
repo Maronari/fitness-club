@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class EquipmentType {
     @Id
     private int id_equipment_type;
+    
     private String type_name;
 
     @OneToOne(mappedBy = "equipmentType")

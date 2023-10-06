@@ -22,14 +22,14 @@ public class Equipment {
     
     @Id
     private int id_equipment;
+
+    @OneToOne
+    @JoinColumn(name = "id_equipment_type", nullable = false)
+    private EquipmentType equipmentType;
+
     private String name;
     private int quantity;
 
-    @Id
-    @OneToOne
-    @JoinColumn(name = "id_equipment_type")
-    private EquipmentType equipmentType;
-
-    @ManyToMany(mappedBy = "equipment")
+    @ManyToMany(mappedBy = "gymEquipments")
     private List<Gyms> gyms = new ArrayList<>();
 }

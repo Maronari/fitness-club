@@ -1,6 +1,5 @@
 package ru.mirea.app.fitness_club.ORM;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
@@ -17,8 +16,9 @@ import lombok.NoArgsConstructor;
 public class ActivityType {
     @Id
     private int id_activity;
+    
     private String activity_name;
 
-    @OneToOne(mappedBy = "id_activity")
+    @OneToOne(mappedBy = "activityType")
     private EquipmentStatistics equipmentStatistics;
 }

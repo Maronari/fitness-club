@@ -13,13 +13,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "visit_history")
+@Table(name = "visits_history")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class Visits {
     @Id
     private int id_visit;
+    
     private Date visit_date;
 
     @ManyToMany(mappedBy = "membersVisits")

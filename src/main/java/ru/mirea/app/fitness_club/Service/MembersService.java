@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import ru.mirea.app.fitness_club.ORM.Achievements;
-import ru.mirea.app.fitness_club.ORM.MemberAchievements;
 import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.Repository.MembersRepository;
 
@@ -23,15 +22,15 @@ public class MembersService {
 
     public List<Achievements> getMemberAchievements(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null); 
-        return member.getMembersAchievements().stream()
-                .map(MemberAchievements::getAchievement)
+        return member.getMemberAchievements().stream()
+                //.map(MemberAchievements::getAchievement)
                 .collect(Collectors.toList());
     }
 
-    public List<Date> getReceiptDates(int memberId) {
+    /*public List<Date> getReceiptDates(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
-        return member.getMembersAchievements().stream()
+        return member.getMemberAchievements().stream()
                 .map(MemberAchievements::getReceipt_date)
                 .collect(Collectors.toList());
-    }
+    }*/
 }

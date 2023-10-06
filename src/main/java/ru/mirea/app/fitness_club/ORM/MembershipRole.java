@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class MembershipRole {
     @Id
     private int id_role;
+    
     private String role_name;
     
     @OneToMany(mappedBy = "membershipRole")

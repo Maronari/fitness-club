@@ -18,6 +18,7 @@ import ru.mirea.app.fitness_club.ORM.Accounts.TrainersAccounts;
 public class Trainers {
     @Id
     private int id_trainer;
+    
     private String speciality;
     private int experience;
     private int certifications;

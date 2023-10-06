@@ -1,5 +1,7 @@
 package ru.mirea.app.fitness_club.ORM.Accounts;
 
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -17,13 +19,15 @@ import ru.mirea.app.fitness_club.ORM.Staff;
 @Getter
 public class StaffAccounts {
     @Id
-    private int staff_username;
-    private String password;
-    private String last_login;
-    private String account_creation_date;
+    private String staff_username;
 
     @Id
     @OneToOne
-    @JoinColumn(name = "id_staff")
+    @JoinColumn(name = "id_staff", nullable = false)
     private Staff staff;
+
+    private String password;
+    private Date last_login;
+    private Date account_creation_date;
+    private String user_role;    
 }

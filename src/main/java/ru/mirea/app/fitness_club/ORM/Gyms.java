@@ -21,19 +21,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class Gyms {
+    @Id
+    private int id_gym;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "club_name")
+    @JoinColumn(name = "club_name", nullable = false)
     private Clubs clubs;
 
-    @Id
-    private int id_gym;
     private int amount_of_equipment;
 
     @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(name = "gyms_has_equipment", joinColumns = {
+    @JoinTable(name = "gyms_have_equipment", joinColumns = {
             @JoinColumn(name = "id_gym") }, inverseJoinColumns = { @JoinColumn(name = "id_equipment") })
     private List<Equipment> gymEquipments = new ArrayList<>();
-
 }

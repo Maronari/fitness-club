@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 public class InbodyAnalyses {
     @Id
     private int id_inbody_analyses;
+    
     private float height;
     private float weight;
     private float bmi;

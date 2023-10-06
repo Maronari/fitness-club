@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class TrainingType {
     @Id
     private int id_training_type;
+    
     private String training_type_name;
 
     @OneToMany(mappedBy = "trainingType")

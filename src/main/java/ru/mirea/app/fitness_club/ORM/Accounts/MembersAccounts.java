@@ -1,5 +1,6 @@
 package ru.mirea.app.fitness_club.ORM.Accounts;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,20 +25,20 @@ import ru.mirea.app.fitness_club.ORM.UserPhoto;
 public class MembersAccounts {
     @Id
     @OneToOne
-    @JoinColumn(name = "id_member")
+    @JoinColumn(name = "id_member", nullable = false)
     private Members member;    
-
-    @OneToOne
-    @JoinColumn(name = "id_photo")
-    private UserPhoto userPhoto;    
-
+    
     @Id
-    private String username;
+    private String member_username;
+    
     private String password;
-    private String account_creation_date;
-    private String last_login;
+    private Date account_creation_date;
+    private Date last_login;
     private String user_role;
 
-    @OneToMany(mappedBy = "id_member")
+    @OneToOne(mappedBy = "memberAccounts")
+    private UserPhoto userPhoto; 
+   
+    @OneToMany(mappedBy = "memberAccounts")
     private List<Feedback> feedbacks = new ArrayList<>();
 }

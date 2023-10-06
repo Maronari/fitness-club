@@ -1,5 +1,6 @@
 package ru.mirea.app.fitness_club.ORM;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,19 +22,18 @@ import lombok.NoArgsConstructor;
 public class TrainingSchedule {
     @Id
     private int id_session;
-    private String workout_description;
-    private String session_date;
-    private int session_time;
 
-    @Id
+    @ManyToOne
+    @JoinColumn(name = "id_trainer")
+    private Trainers trainers;
+
     @ManyToOne
     @JoinColumn(name = "id_training_type")
     private TrainingType trainingType;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "id_trainer")
-    private Trainers trainers;
+    private String workout_description;
+    private Date session_date;
+    private int session_time;
 
     @ManyToMany(mappedBy = "memberTrainingSchedules")
     private List<Members> members = new ArrayList<>();
