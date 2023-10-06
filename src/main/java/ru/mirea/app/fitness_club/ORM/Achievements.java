@@ -24,5 +24,5 @@ public class Achievements {
     private String achievement_icon_url;
 
     @OneToMany(mappedBy = "achievement")
-    private List<MemberAchievements> membersAchievements = new ArrayList<MemberAchievements>();
+    private List<MemberAchievements> membersAchievements = new ArrayList<>();
 }

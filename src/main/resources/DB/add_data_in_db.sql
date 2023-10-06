@@ -1,11 +1,11 @@
-create user 'springroot'@'%' identified by 'spring';
+create user if not exists 'springroot'@'%' identified by 'spring';
 grant all on fitness_club_db.* to 'springroot'@'%';
 
 insert into achievements values
 (1, 'Вы подтянулись 20 раз за подход', 'Подтягальник', 'https://img1.pnghut.com/15/4/15/dX9fhyUbwr/neck-bodybuilding-sportart-shoulder-hand.jpg'),
 (2, 'Пробежать 2км за подход', 'Начинающий бегун', 'https://i.pinimg.com/originals/ce/85/ec/ce85ec0dda46a2d173c9d703676dd7fa.png'),
 (3, 'Пробежать 5км за подход', 'Марафонец', 'https://flyclipart.com/thumb2/learn-258380.png'),
-(4, 'Пробежать 10км за подход', 'Беги, Форрест, беги! ', 'https://flyclipart.com/thumb2/home-23427.png');
+(4, 'Пробежать 10км за подход', 'Беги, Форрест, беги!', 'https://flyclipart.com/thumb2/home-23427.png');
 
 insert into membership_role values
 (1, 'Light'),

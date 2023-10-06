@@ -6,7 +6,7 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,16 +19,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class Equipment {
-    @Id
-    @OneToOne
-    @JoinColumn(name = "id_equipment_type")
-    private EquipmentType equipmentType;
     
     @Id
     private int id_equipment;
     private String name;
     private int quantity;
 
-    @OneToMany(mappedBy = "equipment")
-    private List<GymsEquipment> gymsEquipments = new ArrayList<>();
+    @Id
+    @OneToOne
+    @JoinColumn(name = "id_equipment_type")
+    private EquipmentType equipmentType;
+
+    @ManyToMany(mappedBy = "equipment")
+    private List<Gyms> gyms = new ArrayList<>();
 }

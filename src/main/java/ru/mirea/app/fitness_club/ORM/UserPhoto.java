@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.mirea.app.fitness_club.ORM.Accounts.MembersAccounts;
 
 @Entity
 @Table(name = "users_photo")
@@ -21,5 +22,5 @@ public class UserPhoto {
     private String image_url;
 
     @OneToOne(mappedBy = "userPhoto")
-    private Set<MemberAccounts> memberAccounts;
+    private Set<MembersAccounts> memberAccounts;
 }

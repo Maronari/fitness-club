@@ -5,7 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +25,6 @@ public class InbodyAnalyses {
     private float fat_percent;
     private float muscle_percent;
 
-    @OneToMany(mappedBy = "inbodyAnalyses")
-    private List<MemberInbodyAnalyses> membersInbodyAnalyses = new ArrayList<>();
+    @ManyToMany(mappedBy = "memberInbodyAnalyses")
+    private List<Members> members = new ArrayList<>();
 }

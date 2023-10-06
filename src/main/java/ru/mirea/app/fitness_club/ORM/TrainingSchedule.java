@@ -6,8 +6,8 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +35,6 @@ public class TrainingSchedule {
     @JoinColumn(name = "id_trainer")
     private Trainers trainers;
 
-    @OneToMany(mappedBy = "trainingSchedule")
-    private List<MemberTrainingSchedule> memberTrainingSchedules = new ArrayList<>();
+    @ManyToMany(mappedBy = "memberTrainingSchedules")
+    private List<Members> members = new ArrayList<>();
 }

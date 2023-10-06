@@ -5,7 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +22,6 @@ public class News {
     private String news_title;
     private String news_text;
 
-    @OneToMany(mappedBy = "news")
-    private List<ClubNews> clubNews = new ArrayList<>();
+    @ManyToMany(mappedBy = "clubNews")
+    private List<Clubs> clubs = new ArrayList<>();
 }

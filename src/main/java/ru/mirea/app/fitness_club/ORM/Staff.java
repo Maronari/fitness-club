@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.mirea.app.fitness_club.ORM.Accounts.StaffAccounts;
 
 @Entity
 @Table(name = "staff")

@@ -1,8 +1,12 @@
 package ru.mirea.app.fitness_club.ORM;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -25,4 +29,7 @@ public class ClubNews {
     @ManyToOne
     @JoinColumn(name = "id_news")
     private News news;
+
+    @ManyToMany(mappedBy = "clubNews")
+    private Set<Clubs> clubsSet = new HashSet<>();
 }

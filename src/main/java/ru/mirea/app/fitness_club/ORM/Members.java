@@ -8,6 +8,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.OneToMany;
@@ -15,9 +17,10 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.mirea.app.fitness_club.ORM.Accounts.MembersAccounts;
 
 @Entity
-@Table(name="members")
+@Table(name = "members")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -26,13 +29,13 @@ public class Members {
     private int id_member;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="id_role", nullable = false)
+    @JoinColumn(name = "id_role", nullable = false)
     private MembershipRole membershipRole;
-    
+
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="club_name", nullable = false)
-    private Clubs club; 
-    
+    @JoinColumn(name = "club_name", nullable = false)
+    private Clubs club;
+
     private String first_name;
     private String second_name;
     private String phone_number;
@@ -45,21 +48,29 @@ public class Members {
     @OneToMany(mappedBy = "member")
     private List<MemberAchievements> membersAchievements = new ArrayList<MemberAchievements>();
 
-    @OneToMany(mappedBy = "member")
-    private List<MemberVisits> membersVisits = new ArrayList<MemberVisits>();
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name = "members_have_visits_history", joinColumns = {
+            @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_visit") })
+    private List<Visits> membersVisits = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    private List<MemberInbodyAnalyses> memberInbodyAnalyses = new ArrayList<MemberInbodyAnalyses>();
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name = "members_have_inbody_analyses", joinColumns = {
+            @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_inbody_analys") })
+    private List<InbodyAnalyses> memberInbodyAnalyses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    private List<MemberEquipmentStatistics> memberEquipmentStatistics = new ArrayList<MemberEquipmentStatistics>();
-
-    @OneToMany(mappedBy = "member")
-    private List<MemberAccounts> memberAccounts = new ArrayList<MemberAccounts>();
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name = "members_have_equipment_statistic", joinColumns = {
+            @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_statistic") })
+    private List<EquipmentStatistics> memberEquipmentStatistics = new ArrayList<>();
 
     @OneToOne(mappedBy = "member")
-    private List<NutritionPlan> nutritionPlans = new ArrayList<NutritionPlan>();
+    private MembersAccounts memberAccounts;
 
-    @OneToMany(mappedBy = "member")
-    private List<MemberTrainingSchedule> memberTrainingSchedules = new ArrayList<MemberTrainingSchedule>();
+    @OneToOne(mappedBy = "member")
+    private NutritionPlan nutritionPlans;
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name = "members_have_training_schedule", joinColumns = {
+            @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_session") })
+    private List<TrainingSchedule> memberTrainingSchedules = new ArrayList<>();
 }

@@ -1,4 +1,4 @@
-package ru.mirea.app.fitness_club.ORM;
+package ru.mirea.app.fitness_club.ORM.Accounts;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.mirea.app.fitness_club.ORM.Staff;
 
 @Entity
 @Table(name = "staff_accounts")

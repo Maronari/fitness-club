@@ -1,8 +1,5 @@
 package ru.mirea.app.fitness_club.ORM;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
@@ -22,5 +19,5 @@ public class EquipmentType {
     private String type_name;
 
     @OneToOne(mappedBy = "equipmentType")
-    private List<Equipment> equipments = new ArrayList<>();
+    private Equipment equipments;
 }
