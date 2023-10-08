@@ -1,0 +1,102 @@
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+#selected {
+    width: 70px;
+    height: 70px;
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+#selected img {
+    display: block;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    padding-top: 5px;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 150px;
+    padding-top: 0px;
+}
+
+.profile-info {
+    margin-top: 100px;
+    display: flex;
+    align-items: flex-start;
+    gap: 100px;
+    width: 300px;
+	height: 200px;
+}
+
+.profile-photo {
+    width: 200px;
+    height: 200px;
+}
+
+.first-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.name,
+.birth-date,
+.gender,
+.phone-number,
+.email,
+.last-visit,
+.level,
+.payment-date {
+    background-color: lightgray;
+    padding: 10px;
+    width: 300px;
+    border-radius: 30px;
+}
+
+.achievements {
+    background-color: lightgray;
+    display: grid;
+    grid-template-columns: auto;
+    padding: 10px;
+    width: 450px;
+    height: 100px;
+    border-radius: 30px;
+}
+
+.workouts {
+    background-color: lightgray;
+    padding: 10px;
+    width: 450px;
+    height: 300px;
+    border-radius: 30px;
+}
+
+.news {
+    display: fle;
+    margin-top: 200px;
+    position: relative;
+
+}
+
+.news-title {
+    font-size: 18px;
+    font-weight: bold;
+}

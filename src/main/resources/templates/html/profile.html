@@ -1,15 +1,75 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Profile</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
 </head>
+
 <body>
-    <h1>Member's Profile</h1>
-    <div>
-        <p>Name: John Doe</p>
-        <p>Email: johndoe@example.com</p>
-        <p>Membership: Premium</p>
+
+    <div class="sidebar">
+        <div class="logo">
+            <img th:src="@{/icons/logo.png}" alt="Logo">
+        </div>
+        <div class="icons">
+            <a class="profile" id="selected" href="">
+                <img th:src="@{/icons/profile.svg}" alt="Profile">
+            </a>
+            <a class="calendar" th:href="'/calendar/' + ${id}">
+                <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+            </a>
+            <a class="statistic" href="#statitic">
+                <img th:src="@{/icons/statistic.svg}" alt="Statistic">
+            </a>
+            <a class="logout" href="#logout">
+                <img th:src="@{/icons/logout.svg}" alt="Log out">
+            </a>
+        </div>
     </div>
-    <a href="editProfile.html">Edit Profile</a>
+
+    <div class="content">
+        <div class="profile-info">
+            <div class="first-column">
+                <img th:src="@{/icons/profile.svg}" alt="Profile Photo" class="profile-photo">
+                <p class="email" th:text="'Ваша почта: ' + ${member.email}"></p>
+                <p class="last-visit">Последняя тренировка: вчера</p>
+                <p class="payment-date">Ближайшая оплата абонемента: завтра</p>
+            </div>
+            <div class="info">
+                <p class="name" th:text="${member.first_name + ' ' + member.second_name}"></p>
+                <p class="gender"> Пол: 
+                    <span th:if="${member.gender == '0'}">женский</span>
+                    <span th:unless="${member.gender == '1'}">мужской</span>
+                </p>
+                <p class="birth-date" th:text="'День рождения: ' + ${member.birth_date}"></p>
+                <p class="phone-number" th:text="'Телефон: ' + ${member.phone_number}"></p>
+                <p class="level" th:text="'Уровень: ' + ${roleName}"></p>
+            </div>
+            <div class="third-column">
+                <div class="achievements">
+                    <div><p>Ваши достижения</p></div>
+                    <div class="achievement-item" th:each="achievement : ${achievements}">
+                        <p th:text="${achievement.achievement_description}"></p>
+                    </div>
+                </div>
+                <div class="workouts">
+                    <div><p>Запланированные тренировки</p></div>
+                    <div class="workout-item" th:each="workout : ${workouts}">
+                        <p th:text="${workout.trainingType.training_type_name}"></p>
+                        <p th:text="${workout.workout_description}"></p>
+                        <p th:text="${workout.session_date}"></p>
+                        <p th:text="${workout.session_time} + ' мин'"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="news">
+            <p class="news-title">Новости</p>
+            <!--TODO-->
+        </div>
+    </div>
+
 </body>
+
 </html>

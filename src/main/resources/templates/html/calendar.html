@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <img th:src="@{/icons/logo.png}" alt="Logo">
+        </div>
+        <div class="icons">
+            <a class="profile" th:href="'/profile/' + ${id}">
+                <img th:src="@{/icons/profile.svg}" alt="Profile">
+            </a>
+            <a class="calendar" id="selected" href="">
+                <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+            </a>
+            <a class="statistic" href="#statitic">
+                <img th:src="@{/icons/statistic.svg}" alt="Statistic">
+            </a>
+            <a class="logout" href="#logout">
+                <img th:src="@{/icons/logout.svg}" alt="Log out">
+            </a>
+        </div>
+    </div>
+
+</body>
+
+</html>

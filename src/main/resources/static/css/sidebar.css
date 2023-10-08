@@ -1,0 +1,51 @@
+.sidebar {
+    width: 100px;
+    height: 100vh;
+    background-color: #fcfcfc;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 30px;
+    border-right: solid #9f9f9f;
+    position: fixed;
+    /* Пространство для логотипа */
+}
+
+.profile,
+.calendar,
+.statistic {
+    width: 70px;
+    height: 60px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.logout {
+    width: 70px;
+    height: 60px;
+    background-color: white;
+    border-radius: 10px;
+    position: relative;
+}
+
+.logo {
+    /* Здесь можно добавить стили для логотипа */
+    margin-bottom: 40px;
+    /* Отступ между логотипом и иконками */
+}
+
+.icons a {
+    display: flex;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 40px;
+    /* Отступ между иконками */
+}
+
+.icons img {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    object-position: center;
+}
