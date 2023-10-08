@@ -1,9 +1,9 @@
 package ru.mirea.app.fitness_club.ORM.Accounts;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -24,21 +24,21 @@ import ru.mirea.app.fitness_club.ORM.UserPhoto;
 @Getter
 public class MembersAccounts {
     @Id
+    private String username;
+
     @OneToOne
     @JoinColumn(name = "id_member", nullable = false)
-    private Members member;    
-    
-    @Id
-    private String member_username;
-    
+    private Members member;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_photo")
+    private UserPhoto userPhoto;
+
     private String password;
     private Date account_creation_date;
     private Date last_login;
     private String user_role;
 
-    @OneToOne(mappedBy = "memberAccounts")
-    private UserPhoto userPhoto; 
-   
-    @OneToMany(mappedBy = "memberAccounts")
-    private List<Feedback> feedbacks = new ArrayList<>();
+    @OneToMany(mappedBy = "memberAccount")
+    private List<Feedback> feedbacks;
 }

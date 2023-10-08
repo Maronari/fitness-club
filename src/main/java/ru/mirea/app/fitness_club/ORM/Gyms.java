@@ -27,12 +27,16 @@ public class Gyms {
     @Id
     @ManyToOne
     @JoinColumn(name = "club_name", nullable = false)
-    private Clubs clubs;
+    private Clubs club;
 
     private int amount_of_equipment;
 
     @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(name = "gyms_have_equipment", joinColumns = {
-            @JoinColumn(name = "id_gym") }, inverseJoinColumns = { @JoinColumn(name = "id_equipment") })
+    @JoinTable(name = "gyms_have_equipment",
+            joinColumns = {
+                @JoinColumn(name = "id_gym"),
+                @JoinColumn(name = "club_name")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "id_equipment")})
     private List<Equipment> gymEquipments = new ArrayList<>();
 }

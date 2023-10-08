@@ -26,13 +26,13 @@ public class Clubs {
     
     private String address;
 
-    @OneToMany(mappedBy = "clubs")
+    @OneToMany(mappedBy = "club")
     private Set<Members> members;
 
-    @OneToMany(mappedBy = "clubs")
+    @OneToMany(mappedBy = "club")
     private Set<StaffSchedule> staffSchedule;
 
-    @OneToMany(mappedBy = "clubs")
+    @OneToMany(mappedBy = "club")
     private Set<Gyms> gyms;
 
     @ManyToMany(cascade = { CascadeType.ALL })

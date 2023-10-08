@@ -31,3 +31,24 @@ insert into members_have_achievements values
 (3, 2, '2021-08-20'),
 (4, 1, '2021-07-10'),
 (5, 4, '2021-06-05');
+
+insert into trainers values
+(1, "тренер по бодибилдингу", 3, 1);
+
+insert into trainers_accounts values
+(1, "ivan", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", current_date(), "2020-12-23", "TRAINER");
+
+insert into position values
+(1, "Администратор");
+
+insert into staff values
+(1, 1, "Павел", "Петров", "12345678", "pavel.p@gmail.com", "2019-10-2", "Какой-то мужик", 1);
+
+insert into staff_accounts values
+(1, "pavelP", "$2y$10$AWFx1TzUBsvOeRw17pDYeeDR.V50yDQvqH4moueRUzZecQ0kg0hBa", current_date(), "2019-10-3", "STAFF");
+
+insert into users_photo values
+(1, "https://www.meme-arsenal.com/memes/d740072ba3200fc4d4a9e609e8ea0472.jpg");
+
+insert into members_accounts values
+("JohnDoe", 1, 1, "$2y$10$uXzTcs9nQcNo62JgoBzXJOjhyeuV5.kBUEt8l5l88XYVNtFnRPuGi", "2021-10-01", "2021-10-6", "MEMBER");

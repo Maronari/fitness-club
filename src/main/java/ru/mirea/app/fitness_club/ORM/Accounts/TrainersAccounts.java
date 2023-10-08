@@ -19,13 +19,12 @@ import ru.mirea.app.fitness_club.ORM.Trainers;
 @NoArgsConstructor
 @Getter
 public class TrainersAccounts {    
-    @Id
     @OneToOne
     @JoinColumn(name = "id_trainer", nullable = false)
     private Trainers trainers;
     
     @Id
-    private String trainer_username;
+    private String username;
 
     private String password;
     private Date last_login;

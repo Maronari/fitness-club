@@ -25,7 +25,7 @@ public class StaffSchedule {
 
     @ManyToOne
     @JoinColumn(name = "clubs_name")
-    private Clubs clubs;
+    private Clubs club;
 
     private int weekday;
     private int shift;

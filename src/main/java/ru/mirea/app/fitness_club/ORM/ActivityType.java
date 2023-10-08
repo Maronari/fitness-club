@@ -20,5 +20,5 @@ public class ActivityType {
     private String activity_name;
 
     @OneToOne(mappedBy = "activityType")
-    private EquipmentStatistics equipmentStatistics;
+    private EquipmentStatistics memberEquipmentStatistics;
 }

@@ -19,9 +19,8 @@ import ru.mirea.app.fitness_club.ORM.Staff;
 @Getter
 public class StaffAccounts {
     @Id
-    private String staff_username;
+    private String username;
 
-    @Id
     @OneToOne
     @JoinColumn(name = "id_staff", nullable = false)
     private Staff staff;

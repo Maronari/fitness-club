@@ -28,11 +28,16 @@ public class FitnessController {
         return "html/profile";
     }
 
-    @GetMapping("calendar/{id}")
+    @GetMapping("/calendar/{id}")
     public String calendar(@PathVariable Integer id, Model model) {
         Members member = membersService.getMember(id);
         model.addAttribute("member", member);
         return "html/calendar";
     }
+
+    @GetMapping("/login")
+	String login() {
+		return "html/login";
+	}
 
 }

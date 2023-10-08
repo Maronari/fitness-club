@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
-    private final AllAccounts allAccounts;
+    private AllAccounts allAccounts;
 
     @Autowired
     public UserDetailsServiceImpl(AllAccounts allAccounts) {

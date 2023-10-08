@@ -22,12 +22,8 @@ public class Feedback {
     private int id_feedback;
     
     @ManyToOne
-    @JoinColumn(name = "id_member")
-    private Members member;
-    
-    @ManyToOne
-    @JoinColumn(name = "member_username")
-    private MembersAccounts membersAccount;
+    @JoinColumn(name = "username")
+    private MembersAccounts memberAccount;
 
     private String feedback_text;
     private Date feedback_date;

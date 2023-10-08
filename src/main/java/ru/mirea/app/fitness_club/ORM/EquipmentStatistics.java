@@ -21,8 +21,7 @@ import lombok.NoArgsConstructor;
 public class EquipmentStatistics {
     @Id
     private int id_statistics;
-    
-    @Id
+
     @OneToOne
     @JoinColumn(name = "id_activity")
     private ActivityType activityType;

@@ -1,6 +1,6 @@
 package ru.mirea.app.fitness_club.Service;
 
-import java.sql.Date;
+//import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,10 +27,10 @@ public class MembersService {
                 .collect(Collectors.toList());
     }
 
-    /*public List<Date> getReceiptDates(int memberId) {
-        Members member = membersRepository.findById(memberId).orElse(null);
-        return member.getMemberAchievements().stream()
-                .map(MemberAchievements::getReceipt_date)
-                .collect(Collectors.toList());
-    }*/
+    // public List<Date> getReceiptDates(int memberId) {
+    //     Members member = membersRepository.findById(memberId).orElse(null);
+    //     return member.getMemberAchievements().stream()
+    //             .map(MemberAchievements::getReceipt_date)
+    //             .collect(Collectors.toList());
+    // }
 }
