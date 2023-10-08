@@ -53,8 +53,15 @@
                         <p th:text="${achievement.achievement_description}"></p>
                     </div>
                 </div>
-                <p class="workouts">Запланированные тренировки</p>
-                <!--TODO-->
+                <div class="workouts">
+                    <div><p>Запланированные тренировки</p></div>
+                    <div class="workout-item" th:each="workout : ${workouts}">
+                        <p th:text="${workout.trainingType.training_type_name}"></p>
+                        <p th:text="${workout.workout_description}"></p>
+                        <p th:text="${workout.session_date}"></p>
+                        <p th:text="${workout.session_time} + ' мин'"></p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="news">

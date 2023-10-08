@@ -24,6 +24,7 @@ public class FitnessController {
         model.addAttribute("roleName", member.getMembershipRole().getRole_name());
         model.addAttribute("member", member);
         model.addAttribute("achievements", membersService.getMemberAchievements(id));
+        model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id));
         //model.addAttribute("achievement_reseipt_date", membersService.getReceiptDates(id));
         return "html/profile";
     }

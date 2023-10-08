@@ -52,3 +52,17 @@ insert into users_photo values
 
 insert into members_accounts values
 ("JohnDoe", 1, 1, "$2y$10$uXzTcs9nQcNo62JgoBzXJOjhyeuV5.kBUEt8l5l88XYVNtFnRPuGi", "2021-10-01", "2021-10-6", "MEMBER");
+
+insert into training_type(training_type_name) values
+("BODYPUMP"),
+("STRETCHING"),
+("Зумба"),
+("Smart Start Fullbody");
+
+insert into training_schedule values 
+(1, 1, 1, "Групповая тренировка со штангой", "2023-12-04", 55),
+(2, 1, 2, "Программа для снятия усталости мышц", "2023-12-05", 55);
+
+insert into members_have_training_schedule values
+(1, 1),
+(1, 2);
