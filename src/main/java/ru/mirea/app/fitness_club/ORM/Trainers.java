@@ -1,8 +1,12 @@
 package ru.mirea.app.fitness_club.ORM;
 
 
+import java.util.List;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -25,4 +29,8 @@ public class Trainers {
 
     @OneToOne(mappedBy = "trainers")
     private TrainersAccounts trainerAccounts;
+
+    @OneToMany(mappedBy = "trainers")
+    private List<TrainingSchedule> trainingSchedules;
+
 }

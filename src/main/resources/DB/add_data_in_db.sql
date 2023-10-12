@@ -48,7 +48,7 @@ insert into staff_accounts values
 (1, "pavelP", "$2y$10$AWFx1TzUBsvOeRw17pDYeeDR.V50yDQvqH4moueRUzZecQ0kg0hBa", current_date(), "2019-10-3", "STAFF");
 
 insert into users_photo values
-(1, "https://www.meme-arsenal.com/memes/d740072ba3200fc4d4a9e609e8ea0472.jpg");
+(1, "https://pushinka.top/uploads/posts/2023-03/thumbs/1679913315_pushinka-top-p-avatarki-s-gigachadom-vkontakte-58.webp");
 
 insert into members_accounts values
 ("JohnDoe", 1, 1, "$2y$10$uXzTcs9nQcNo62JgoBzXJOjhyeuV5.kBUEt8l5l88XYVNtFnRPuGi", "2021-10-01", "2021-10-6", "MEMBER");
