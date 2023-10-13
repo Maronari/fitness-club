@@ -15,7 +15,7 @@ import ru.mirea.app.fitness_club.Repository.TrainersRepository;
 public class TrainersService {
     private final TrainersRepository trainersRepository;
 
-    public Trainers gTrainers(Integer id) {
+    public Trainers getTrainers(Integer id) {
         return trainersRepository.findById(id).orElse(null);
     }
 
