@@ -1,9 +1,7 @@
 package ru.mirea.app.fitness_club.ORM.Accounts;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -13,34 +11,67 @@ import ru.mirea.app.fitness_club.Repository.StaffAccountsRepository;
 import ru.mirea.app.fitness_club.Repository.TrainersAccountsRepository;
 
 @Component
+@Getter
 public class AllAccounts {
-    @Getter
-    private Map<String, String> accounts = new HashMap<String, String>();
+    private List<Account> accounts = new ArrayList<Account>();
 
     private MembersAccountsRepository membersAccountsRepository;
     private TrainersAccountsRepository trainersAccountsRepository;
     private StaffAccountsRepository staffAccountsRepository;
 
-    AllAccounts(MembersAccountsRepository membersAccountsRep,
-            TrainersAccountsRepository trainersAccountsRep,
+    AllAccounts(MembersAccountsRepository membersAccountsRep, TrainersAccountsRepository trainersAccountsRep,
             StaffAccountsRepository staffAccountsRep) {
 
         this.membersAccountsRepository = membersAccountsRep;
         this.staffAccountsRepository = staffAccountsRep;
         this.trainersAccountsRepository = trainersAccountsRep;
-        List<String> usernames = new ArrayList<String>();
-        List<String> passwords = new ArrayList<String>();
 
-        usernames.addAll(membersAccountsRepository.getUsernames());
-        usernames.addAll(trainersAccountsRepository.getUsernames());
-        usernames.addAll(staffAccountsRepository.getUsernames());
-
-        passwords.addAll(membersAccountsRepository.getPasswords());
-        passwords.addAll(trainersAccountsRepository.getPasswords());
-        passwords.addAll(staffAccountsRepository.getPasswords());
-
-        for (int i = 0; i < usernames.size(); i++) {
-            accounts.put(usernames.get(i), passwords.get(i)); // is there a clearer way?
+        for (MembersAccounts memberAccount : membersAccountsRep.findAll()) {
+            accounts.add(new Account(memberAccount.getUsername(),
+                    memberAccount.getPassword(),
+                    memberAccount.getMember().getId_member(),
+                    memberAccount.getUser_role()));
         }
+
+        for (TrainersAccounts trainerAccount : trainersAccountsRep.findAll()) {
+            accounts.add(new Account(trainerAccount.getUsername(),
+                    trainerAccount.getPassword(),
+                    trainerAccount.getTrainers().getId_trainer(),
+                    trainerAccount.getUser_role()));
+        }
+
+        for (StaffAccounts staffAccount : staffAccountsRep.findAll()) {
+            accounts.add(new Account(staffAccount.getUsername(),
+                    staffAccount.getPassword(),
+                    staffAccount.getStaff().getId_staff(),
+                    staffAccount.getUser_role()));
+        }
+    }
+
+    String getPasswordByUsername(String username) {
+        for (Account account : accounts) {
+            if (account.getUsername().equals(username)) {
+                return account.getPassword();
+            }
+        }
+        return null;
+    }
+
+    String getRoleByUsername(String username) {
+        for (Account account : accounts) {
+            if (account.getUsername().equals(username)) {
+                return account.getRole();
+            }
+        }
+        return null;
+    }
+
+    Integer getIdByUsername(String username) {
+        for (Account account : accounts) {
+            if (account.getUsername().equals(username)) {
+                return account.getId();
+            }
+        }
+        return null;
     }
 }

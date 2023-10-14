@@ -14,4 +14,7 @@ public interface StaffAccountsRepository extends JpaRepository<StaffAccounts, St
 
     @Query(value = "select s.password from staff_accounts s", nativeQuery = true)
     List<String> getPasswords();
+
+    @Query(value = "select s.user_role from staff_accounts s", nativeQuery = true)
+    List<String> getUserRoles();
 }

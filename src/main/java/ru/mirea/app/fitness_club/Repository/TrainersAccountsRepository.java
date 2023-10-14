@@ -14,4 +14,7 @@ public interface TrainersAccountsRepository extends JpaRepository<TrainersAccoun
 
     @Query(value = "select t.password from trainers_accounts t", nativeQuery = true)
     List<String> getPasswords();
+
+    @Query(value = "select t.user_role from trainers_accounts t", nativeQuery = true)
+    List<String> getUserRoles();
 }

@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService {
     private AllAccounts allAccounts;
 
     @Autowired
@@ -20,11 +20,15 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String password = allAccounts.getAccounts().get(username);
+        String password = allAccounts.getPasswordByUsername(username);
         if (password == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return new User(username, password, new ArrayList<>());
     }
-    
+
+    public Integer getUserId(String username) {
+        return allAccounts.getIdByUsername(username);
+    }
+
 }
