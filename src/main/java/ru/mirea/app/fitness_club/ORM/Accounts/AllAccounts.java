@@ -15,16 +15,8 @@ import ru.mirea.app.fitness_club.Repository.TrainersAccountsRepository;
 public class AllAccounts {
     private List<Account> accounts = new ArrayList<Account>();
 
-    private MembersAccountsRepository membersAccountsRepository;
-    private TrainersAccountsRepository trainersAccountsRepository;
-    private StaffAccountsRepository staffAccountsRepository;
-
     AllAccounts(MembersAccountsRepository membersAccountsRep, TrainersAccountsRepository trainersAccountsRep,
             StaffAccountsRepository staffAccountsRep) {
-
-        this.membersAccountsRepository = membersAccountsRep;
-        this.staffAccountsRepository = staffAccountsRep;
-        this.trainersAccountsRepository = trainersAccountsRep;
 
         for (MembersAccounts memberAccount : membersAccountsRep.findAll()) {
             accounts.add(new Account(memberAccount.getUsername(),

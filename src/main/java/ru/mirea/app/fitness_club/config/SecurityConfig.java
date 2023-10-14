@@ -15,6 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,6 +28,8 @@ import ru.mirea.app.fitness_club.ORM.Accounts.UserDetailsServiceImpl;
 public class SecurityConfig {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
+    private static Logger logger = LogManager.getLogger(SecurityConfig.class);
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -57,9 +62,11 @@ public class SecurityConfig {
                     Authentication authentication) throws IOException, ServletException {
                 UserDetails userDetails = (UserDetails) authentication.getPrincipal();
                 String username = userDetails.getUsername();
-                System.out.println("Logging:" + username);
                 Integer id = userDetailsService.getUserId(username);
-                System.out.println("Logging id:" + id);
+
+                logger.info("LOGGING: " + username
+                        + " ROLE: " + userDetailsService.getUserRole(username)
+                        + " ID: " + id);
 
                 response.sendRedirect("/profile/" + id);
             }
@@ -75,7 +82,7 @@ public class SecurityConfig {
                     Authentication authentication)
                     throws IOException, ServletException {
 
-                System.out.println("This user logged out: " + authentication.getName());
+                logger.info("User logged out: " + authentication.getName());
 
                 response.sendRedirect("/logout");
             }

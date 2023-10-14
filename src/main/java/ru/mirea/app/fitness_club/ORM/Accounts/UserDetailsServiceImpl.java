@@ -31,4 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return allAccounts.getIdByUsername(username);
     }
 
+    public String getUserRole(String username) {
+        return allAccounts.getRoleByUsername(username);
+    }
+
 }
