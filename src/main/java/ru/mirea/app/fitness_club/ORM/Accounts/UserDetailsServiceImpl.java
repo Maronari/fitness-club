@@ -32,7 +32,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public String getUserRole(String username) {
-        return allAccounts.getRoleByUsername(username);
+        String role = allAccounts.getRoleByUsername(username);
+        switch (role) {
+            case "MEMBER":
+                return "member";
+            case "TRAINER":
+                return "trainer";
+            case "STAFF":
+                return "staff";
+            default:
+                return null;
+        }
     }
 
 }
