@@ -2,8 +2,24 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
+    <meta charset='utf-8' />
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}" > <!-- href="../../static/css/calendar.css"> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}" > <!-- href="../../static/css/sidebar.css"> -->
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'> </script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth'
+            });
+            calendar.render();
+        });
+
+    </script>
 </head>
 
 <body>
@@ -13,19 +29,23 @@
             <img th:src="@{/icons/logo.png}" alt="Logo">
         </div>
         <div class="icons">
-            <a class="profile" th:href="'/profile/' + ${id}">
+            <a class="profile" th:href="'/profile/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/profile.svg}" alt="Profile">
             </a>
             <a class="calendar" id="selected" href="">
                 <img th:src="@{/icons/calendar.svg}" alt="Calendar">
             </a>
-            <a class="statistic" href="#statitic">
+            <a class="statistic" href="#statistic">
                 <img th:src="@{/icons/statistic.svg}" alt="Statistic">
             </a>
-            <a class="logout" href="#logout">
+            <a class="logout" href="/logout">
                 <img th:src="@{/icons/logout.svg}" alt="Log out">
             </a>
         </div>
+    </div>
+
+    <div id='calendar'>
+
     </div>
 
 </body>
