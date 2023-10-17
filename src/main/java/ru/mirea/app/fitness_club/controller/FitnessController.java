@@ -41,4 +41,9 @@ public class FitnessController {
 		return "html/login";
 	}
 
+    @GetMapping("/logout")
+    String logout() {
+        return "redirect:/login";
+    }
+
 }
