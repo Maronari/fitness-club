@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.AllArgsConstructor;
 import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.Service.MembersService;
-
+import ru.mirea.app.fitness_club.Service.ClubsService;
 @Controller
 @AllArgsConstructor
 @RequestMapping(value= "/")
 public class FitnessController {
     private final MembersService membersService;
+    private final ClubsService clubsService;
 
     @GetMapping("/profile/{id}")
     public String profile(@PathVariable Integer id, Model model) {
@@ -26,7 +27,7 @@ public class FitnessController {
         model.addAttribute("achievements", membersService.getMemberAchievements(id));
         model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id));
         model.addAttribute("photoURL", membersService.getPhotoUrl(id));
-        //model.addAttribute("achievement_reseipt_date", membersService.getReceiptDates(id));
+        model.addAttribute("news", clubsService.getListOfClubNews(id));
         return "html/profile";
     }
 

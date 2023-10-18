@@ -1,7 +1,7 @@
 package ru.mirea.app.fitness_club.ORM;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -27,17 +27,17 @@ public class Clubs {
     private String address;
 
     @OneToMany(mappedBy = "club")
-    private Set<Members> members;
+    private List<Members> members;
 
     @OneToMany(mappedBy = "club")
-    private Set<StaffSchedule> staffSchedule;
+    private List<StaffSchedule> staffSchedule;
 
     @OneToMany(mappedBy = "club")
-    private Set<Gyms> gyms;
+    private List<Gyms> gyms;
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(name = "clubs_have_news", 
             joinColumns = { @JoinColumn(name = "club_name") }, 
             inverseJoinColumns = { @JoinColumn(name = "id_news") })
-    private Set<News> clubNews = new HashSet<>();
+    private List<News> clubNews = new ArrayList<>();
 }

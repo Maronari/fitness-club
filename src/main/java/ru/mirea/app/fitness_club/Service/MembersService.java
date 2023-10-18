@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import ru.mirea.app.fitness_club.ORM.Achievements;
 import ru.mirea.app.fitness_club.ORM.EquipmentStatistics;
+import ru.mirea.app.fitness_club.ORM.Feedback;
 import ru.mirea.app.fitness_club.ORM.InbodyAnalyses;
 import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
-import ru.mirea.app.fitness_club.ORM.Visits;
 import ru.mirea.app.fitness_club.ORM.Accounts.MembersAccounts;
 import ru.mirea.app.fitness_club.Repository.MembersRepository;
 
@@ -34,6 +34,11 @@ public class MembersService {
         return member.getMemberTrainingSchedules();
     }
 
+    public String getTrainingTypeName(int memberId) {
+        List<TrainingSchedule> trainingSchedule = getListOfTrainingSchedule(memberId);
+        return trainingSchedule.get(memberId).getTrainingType().getTraining_type_name();
+    }
+
     public MembersAccounts getMembersAccounts(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
         return member.getMemberAccounts();
@@ -42,6 +47,11 @@ public class MembersService {
     public String getPhotoUrl(int memberId) {
         MembersAccounts memberAccounts = getMembersAccounts(memberId);
         return memberAccounts.getUserPhoto().getImage_url();
+    }
+
+    public List<Feedback> getListOFeedbacks(int memberId) {
+        MembersAccounts memberAccounts = getMembersAccounts(memberId);
+        return memberAccounts.getFeedbacks();
     }
 
     public String getNutritionPlanDescription(int memberId) {
@@ -54,9 +64,9 @@ public class MembersService {
         return member.getNutritionPlans().getStart_date();
     }
 
-    public List<Visits> getListOfVisits(int memberId) {
+    public Date getListOfVisits(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
-        return member.getMembersVisits();
+        return member.getMembersVisits().get(memberId).getVisit_date();
     }
 
     public String getMemberRolename(int memberId) {
@@ -74,8 +84,8 @@ public class MembersService {
         return member.getMemberEquipmentStatistics();
     }
 
-    /*public String getActivityName(int memberId) {
+    public String getActivityName(int memberId) {
         List<EquipmentStatistics> equipmentStatistics = getListOfEquipmentStatistics(memberId);
-        return equipmentStatistics.get(memberId).getActivityType();
-    }*/
+        return equipmentStatistics.get(memberId).getActivityType().getActivity_name();
+    }
 }

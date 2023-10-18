@@ -64,9 +64,9 @@
                 </div>
             </div>
         </div>
-        <div class="news">
-            <p class="news-title">Новости</p>
-            <!--TODO-->
+        <h1>Новости</h1>             
+        <div th:each="el:${news}" class="alert alert-info mt-2">
+            <h3 th:text="ggg">
         </div>
     </div>
 
