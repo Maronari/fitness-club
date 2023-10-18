@@ -25,7 +25,8 @@ public class TrainingScheduleService {
         for (TrainingSchedule trainingSchedule : trainingScheduleList) {
             eventsList.add(new Event(trainingSchedule.getTrainingType().getTraining_type_name(),
                     trainingSchedule.getSession_date().toString(),
-                    trainingSchedule.getSession_date().toString()));
+                    trainingSchedule.getSession_date().toString(),
+                    trainingSchedule.getId_session()));
         }
         return eventsList;
     }
