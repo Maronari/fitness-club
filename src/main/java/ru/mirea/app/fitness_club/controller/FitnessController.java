@@ -27,7 +27,7 @@ public class FitnessController {
         model.addAttribute("achievements", membersService.getMemberAchievements(id));
         model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id));
         model.addAttribute("photoURL", membersService.getPhotoUrl(id));
-        model.addAttribute("news", clubsService.getListOfClubNews(id));
+        model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
         return "html/profile";
     }
 

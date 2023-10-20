@@ -17,32 +17,42 @@ import ru.mirea.app.fitness_club.Repository.ClubsRepository;
 public class ClubsService {
     private final ClubsRepository clubsRepository;
 
-    public Clubs getClubs(Integer id) {
+    public Clubs getClubs(String id) {
         return clubsRepository.findById(id).orElse(null);
     }
 
-    public List<News> getListOfClubNews(int clubsid) {
-        Clubs clubs = clubsRepository.findById(clubsid).orElse(null); 
+    public List<News> getListOfClubNews(String id) {
+        Clubs clubs = clubsRepository.findById(id).orElse(null); 
         return clubs.getClubNews();
     }
 
-    public List<Gyms> getListOfGyms(int clubsid) {
-        Clubs clubs = clubsRepository.findById(clubsid).orElse(null);
+    public List<Gyms> getListOfGyms(String id) {
+        Clubs clubs = clubsRepository.findById(id).orElse(null);
         return clubs.getGyms();
     }
 
-    public List<Equipment> getListOfEquipments(int clubsid) {
-        List<Gyms> gyms = getListOfGyms(clubsid);
-        return gyms.get(clubsid).getGymEquipments();
+    public List<Equipment> getListOfEquipments(String clubsId, int gymId) {
+        List<Gyms> gyms = getListOfGyms(clubsId);
+        for (Gyms gym : gyms) {
+            if (gym.getId_gym() == gymId) {
+                return gym.getGymEquipments();
+            }
+        }
+        return null;
     }
 
-    public String getEquipmentTypeName(int clubsid) {
-        List<Equipment> equipments = getListOfEquipments(clubsid);
-        return equipments.get(clubsid).getEquipmentType().getType_name();
+    public String getEquipmentTypeName(String clubsId, int gymId, int equipmentId) {
+        List<Equipment> equipments = getListOfEquipments(clubsId, gymId);
+        for (Equipment equipment : equipments) {
+            if (equipment.getId_equipment() == equipmentId) {
+                return equipment.getEquipmentType().getType_name();
+            }
+        }
+        return null;
     }
 
-    public List<StaffSchedule> getListOfStaffSchedules(int clubsid) {
-        Clubs clubs = clubsRepository.findById(clubsid).orElse(null);
+    public List<StaffSchedule> getListOfStaffSchedules(String clubsId) {
+        Clubs clubs = clubsRepository.findById(clubsId).orElse(null);
         return clubs.getStaffSchedule();
     }
 }

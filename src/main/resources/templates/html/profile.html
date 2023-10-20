@@ -65,7 +65,9 @@
             </div>
         </div>
         <h1>Новости</h1>             
-        <div th:each="el:${news}" class="alert alert-info mt-2">
+        <div class="news" th:each="new : ${news}">
+            <p th:text="${new.news_title}"></p>
+            <p th:text="${new.news_text}"></p>
             <h3 th:text="ggg">
         </div>
     </div>
