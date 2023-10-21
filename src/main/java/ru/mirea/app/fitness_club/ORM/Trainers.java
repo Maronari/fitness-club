@@ -1,6 +1,8 @@
 package ru.mirea.app.fitness_club.ORM;
 
 
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
@@ -18,10 +20,15 @@ import ru.mirea.app.fitness_club.ORM.Accounts.TrainersAccounts;
 public class Trainers {
     @Id
     private int id_trainer;
-    
+
+    private String first_name;
+    private String second_name;
     private String speciality;
     private int experience;
     private int certifications;
+    private String phone_number;
+    private String email;
+    private Date hire_date;
 
     @OneToOne(mappedBy = "trainers")
     private TrainersAccounts trainerAccounts;

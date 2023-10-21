@@ -2,45 +2,63 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <title>Spring Security Example </title>
+    <title>Вход</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Fira+Sans'>
 </head>
 
 <body>
-    <div th:if="${param.error}">
-        Invalid username and password.
+    <div class="login-page">
+
+        <form th:action="@{/login}" method="post" class="form">
+            <div class="username">
+                <label for="email">Имя пользователя</label>
+                <div class="sec-2">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="text" name="username" placeholder="Username" />
+                </div>
+            </div>
+            <div class="password">
+                <label for="password">Пароль</label>
+                <div class="sec-2">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input class="pas" type="password" name="password" placeholder="············" />
+                </div>
+            </div>
+            <input class="login" type="submit" value="Войти" />
+        </form>
+
+        <div th:if="${param.error}"> Направильное имя пользователя или пароль</div>
+        <div th:if="${param.logout}">Вы вышли из системы</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="3">DEBUG</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>JohnDoe</td>
+                    <td>12345678</td>
+                    <td>MEMBER</td>
+                </tr>
+                <tr>
+                    <td>ivan</td>
+                    <td>qwerty</td>
+                    <td>TRAINER</td>
+                </tr>
+                <tr>
+                    <td>pavelP</td>
+                    <td>87654321</td>
+                    <td>STAFF</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <div th:if="${param.logout}">
-        You have been logged out.
-    </div>
-    <form th:action="@{/login}" method="post">
-        <div><label> User Name : <input type="text" name="username" /> </label></div>
-        <div><label> Password: <input type="password" name="password" /> </label></div>
-        <div><input type="submit" value="Sign In" /></div>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th colspan="3">DEBUG</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>JohnDoe</td>
-                <td>12345678</td>
-                <td>MEMBER</td>
-            </tr>
-            <tr>
-                <td>ivan</td>
-                <td>qwerty</td>
-                <td>TRAINER</td>
-            </tr>
-            <tr>
-                <td>pavelP</td>
-                <td>87654321</td>
-                <td>STAFF</td>
-            </tr>
-        </tbody>
-    </table>
+
 </body>
 
 </html>

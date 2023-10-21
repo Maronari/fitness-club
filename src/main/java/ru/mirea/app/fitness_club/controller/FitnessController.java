@@ -1,20 +1,29 @@
 package ru.mirea.app.fitness_club.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
+import ru.mirea.app.fitness_club.ORM.Event;
 import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.Service.MembersService;
+import ru.mirea.app.fitness_club.Service.TrainingScheduleService;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping(value= "/")
+@RequestMapping(value = "/")
 public class FitnessController {
     private final MembersService membersService;
+    private final TrainingScheduleService trainingScheduleService;
 
     @GetMapping("/profile/{role}/{id}")
     public String profile(@PathVariable Integer id, @PathVariable String role, Model model) {
@@ -26,7 +35,8 @@ public class FitnessController {
         model.addAttribute("member", member);
         model.addAttribute("achievements", membersService.getMemberAchievements(id));
         model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id));
-        //model.addAttribute("achievement_reseipt_date", membersService.getReceiptDates(id));
+        // model.addAttribute("achievement_reseipt_date",
+        // membersService.getReceiptDates(id));
         return "html/profile";
     }
 
@@ -39,14 +49,34 @@ public class FitnessController {
         return "html/calendar";
     }
 
+    @GetMapping("/calendar/training/{id}")
+    public String training(@PathVariable Integer id, Model model) {
+        //TODO: get training information
+        return "html/training";
+    }
+
     @GetMapping("/login")
-	String login() {
-		return "html/login";
-	}
+    String login() {
+        return "html/login";
+    }
 
     @GetMapping("/logout")
     String logout() {
         return "redirect:/login";
+    }
+
+    @GetMapping("/trainings")
+    @ResponseBody
+    public String getTrainings() {
+        List<Event> eventsList = trainingScheduleService.TrainingScheduleToEventList();
+        String jsonMsg = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonMsg = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(eventsList);
+        } catch (IOException ioex) {
+            System.out.println(ioex.getMessage());
+        }
+        return jsonMsg;
     }
 
 }

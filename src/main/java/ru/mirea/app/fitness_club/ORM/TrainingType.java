@@ -20,6 +20,7 @@ public class TrainingType {
     private int id_training_type;
     
     private String training_type_name;
+    private String workout_description;
 
     @OneToMany(mappedBy = "trainingType")
     private Set<TrainingSchedule> trainingSchedules;
