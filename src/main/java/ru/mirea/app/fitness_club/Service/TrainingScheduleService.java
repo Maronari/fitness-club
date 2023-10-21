@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import ru.mirea.app.fitness_club.ORM.Event;
+import ru.mirea.app.fitness_club.ORM.Trainers;
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
 import ru.mirea.app.fitness_club.Repository.TrainingScheduleRepository;
 
@@ -31,4 +32,12 @@ public class TrainingScheduleService {
         return eventsList;
     }
 
+    public TrainingSchedule getTraining(int scheduleId) {
+        return trainingScheduleRepository.findById(scheduleId).orElse(null);
+    }
+
+    public Trainers getTrainers(int scheduleId) {
+        TrainingSchedule training = trainingScheduleRepository.findById(scheduleId).orElse(null);
+        return training.getTrainers();
+    }
 }

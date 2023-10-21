@@ -51,7 +51,8 @@ public class FitnessController {
 
     @GetMapping("/calendar/training/{id}")
     public String training(@PathVariable Integer id, Model model) {
-        //TODO: get training information
+        model.addAttribute("training",trainingScheduleService.getTraining(id));
+        model.addAttribute("trainers",trainingScheduleService.getTrainers(id));
         return "html/training";
     }
 
