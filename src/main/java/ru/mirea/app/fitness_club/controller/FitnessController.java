@@ -17,12 +17,13 @@ import ru.mirea.app.fitness_club.ORM.Event;
 import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.Service.MembersService;
 import ru.mirea.app.fitness_club.Service.TrainingScheduleService;
-
+import ru.mirea.app.fitness_club.Service.ClubsService;
 @Controller
 @AllArgsConstructor
 @RequestMapping(value = "/")
 public class FitnessController {
     private final MembersService membersService;
+    private final ClubsService clubsService;
     private final TrainingScheduleService trainingScheduleService;
 
     @GetMapping("/profile/{role}/{id}")
@@ -35,8 +36,8 @@ public class FitnessController {
         model.addAttribute("member", member);
         model.addAttribute("achievements", membersService.getMemberAchievements(id));
         model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id));
-        // model.addAttribute("achievement_reseipt_date",
-        // membersService.getReceiptDates(id));
+        model.addAttribute("photoURL", membersService.getPhotoUrl(id));
+        model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
         return "html/profile";
     }
 

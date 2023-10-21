@@ -31,7 +31,7 @@
     <div class="content">
         <div class="profile-info">
             <div class="first-column">
-                <img th:src="@{/icons/profile.svg}" alt="Profile Photo" class="profile-photo">
+                <img th:src="${photoURL}" alt="Profile Photo" class="profile-photo">
                 <p class="email" th:text="'Ваша почта: ' + ${member.email}"></p>
                 <p class="last-visit">Последняя тренировка: вчера</p>
                 <p class="payment-date">Ближайшая оплата абонемента: завтра</p>
@@ -63,9 +63,11 @@
                 </div>
             </div>
         </div>
-        <div class="news">
-            <p class="news-title">Новости</p>
-            <!--TODO-->
+        <h1>Новости</h1>             
+        <div class="news" th:each="new : ${news}">
+            <p th:text="${new.news_title}"></p>
+            <p th:text="${new.news_text}"></p>
+            <h3 th:text="ggg">
         </div>
     </div>
 
