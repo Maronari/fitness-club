@@ -16,9 +16,10 @@ import ru.mirea.app.fitness_club.Service.MembersService;
 public class FitnessController {
     private final MembersService membersService;
 
-    @GetMapping("/profile/{id}")
-    public String profile(@PathVariable Integer id, Model model) {
+    @GetMapping("/profile/{role}/{id}")
+    public String profile(@PathVariable Integer id, @PathVariable String role, Model model) {
         model.addAttribute("id", id);
+        model.addAttribute("role", role);
         Members member = membersService.getMember(id);
         model.addAttribute("memberClub", member.getClub());
         model.addAttribute("roleName", member.getMembershipRole().getRole_name());
@@ -29,8 +30,10 @@ public class FitnessController {
         return "html/profile";
     }
 
-    @GetMapping("/calendar/{id}")
-    public String calendar(@PathVariable Integer id, Model model) {
+    @GetMapping("/calendar/{role}/{id}")
+    public String calendar(@PathVariable Integer id, @PathVariable String role, Model model) {
+        model.addAttribute("id", id);
+        model.addAttribute("role", role);
         Members member = membersService.getMember(id);
         model.addAttribute("member", member);
         return "html/calendar";

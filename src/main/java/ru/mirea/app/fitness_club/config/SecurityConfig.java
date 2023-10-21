@@ -1,14 +1,11 @@
 package ru.mirea.app.fitness_club.config;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,10 +14,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import ru.mirea.app.fitness_club.ORM.Accounts.UserDetailsServiceImpl;
 
 @Configuration
@@ -29,7 +22,7 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    private static Logger logger = LogManager.getLogger(SecurityConfig.class);
+    private static final Logger logger = LogManager.getLogger(SecurityConfig.class);
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,37 +48,27 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
-        return new AuthenticationSuccessHandler() {
+        return (request, response, authentication) -> {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String username = userDetails.getUsername();
+            Integer id = userDetailsService.getUserId(username);
+            String role = userDetailsService.getUserRole(username);
 
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                    Authentication authentication) throws IOException, ServletException {
-                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-                String username = userDetails.getUsername();
-                Integer id = userDetailsService.getUserId(username);
+            logger.info("LOGGING: " + username
+                    + " ROLE: " + role
+                    + " ID: " + id);
 
-                logger.info("LOGGING: " + username
-                        + " ROLE: " + userDetailsService.getUserRole(username)
-                        + " ID: " + id);
-
-                response.sendRedirect("/profile/" + id);
-            }
-
+            response.sendRedirect("/profile/" + role + "/" + id);
         };
     }
 
     @Bean
     public LogoutSuccessHandler myLogoutSuccessHandler() {
-        return new LogoutSuccessHandler() {
-            @Override
-            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-                    Authentication authentication)
-                    throws IOException, ServletException {
+        return (request, response, authentication) -> {
 
-                logger.info("User logged out: " + authentication.getName());
+            logger.info("User logged out: " + authentication.getName());
 
-                response.sendRedirect("/logout");
-            }
+            response.sendRedirect("/logout");
         };
     }
 
