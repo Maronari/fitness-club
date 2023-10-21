@@ -31,7 +31,6 @@ public class TrainingSchedule {
     @JoinColumn(name = "id_training_type")
     private TrainingType trainingType;
 
-    private String workout_description;
     private Date session_date;
     private int session_time;
 

@@ -1,0 +1,128 @@
+* {
+    font-family: "Fira Sans";
+}
+
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow-y: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #dde5f4;
+    height: 100vh;
+}
+
+.login-page {
+    background: #f1f7fe;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 2em;
+}
+
+.form {
+    margin-top: 3em;
+}
+
+.login-page .logo {
+    margin-top: -3em;
+}
+
+.login-page .username {
+    background: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: #4d4d4d;
+    margin-top: -3em;
+    margin-bottom: 1em;
+}
+
+.login-page .username input {
+    outline: none;
+    border: none;
+}
+
+.login-page .username input::-moz-placeholder {
+    color: black;
+    font-size: 0.9em;
+}
+
+.login-page .username input:-ms-input-placeholder {
+    color: black;
+    font-size: 0.9em;
+}
+
+.login-page .username input::placeholder {
+    color: black;
+    font-size: 0.9em;
+}
+
+.login-page .username ion-icon {
+    color: #4d4d4d;
+    margin-bottom: -0.2em;
+}
+
+.login-page .password {
+    background: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: #4d4d4d;
+    margin-bottom: 1em;
+}
+
+.login-page .password input {
+    outline: none;
+    border: none;
+}
+
+.login-page .password input::-moz-placeholder {
+    color: black;
+    font-size: 0.9em;
+}
+
+.login-page .password input:-ms-input-placeholder {
+    color: black;
+    font-size: 0.9em;
+}
+
+.login-page .password input::placeholder {
+    color: black;
+    font-size: 0.9em;
+}
+
+.login-page .password ion-icon {
+    color: #4d4d4d;
+    margin-bottom: -0.2em;
+}
+
+.login-page .password .show-hide {
+    margin-right: -5em;
+}
+
+.login-page .login {
+    padding: 1em;
+    background: #3e4684;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    cursor: pointer;
+}

@@ -16,13 +16,13 @@
             <a class="profile" id="selected" href="">
                 <img th:src="@{/icons/profile.svg}" alt="Profile">
             </a>
-            <a class="calendar" th:href="'/calendar/' + ${id}">
+            <a class="calendar" th:href="'/calendar/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/calendar.svg}" alt="Calendar">
             </a>
-            <a class="statistic" href="#statitic">
+            <a class="statistic" href="#statistic">
                 <img th:src="@{/icons/statistic.svg}" alt="Statistic">
             </a>
-            <a class="logout" href="#logout">
+            <a class="logout" href="/logout">
                 <img th:src="@{/icons/logout.svg}" alt="Log out">
             </a>
         </div>
@@ -57,7 +57,6 @@
                     <div><p>Запланированные тренировки</p></div>
                     <div class="workout-item" th:each="workout : ${workouts}">
                         <p th:text="${workout.trainingType.training_type_name}"></p>
-                        <p th:text="${workout.workout_description}"></p>
                         <p th:text="${workout.session_date}"></p>
                         <p th:text="${workout.session_time} + ' мин'"></p>
                     </div>

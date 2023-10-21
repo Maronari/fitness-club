@@ -135,9 +135,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `fitness_club_db`.`trainers` (
   `id_trainer` INT NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(45) NOT NULL,
+  `second_name` VARCHAR(45) NOT NULL,
   `speciality` VARCHAR(45) NULL,
   `experience` INT NULL,
   `certifications` INT NULL,
+  `phone_number` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `hire_date` DATE NOT NULL,
   PRIMARY KEY (`id_trainer`))
 ENGINE = InnoDB;
 
@@ -207,6 +212,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `fitness_club_db`.`training_type` (
   `id_training_type` INT NOT NULL AUTO_INCREMENT,
   `training_type_name` VARCHAR(45) NOT NULL,
+  `workout_description` VARCHAR(300) NULL,
   PRIMARY KEY (`id_training_type`))
 ENGINE = InnoDB;
 
@@ -218,7 +224,6 @@ CREATE TABLE IF NOT EXISTS `fitness_club_db`.`training_schedule` (
   `id_session` INT NOT NULL AUTO_INCREMENT,
   `id_trainer` INT NOT NULL,
   `id_training_type` INT NOT NULL,
-  `workout_description` VARCHAR(45) NULL,
   `session_date` DATE NOT NULL,
   `session_time` INT(90) NOT NULL,
   PRIMARY KEY (`id_session`),
@@ -498,15 +503,15 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `fitness_club_db`.`staff_shedule`
+-- Table `fitness_club_db`.`staff_schedule`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fitness_club_db`.`staff_shedule` (
-  `id_shedule` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `fitness_club_db`.`staff_schedule` (
+  `id_schedule` INT NOT NULL AUTO_INCREMENT,
   `id_staff` INT NOT NULL,
   `clubs_name` VARCHAR(45) NOT NULL,
   `weekday` INT(6) NULL,
   `shift` INT(3) NULL,
-  PRIMARY KEY (`id_shedule`),
+  PRIMARY KEY (`id_schedule`),
   INDEX `fk_staff_shedule_staff1_idx` (`id_staff` ASC) VISIBLE,
   INDEX `fk_staff_shedule_clubs1_idx` (`clubs_name` ASC) VISIBLE,
   CONSTRAINT `fk_staff_shedule_staff1`

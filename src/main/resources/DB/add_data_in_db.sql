@@ -32,8 +32,13 @@ insert into members_have_achievements values
 (4, 1, '2021-07-10'),
 (5, 4, '2021-06-05');
 
-insert into trainers values
-(1, "тренер по бодибилдингу", 3, 1);
+insert into trainers(first_name, second_name, speciality, experience, certifications, phone_number, email, hire_date)  values
+("Андрей", "Качалкин", "тренер по бодибилдингу", 3, 1, "89284434099", "andrei.kach@xxd.ru", "2022-12-03"),
+("Иван", "Степанов", "фитнес-инструктор", 5, 2, "12345678976", "stepanov@mail.ru", "2020-11-15"),
+("Мария", "Васильева", "тренер по йоге", 6, 3, "45678904387", "maria@yandex.ru", "2021-03-10"),
+("Анна", "Смирнова", "инструктор по танцам", 4, 2, "44455667788", "ann@ann.com", "2022-09-21"),
+("Ольга", "Фёдорова", "тренер по аэробике", 2, 1, "22233447634", "olga@ol.com", "2023-01-12"),
+("Евгений", "Орлов", "тренер по бегу", 8, 4, "11122334455", "evgeniy@mail.com", "2021-06-23");
 
 insert into trainers_accounts values
 (1, "ivan", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", current_date(), "2020-12-23", "TRAINER");
@@ -53,15 +58,19 @@ insert into users_photo values
 insert into members_accounts values
 ("JohnDoe", 1, 1, "$2y$10$uXzTcs9nQcNo62JgoBzXJOjhyeuV5.kBUEt8l5l88XYVNtFnRPuGi", "2021-10-01", "2021-10-6", "MEMBER");
 
-insert into training_type(training_type_name) values
-("BODYPUMP"),
-("STRETCHING"),
-("Зумба"),
-("Smart Start Fullbody");
+insert into training_type(training_type_name, workout_description) values
+("BODYPUMP", "Групповая тренировка со штангой. Отличный способ снижения веса. Развивает силу, повышает выносливость."),
+("STRETCHING", "Программа для комплексного снятия усталости мышц, улучшения гибкости и подвижности суставов. Лучший способой раслабиться."),
+("Зумба", "Танцевальная фитнес-программа, популярная во всем мире. Зумба - один из видов высокоинтенсивных аэробных уроков."),
+("Smart Start Fullbody", "Авторская программа XXD Fitness, которая включает в себя управжения на основные группы мышц.");
 
-insert into training_schedule values 
-(1, 1, 1, "Групповая тренировка со штангой", "2023-12-04", 55),
-(2, 1, 2, "Программа для снятия усталости мышц", "2023-12-05", 55);
+insert into training_schedule(id_trainer, id_training_type, session_date, session_time)  values 
+(1, 1, "2023-12-04", 55),
+(3, 3, "2023-11-13", 55),
+(1, 1, "2023-11-13", 55),
+(5, 4, "2023-11-14", 30),
+(4, 2, "2023-11-16", 55),
+(2, 2, "2023-12-05", 55);
 
 insert into members_have_training_schedule values
 (1, 1),

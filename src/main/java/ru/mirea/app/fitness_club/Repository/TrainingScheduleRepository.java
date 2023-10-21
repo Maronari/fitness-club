@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
 
-public interface TrainingScheduleRepository extends JpaRepository<TrainingSchedule, Integer>{
+public interface TrainingScheduleRepository extends JpaRepository<TrainingSchedule, Integer> {
     
 }
