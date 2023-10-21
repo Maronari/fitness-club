@@ -29,10 +29,9 @@
     </div>
     <div class="content">
         <h2 class="String" th:text="${training.trainingType.training_type_name}"></h2>
-        <a class="String" th:text="${training.trainingType.workout_description}"></a>
-        <a class="int" th:text="${training.session_time}"></a>
-        <a class="int" th:text="${training.session_time}"></a>
-        trainers
+        <br><a class="String" th:text="${training.trainingType.workout_description}"></a></br>
+        <br>Продолжительность тренировки: <a class="int" th:text="${training.session_time}"></a>мин.</br>
+        <br>Тренер: <a class="int" th:text="${trainers.first_name}"></a> <a class="int" th:text="${trainers.second_name}"></a></br>     
     </div>
 
 </body>
