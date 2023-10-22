@@ -2,8 +2,8 @@ create user if not exists 'springroot'@'%' identified by 'spring';
 grant all on fitness_club_db.* to 'springroot'@'%';
 
 insert into achievements values
-(1, 'Вы подтянулись 20 раз за подход', 'Подтягальник', 'https://img1.pnghut.com/15/4/15/dX9fhyUbwr/neck-bodybuilding-sportart-shoulder-hand.jpg'),
-(2, 'Пробежать 2км за подход', 'Начинающий бегун', 'https://i.pinimg.com/originals/ce/85/ec/ce85ec0dda46a2d173c9d703676dd7fa.png'),
+(1, 'Вы подтянулись 20 раз за подход', 'Подтягальник', 'https://i.postimg.cc/xTx9Grmw/icons8-pull-up-64.png'),
+(2, 'Пробежать 2км за подход', 'Начинающий бегун', 'https://i.postimg.cc/cCsWq36z/icons8-exercise-100.png'),
 (3, 'Пробежать 5км за подход', 'Марафонец', 'https://flyclipart.com/thumb2/learn-258380.png'),
 (4, 'Пробежать 10км за подход', 'Беги, Форрест, беги!', 'https://flyclipart.com/thumb2/home-23427.png');
 
@@ -27,8 +27,8 @@ insert into members values
 
 insert into members_have_achievements values
 (1, 1, '2021-10-01'),
-(2, 3, '2021-09-15'),
-(3, 2, '2021-08-20'),
+(1, 3, '2021-09-15'),
+(1, 2, '2021-08-20'),
 (4, 1, '2021-07-10'),
 (5, 4, '2021-06-05');
 

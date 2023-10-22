@@ -2,8 +2,12 @@
 <html>
 
 <head>
+    <title>Профиль</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Fira+Sans'>
 </head>
 
 <body>
@@ -14,7 +18,7 @@
         </div>
         <div class="icons">
             <a class="profile" id="selected" href="">
-                <img th:src="@{/icons/profile.svg}" alt="Profile">
+                <img th:src="@{/icons/profile-white.svg}" alt="Profile">
             </a>
             <a class="calendar" th:href="'/calendar/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/calendar.svg}" alt="Calendar">
@@ -29,6 +33,7 @@
     </div>
 
     <div class="content">
+        <h1>Профиль</h1>
         <div class="profile-info">
             <div class="first-column">
                 <img th:src="${photoURL}" alt="Profile Photo" class="profile-photo">
@@ -38,7 +43,7 @@
             </div>
             <div class="info">
                 <p class="name" th:text="${member.first_name + ' ' + member.second_name}"></p>
-                <p class="gender"> Пол: 
+                <p class="gender"> Пол:
                     <span th:if="${member.gender == '0'}">женский</span>
                     <span th:unless="${member.gender == '1'}">мужской</span>
                 </p>
@@ -47,23 +52,30 @@
                 <p class="level" th:text="'Уровень: ' + ${roleName}"></p>
             </div>
             <div class="third-column">
-                <div class="achievements">
-                    <div><p>Ваши достижения</p></div>
-                    <div class="achievement-item" th:each="achievement : ${achievements}">
-                        <p th:text="${achievement.achievement_description}"></p>
+                <div class="achievements-container">
+                    <p>Ваши достижения</p>
+                    <div class="achievements">
+                        <div class="achievement-item" th:each="achievement : ${achievements}">
+                            <img th:src="${achievement.achievement_icon_url}">
+                            <p th:text="${achievement.achievement_title}"></p>
+                        </div>
                     </div>
                 </div>
-                <div class="workouts">
-                    <div><p>Запланированные тренировки</p></div>
-                    <div class="workout-item" th:each="workout : ${workouts}">
-                        <p th:text="${workout.trainingType.training_type_name}"></p>
-                        <p th:text="${workout.session_date}"></p>
-                        <p th:text="${workout.session_time} + ' мин'"></p>
+                <div class="workouts-container">
+                    <p>Запланированные тренировки</p>
+                    <div class="workouts">
+                        <div class="workout-item" th:each="workout : ${workouts}">
+                            <p th:text="${workout.trainingType.training_type_name}"></p>
+                            <p th:text="${workout.session_date}"></p>
+                            <p th:text="${workout.session_time} + ' мин'"></p>
+                        </div>
                     </div>
+                    <a class="all-training-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Все тренировки</a>
                 </div>
             </div>
         </div>
-        <h1>Новости</h1>             
+
+        <h1>Новости</h1>
         <div class="news" th:each="new : ${news}">
             <p th:text="${new.news_title}"></p>
             <p th:text="${new.news_text}"></p>
