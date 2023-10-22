@@ -1,8 +1,18 @@
+* {
+    font-family: "Fira Sans";
+}
+
+body {
+    background-color: #dde5f4;    
+}
+
 #selected {
     width: 70px;
     height: 70px;
-    background-color: lightgray;
+    background-color: #3e4684;
     border-radius: 10px;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 2em;
 }
 
 #selected img {
@@ -10,10 +20,19 @@
     margin: auto;
     width: 50px;
     height: 50px;
-    padding-top: 5px;
 }
 
 #calendar {
-    max-width: calc(100% - 100px);
-    margin-left: 100px;
+    max-width: calc(100% - 115px);
+    margin-left: 110px;
+    padding-top: 20px;
+}
+
+:root {
+    --fc-button-bg-color: #3e4684;
+}
+
+.fc-day-today {
+    background: #b2b4d4 !important;
+    border: none !important;
 }
