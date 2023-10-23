@@ -57,6 +57,12 @@ public class FitnessController {
         return "html/training";
     }
 
+    @GetMapping("/statistic/{role}/{id}")
+    public String statistic(@PathVariable Integer id, @PathVariable String role, Model model) {
+        // TODO: statistic service
+        return "html/statistic";
+    }
+
     @GetMapping("/login")
     String login() {
         return "html/login";

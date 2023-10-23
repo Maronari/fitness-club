@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/training.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/statistic.css}">
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Fira+Sans'>
-    <title>Training</title>
+    <title>Статистика</title>
 </head>
-
 <body>
-
     <div class="sidebar">
         <div class="logo">
             <img th:src="@{/icons/logo.png}" alt="Logo">
@@ -21,24 +19,16 @@
             <a class="profile" th:href="'/profile/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/profile.svg}" alt="Profile">
             </a>
-            <a class="calendar" id="selected" th:href="'/calendar/' + ${role} + '/' + ${id}">
-                <img th:src="@{/icons/calendar-white.svg}" alt="Calendar">
+            <a class="calendar" th:href="'/calendar/' + ${role} + '/' + ${id}">
+                <img th:src="@{/icons/calendar.svg}" alt="Calendar">
             </a>
-            <a class="statistic" th:href="'/statistic/' + ${role} + '/' + ${id}">
-                <img th:src="@{/icons/statistic.svg}" alt="Statistic">
+            <a class="statistic" id="selected" href="">
+                <img th:src="@{/icons/statistic-white.svg}" alt="Statistic">
             </a>
             <a class="logout" th:href="'/logout'">
                 <img th:src="@{/icons/logout.svg}" alt="Log out">
             </a>
         </div>
     </div>
-
-    <div class="content">
-        <h2 class="String" th:text="${training.trainingType.training_type_name}"></h2>
-        <br><a class="String" th:text="${training.trainingType.workout_description}"></a></br>
-        <br>Продолжительность тренировки: <a class="int" th:text="${training.session_time}"></a>мин.</br>
-        <br>Тренер: <a class="int" th:text="${trainers.first_name}"></a> <a class="int" th:text="${trainers.second_name}"></a></br>     
-    </div>
-
 </body>
 </html>
