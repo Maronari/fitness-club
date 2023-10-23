@@ -1,14 +1,21 @@
+* {
+    font-family: "Fira Sans";
+}
+
 body {
     display: flex;
     margin: 0;
     padding: 0;
+    background: #dde5f4;
 }
 
 #selected {
     width: 70px;
     height: 70px;
-    background-color: lightgray;
+    background-color: #3e4684;
     border-radius: 10px;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 2em;
 }
 
 #selected img {
@@ -16,12 +23,11 @@ body {
     margin: auto;
     width: 50px;
     height: 50px;
-    padding-top: 5px;
 }
 
 .content {
     flex-grow: 1;
-    padding: 150px;
+    padding: 140px;
     padding-top: 0px;
 }
 
@@ -29,14 +35,24 @@ body {
     margin-top: 100px;
     display: flex;
     align-items: flex-start;
-    gap: 100px;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 3em;
     width: 300px;
 	height: 200px;
+    position: relative;
+    top: -50px;
 }
 
 .profile-photo {
-    width: 400px;
-    height: 400px;
+    width: 330px;
+    height: 330px;
+    box-shadow: 0 0 2em #e6e9f9;
+    border-radius: 10px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow-y: hidden;
 }
 
 .first-column {
@@ -65,34 +81,123 @@ body {
 .last-visit,
 .level,
 .payment-date {
-    background-color: lightgray;
-    padding: 10px;
+    background-color: #f1f7fe;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 2em;
+    padding: 15px;
     width: 300px;
-    border-radius: 30px;
+    border-radius: 10px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow-y: hidden;
+}
+
+.achievements-container {
+    background-color: #f1f7fe;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 15px;
+    display: grid;
+    width: 450px;
+    height: 150px;
+    border-radius: 10px;
 }
 
 .achievements {
-    background-color: lightgray;
     display: grid;
-    grid-template-columns: auto;
-    padding: 10px;
-    width: 450px;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.achievements-container p {
+    position: relative;
+    top: -10px;
+}
+
+.achievement-item {
+    width: 100px;
     height: 100px;
-    border-radius: 30px;
+    background-color: #3e4684;
+    border-radius: 10px;
+    display: flex;
+    position: relative;
+    top: -5px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.achievement-item img {
+    display: block;
+    max-width: 55px;
+    max-height: 55px;
+    width: auto;
+    height: auto;
+    margin-top: 10px;
+}
+
+.achievement-item p {
+    font-size: small;
+    color: white;
+    text-align: center;
+}
+
+.workouts-container {
+    background-color: #f1f7fe;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 2em;
+    padding: 15px;
+    width: 450px;
+    height: 300px;
+    border-radius: 10px;
+    position: relative;
+    top: 30px;
+}
+
+.workouts-container p {
+    position: relative;
+    top: -10px;
 }
 
 .workouts {
-    background-color: lightgray;
-    padding: 10px;
-    width: 450px;
-    height: 300px;
-    border-radius: 30px;
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    position: relative;
+    top: -10px;
+    
+}
+
+.workout-item {
+    border-top: solid #d1dbe7;
+    border-bottom: solid #d1dbe7;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.workout-item p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 0px;
+}
+
+.workouts-container .all-training-button {
+    padding: 1em;
+    background: #3e4684;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: 500;
+    position: relative;
+    left: 65%;
+    bottom: 10px;
+    text-decoration: none;
 }
 
 .news {
-    display: fle;
-    margin-top: 200px;
     position: relative;
+    top:500px;
 
 }
 
