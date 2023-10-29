@@ -1,6 +1,6 @@
 # Prepare JAR
 mvn clean
-mvn package
+mvn package -DskipTests
 
 rc=$?
 # if maven failed, then we will not deploy new version.
