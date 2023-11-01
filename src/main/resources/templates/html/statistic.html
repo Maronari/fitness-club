@@ -30,5 +30,24 @@
             </a>
         </div>
     </div>
+
+    
+    <div class="content">
+        <h1>Статистика</h1>
+        <div class="training-container">
+            <p>Тренировки:</p>
+            <div class="statistics-item" th:each="statistic : ${statistics}">
+                <p th:text = "${statistic.activityType.activity_name}"></p>
+            </div>
+        </div>
+        <div class="achievements-container">
+            <p>Полученные достижения: </p>
+            <div class="achievements-item" th:each="achievement : ${achievements}">
+                <p th:text = "${achievement.achievement_title}"></p>
+                <p th:text = "${achievement.achievement_description}"></p>
+                <img th:src = "${achievement.achievement_icon_url}">
+            </div>
+        </div>  
+    </div>
 </body>
 </html>

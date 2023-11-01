@@ -24,7 +24,7 @@ public class MembersService {
         return membersRepository.findById(id).orElse(null);
     }
 
-    public List<Achievements> getMemberAchievements(int memberId) {
+    public List<Achievements> getListOfMemberAchievements(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null); 
         return member.getMemberAchievements();
     }
@@ -82,10 +82,5 @@ public class MembersService {
     public List<EquipmentStatistics> getListOfEquipmentStatistics(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
         return member.getMemberEquipmentStatistics();
-    }
-
-    public String getActivityName(int memberId) {
-        List<EquipmentStatistics> equipmentStatistics = getListOfEquipmentStatistics(memberId);
-        return equipmentStatistics.get(memberId).getActivityType().getActivity_name();
-    }
+    }    
 }
