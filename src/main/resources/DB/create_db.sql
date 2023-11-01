@@ -503,15 +503,15 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `fitness_club_db`.`staff_schedule`
+-- Table `fitness_club_db`.`staff_sсhedule`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fitness_club_db`.`staff_schedule` (
-  `id_schedule` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `fitness_club_db`.`staff_sсhedule` (
+  `id_sсhedule` INT NOT NULL AUTO_INCREMENT,
   `id_staff` INT NOT NULL,
   `clubs_name` VARCHAR(45) NOT NULL,
   `weekday` INT(6) NULL,
   `shift` INT(3) NULL,
-  PRIMARY KEY (`id_schedule`),
+  PRIMARY KEY (`id_sсhedule`),
   INDEX `fk_staff_shedule_staff1_idx` (`id_staff` ASC) VISIBLE,
   INDEX `fk_staff_shedule_clubs1_idx` (`clubs_name` ASC) VISIBLE,
   CONSTRAINT `fk_staff_shedule_staff1`
