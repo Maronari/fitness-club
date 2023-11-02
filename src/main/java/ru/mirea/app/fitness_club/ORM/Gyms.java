@@ -24,12 +24,15 @@ public class Gyms {
     @Id
     private int id_gym;
 
+    private String gym_name;
+
     @Id
     @ManyToOne
     @JoinColumn(name = "club_name", nullable = false)
     private Clubs club;
 
-    private int amount_of_equipment;
+    private int capacity;
+    private int available_hours;
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(name = "gyms_have_equipment",
