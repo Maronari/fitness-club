@@ -52,7 +52,7 @@ public class FitnessController {
 
     @GetMapping("/calendar/training/{id}")
     public String training(@PathVariable Integer id, Model model) {
-        //TODO: get training information
+        //get training information
         return "html/training";
     }
 

@@ -40,6 +40,11 @@
                 <p class="email" th:text="'Ваша почта: ' + ${member.email}"></p>
                 <p class="last-visit">Последняя тренировка: вчера</p>
                 <p class="payment-date">Ближайшая оплата абонемента: завтра</p>
+                    <h1>Новости</h1>
+                    <div class="news-item" th:each="headline: ${news}">
+                        <p th:text="${headline.getNews_title}"></p>
+                        <p th:text="${headline.getNews_text}"></p>
+                    </div>
             </div>
             <div class="info">
                 <p class="name" th:text="${member.first_name + ' ' + member.second_name}"></p>
@@ -73,12 +78,6 @@
                     <a class="all-training-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Все тренировки</a>
                 </div>
             </div>
-        </div>
-
-        <h1>Новости</h1>
-        <div class="news-item" th:each="headline: ${news}">
-            <p th:text="${headline.getNews_title}"></p>
-            <p th:text="${headline.getNews_text}"></p>
         </div>
     </div>
 
