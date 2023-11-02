@@ -1,5 +1,31 @@
+* {
+    font-family: "Fira Sans";
+}
+
+body {
+    background-color: #dde5f4;    
+}
+
+#selected {
+    width: 70px;
+    height: 70px;
+    background-color: #3e4684;
+    border-radius: 10px;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 2em;
+}
+
+#selected img {
+    display: block;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+}
+
 .content {
     flex-grow: 1;
-    padding: 150px;
-    padding-top: 0px;
+    position: relative;
+    left: 150px;
 }
+
+
