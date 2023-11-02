@@ -3,7 +3,10 @@
 }
 
 body {
-    background-color: #dde5f4;    
+    display: flex;
+    margin: 0;
+    padding: 0;
+    background: #dde5f4;      
 }
 
 #selected {

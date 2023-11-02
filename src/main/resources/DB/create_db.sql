@@ -151,7 +151,7 @@ ENGINE = InnoDB;
 -- Table `fitness_club_db`.`gyms`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `fitness_club_db`.`gyms` (
-  `gym_name` VARCHAR(45) NOT NULL,
+  `id_gym` INT NOT NULL AUTO_INCREMENT,
   `club_name` VARCHAR(45) NOT NULL,
   `gym_name` VARCHAR(45) NOT NULL,
   `capacity` INT NOT NULL,
@@ -249,7 +249,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `fitness_club_db`.`users_photo` (
   `id_photo` INT NOT NULL AUTO_INCREMENT,
-  `image_url` VARCHAR(300) NULL,
+  `image_url` VARCHAR(200) NULL,
   PRIMARY KEY (`id_photo`))
 ENGINE = InnoDB;
 
@@ -553,14 +553,14 @@ ENGINE = InnoDB;
 -- Table `fitness_club_db`.`gyms_have_equipment`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `fitness_club_db`.`gyms_have_equipment` (
-  `gym_name` VARCHAR(45) NOT NULL,
+  `id_gym` INT NOT NULL,
   `id_equipment` INT NOT NULL,
-  PRIMARY KEY (`gym_name`, `id_equipment`),
+  PRIMARY KEY (`id_gym`, `id_equipment`),
   INDEX `fk_gyms_has_equipment_equipment1_idx` (`id_equipment` ASC) VISIBLE,
-  INDEX `fk_gyms_has_equipment_gyms1_idx` (`gym_name` ASC) VISIBLE,
+  INDEX `fk_gyms_has_equipment_gyms1_idx` (`id_gym` ASC) VISIBLE,
   CONSTRAINT `fk_gyms_has_equipment_gyms1`
-    FOREIGN KEY (`gym_name`)
-    REFERENCES `fitness_club_db`.`gyms` (`gym_name`)
+    FOREIGN KEY (`id_gym`)
+    REFERENCES `fitness_club_db`.`gyms` (`id_gym`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_gyms_has_equipment_equipment1`
