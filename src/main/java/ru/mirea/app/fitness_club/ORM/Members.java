@@ -32,7 +32,7 @@ public class Members {
         private MembershipRole membershipRole;
 
         @ManyToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "clubs_name", nullable = false)
+        @JoinColumn(name = "club_name", nullable = false)
         private Clubs club;
 
         private String first_name;
