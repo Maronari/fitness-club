@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +11,19 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/training.css}">
     <title>Training</title>
 </head>
+
 <body>
     <div class="sidebar">
         <div class="logo">
             <img th:src="@{/icons/logo.png}" alt="Logo">
         </div>
         <div class="icons">
-            <a class="profile" id="selected" href="">
+            <a class="profile"
+                th:href="${role.equals('member')} ? '/profile/member/' + ${memberId} : '/profile/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/profile.svg}" alt="Profile">
             </a>
-            <a class="calendar" th:href="'/calendar/' + ${role} + '/' + ${id}">
+            <a class="calendar" id="selected"
+                th:href="${role.equals('member')} ? '/calendar/member/' + ${memberId} : '/calendar/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/calendar.svg}" alt="Calendar">
             </a>
             <a class="statistic" href="#statistic">
@@ -33,13 +37,24 @@
     <div class="content">
         <h2 class="String" th:text="${training.trainingType.training_type_name}"></h2>
         <br><a class="String" th:text="${training.trainingType.workout_description}"></a></br>
-        <div class="content-info">            
+        <div class="content-info">
             <p class="String" th:text="'Продолжительность тренировки:'"></p>
-            <p class="String" th:text="'Тренер:'"></p> 
+            <p class="String" th:text="'Тренер:'"></p>
             <p class="String" th:text="${training.session_time}+' мин'"></p>
-            <p class="String" th:text="${trainers.first_name}+' '+${trainers.second_name}"></p> 
-        </div>        
+            <p class="String" th:text="${trainers.first_name}+' '+${trainers.second_name}"></p>
+        </div>
+
+        <form th:action="'/calendar/training/' + ${id}" method="post" th:object="${TrainingForm}">
+            <input type="hidden" name="memberId" th:value="${memberId}">
+            <input type="hidden" name="trainingId" th:value="${id}">
+            <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
+                th:classappend="${isSignedUp} ? 'gray-button' : ''"
+                th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'"></button>
+            <button type="submit" class="unsubscribe-button" th:if="${isSignedUp}"
+                formaction="/calendar/training/unsubscribe">Отписаться</button>
+        </form>
     </div>
 
 </body>
+
 </html>

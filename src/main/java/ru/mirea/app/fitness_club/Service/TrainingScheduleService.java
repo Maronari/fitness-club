@@ -40,4 +40,6 @@ public class TrainingScheduleService {
         TrainingSchedule training = trainingScheduleRepository.findById(scheduleId).orElse(null);
         return training.getTrainers();
     }
+
+    
 }

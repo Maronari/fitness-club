@@ -88,4 +88,8 @@ public class MembersService {
         List<EquipmentStatistics> equipmentStatistics = getListOfEquipmentStatistics(memberId);
         return equipmentStatistics.get(memberId).getActivityType().getActivity_name();
     }
+
+    public Members save(Members member) {
+        return membersRepository.save(member);
+    }
 }
