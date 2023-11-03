@@ -24,7 +24,7 @@ public class MembersService {
         return membersRepository.findById(id).orElse(null);
     }
 
-    public List<Achievements> getMemberAchievements(int memberId) {
+    public List<Achievements> getListOfMemberAchievements(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null); 
         return member.getMemberAchievements();
     }

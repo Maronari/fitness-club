@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
+import ru.mirea.app.fitness_club.ORM.Achievements;
+import ru.mirea.app.fitness_club.ORM.EquipmentStatistics;
 import ru.mirea.app.fitness_club.ORM.Event;
 import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
@@ -46,7 +48,7 @@ public class FitnessController {
         model.addAttribute("memberClub", member.getClub());
         model.addAttribute("roleName", member.getMembershipRole().getRole_name());
         model.addAttribute("member", member);
-        model.addAttribute("achievements", membersService.getMemberAchievements(id));
+        model.addAttribute("achievements", membersService.getListOfMemberAchievements(id));
         model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id));
         model.addAttribute("photoURL", membersService.getPhotoUrl(id));
         model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
@@ -118,6 +120,15 @@ public class FitnessController {
         membersService.save(member);
 
         return "redirect:/calendar/training/" + String.valueOf(trainingId);
+    }
+
+    @GetMapping("/statistic/{role}/{id}")
+    public String statistic(@PathVariable Integer id, @PathVariable String role, Model model) {
+        List<EquipmentStatistics> statistics = membersService.getListOfEquipmentStatistics(id);
+        model.addAttribute("statistics", statistics);
+        List<Achievements> achievements = membersService.getListOfMemberAchievements(id);
+        model.addAttribute("achievements",achievements);
+        return "html/statistic";
     }
 
     @GetMapping("/login")

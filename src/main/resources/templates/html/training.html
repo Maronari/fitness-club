@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/training.css}">
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Fira+Sans'>
     <title>Training</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/training.css}">
@@ -13,6 +16,7 @@
 </head>
 
 <body>
+
     <div class="sidebar">
         <div class="logo">
             <img th:src="@{/icons/logo.png}" alt="Logo">
@@ -26,14 +30,15 @@
                 th:href="${role.equals('member')} ? '/calendar/member/' + ${memberId} : '/calendar/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/calendar.svg}" alt="Calendar">
             </a>
-            <a class="statistic" href="#statistic">
+            <a class="statistic" th:href="'/statistic/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/statistic.svg}" alt="Statistic">
             </a>
-            <a class="logout" href="/logout">
+            <a class="logout" th:href="'/logout'">
                 <img th:src="@{/icons/logout.svg}" alt="Log out">
             </a>
         </div>
     </div>
+
     <div class="content">
         <h2 class="String" th:text="${training.trainingType.training_type_name}"></h2>
         <br><a class="String" th:text="${training.trainingType.workout_description}"></a></br>
