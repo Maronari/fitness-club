@@ -23,10 +23,10 @@
             <a class="calendar" th:href="'/calendar/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/calendar.svg}" alt="Calendar">
             </a>
-            <a class="statistic" href="#statistic">
+            <a class="statistic" th:href="'/statistic/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/statistic.svg}" alt="Statistic">
             </a>
-            <a class="logout" href="/logout">
+            <a class="logout" th:href="'/logout'">
                 <img th:src="@{/icons/logout.svg}" alt="Log out">
             </a>
         </div>
@@ -38,7 +38,7 @@
             <div class="first-column">
                 <img th:src="${photoURL}" alt="Profile Photo" class="profile-photo">
                 <p class="email" th:text="'Ваша почта: ' + ${member.email}"></p>
-                <p class="last-visit">Последняя тренировка: вчера</p>
+                <p class="last-visit" th:text="'Последняя тренировка: '+${lastvisitdate}"></p>
                 <p class="payment-date">Ближайшая оплата абонемента: завтра</p>
                     <h1>Новости</h1>
                     <div class="news-item" th:each="headline: ${news}">
