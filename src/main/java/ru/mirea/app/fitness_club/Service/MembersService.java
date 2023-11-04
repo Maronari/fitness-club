@@ -1,6 +1,7 @@
 package ru.mirea.app.fitness_club.Service;
 
 import java.util.List;
+import java.util.Comparator;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
@@ -31,7 +32,9 @@ public class MembersService {
 
     public List<TrainingSchedule> getListOfTrainingSchedule(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
-        return member.getMemberTrainingSchedules();
+        List<TrainingSchedule> memberTrainings = member.getMemberTrainingSchedules();
+        memberTrainings.sort(Comparator.comparing(TrainingSchedule::getSession_date));
+        return memberTrainings;
     }
 
     public String getTrainingTypeName(int memberId) {

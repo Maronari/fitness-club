@@ -1,7 +1,7 @@
 package ru.mirea.app.fitness_club.ORM;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class TrainingSchedule {
+
     @Id
     private int id_session;
 

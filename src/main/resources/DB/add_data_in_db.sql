@@ -75,12 +75,12 @@ insert into training_type(training_type_name, workout_description) values
 ("Smart Start Fullbody", "Авторская программа XXD Fitness, которая включает в себя управжения на основные группы мышц.");
 
 insert into training_schedule(id_trainer, id_training_type, session_date, session_time)  values 
-(1, 1, "2023-12-04", 55),
-(3, 3, "2023-11-13", 55),
-(1, 1, "2023-11-13", 55),
-(5, 4, "2023-11-14", 30),
-(4, 2, "2023-11-16", 55),
-(2, 2, "2023-12-05", 55);
+(1, 1, "2023-12-04 14:00:00", 55),
+(3, 3, "2023-11-13 14:30:00", 55),
+(1, 1, "2023-11-13 17:30:00", 55),
+(5, 4, "2023-11-14 15:30:00", 30),
+(4, 2, "2023-11-16 18:00:00", 55),
+(2, 2, "2023-12-05 10:30:00", 55);
 
 insert into members_have_training_schedule values
 (1, 1),

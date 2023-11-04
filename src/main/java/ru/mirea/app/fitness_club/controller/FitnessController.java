@@ -1,7 +1,9 @@
 package ru.mirea.app.fitness_club.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,7 +51,7 @@ public class FitnessController {
         model.addAttribute("roleName", member.getMembershipRole().getRole_name());
         model.addAttribute("member", member);
         model.addAttribute("achievements", membersService.getListOfMemberAchievements(id));
-        model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id));
+        model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id).stream().limit(3).collect(Collectors.toList()));
         model.addAttribute("photoURL", membersService.getPhotoUrl(id));
         model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
         return "html/profile";
@@ -77,6 +79,10 @@ public class FitnessController {
         model.addAttribute("training", workout);
         model.addAttribute("trainers", trainingScheduleService.getTrainers(id));
 
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM, EE");
+        String date = sdf.format(workout.getSession_date());
+        model.addAttribute("session_date", date);
+
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String name = ((UserDetails) principal).getUsername();
@@ -92,7 +98,7 @@ public class FitnessController {
         return "html/training";
     }
 
-    @PostMapping("/calendar/training/{id}")
+    @PostMapping("/calendar/training/subscribe")
     public String trainingSignup(@ModelAttribute TrainingForm form, Model model) {
         int memberId = form.getMemberId();
         int trainingId = form.getTrainingId();
