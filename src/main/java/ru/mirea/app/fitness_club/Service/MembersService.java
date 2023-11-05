@@ -13,6 +13,7 @@ import ru.mirea.app.fitness_club.ORM.Feedback;
 import ru.mirea.app.fitness_club.ORM.InbodyAnalyses;
 import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
+import ru.mirea.app.fitness_club.ORM.Visits;
 import ru.mirea.app.fitness_club.ORM.Accounts.MembersAccounts;
 import ru.mirea.app.fitness_club.Repository.MembersRepository;
 
@@ -67,9 +68,14 @@ public class MembersService {
         return member.getNutritionPlans().getStart_date();
     }
 
-    public Date getListOfVisits(int memberId) {
+    public List<Visits> getListOfVisits(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
-        return member.getMembersVisits().get(memberId).getVisit_date();
+        return member.getMembersVisits();
+    }
+
+    public Date getLastVisitDate(int memberId) {
+        List<Visits> visits = getListOfVisits(memberId);
+        return visits.get(visits.size()-1).getVisit_date();  
     }
 
     public String getMemberRolename(int memberId) {
