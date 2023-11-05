@@ -24,9 +24,11 @@ import ru.mirea.app.fitness_club.ORM.Achievements;
 import ru.mirea.app.fitness_club.ORM.EquipmentStatistics;
 import ru.mirea.app.fitness_club.ORM.Event;
 import ru.mirea.app.fitness_club.ORM.Members;
+import ru.mirea.app.fitness_club.ORM.Trainers;
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
 import ru.mirea.app.fitness_club.ORM.Accounts.UserDetailsServiceImpl;
 import ru.mirea.app.fitness_club.Service.MembersService;
+import ru.mirea.app.fitness_club.Service.TrainersService;
 import ru.mirea.app.fitness_club.Service.TrainingForm;
 import ru.mirea.app.fitness_club.Service.TrainingScheduleService;
 import ru.mirea.app.fitness_club.Service.ClubsService;
@@ -38,6 +40,7 @@ public class FitnessController {
     private final MembersService membersService;
     private final ClubsService clubsService;
     private final TrainingScheduleService trainingScheduleService;
+    private final TrainersService trainersService;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -46,14 +49,29 @@ public class FitnessController {
     public String profile(@PathVariable Integer id, @PathVariable String role, Model model) {
         model.addAttribute("id", id);
         model.addAttribute("role", role);
-        Members member = membersService.getMember(id);
-        model.addAttribute("memberClub", member.getClub());
-        model.addAttribute("roleName", member.getMembershipRole().getRole_name());
-        model.addAttribute("member", member);
-        model.addAttribute("achievements", membersService.getListOfMemberAchievements(id));
-        model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id).stream().limit(3).collect(Collectors.toList()));
-        model.addAttribute("photoURL", membersService.getPhotoUrl(id));
-        model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
+        switch (role) {
+            case "member":
+                Members member = membersService.getMember(id);
+                model.addAttribute("memberClub", member.getClub());
+                model.addAttribute("roleName", member.getMembershipRole().getRole_name());
+                model.addAttribute("member", member);
+                model.addAttribute("achievements", membersService.getListOfMemberAchievements(id));
+                model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id)
+                        .stream().limit(3).collect(Collectors.toList()));
+                model.addAttribute("photoURL", membersService.getPhotoUrl(id));
+                model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
+                break;
+            case "trainer":
+                Trainers trainer = trainersService.getTrainers(id);
+                model.addAttribute("trainer", trainer);
+                model.addAttribute("workouts", trainersService.getListOfTrainingSchedule(id)
+                        .stream().limit(3).collect(Collectors.toList()));
+                model.addAttribute("photoURL", trainersService.getPhotoUrl(id));
+                model.addAttribute("news", clubsService.getListOfClubNews("София"));
+                break;
+            default:
+                break;
+        }
         return "html/profile";
     }
 
@@ -133,7 +151,7 @@ public class FitnessController {
         List<EquipmentStatistics> statistics = membersService.getListOfEquipmentStatistics(id);
         model.addAttribute("statistics", statistics);
         List<Achievements> achievements = membersService.getListOfMemberAchievements(id);
-        model.addAttribute("achievements",achievements);
+        model.addAttribute("achievements", achievements);
         return "html/statistic";
     }
 

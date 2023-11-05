@@ -3,6 +3,7 @@ package ru.mirea.app.fitness_club.ORM.Accounts;
 
 import java.sql.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -12,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ru.mirea.app.fitness_club.ORM.Trainers;
+import ru.mirea.app.fitness_club.ORM.TrainersPhoto;
 
 @Entity
 @Table(name = "trainers_accounts")
@@ -25,6 +27,10 @@ public class TrainersAccounts {
     
     @Id
     private String username;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_photo")
+    private TrainersPhoto trainerPhoto;
 
     private String password;
     private Date last_login;

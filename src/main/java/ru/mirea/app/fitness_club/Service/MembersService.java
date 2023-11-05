@@ -42,18 +42,18 @@ public class MembersService {
         return trainingSchedule.get(memberId).getTrainingType().getTraining_type_name();
     }
 
-    public MembersAccounts getMembersAccounts(int memberId) {
+    public MembersAccounts getMemberAccount(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
         return member.getMemberAccounts();
     }
 
     public String getPhotoUrl(int memberId) {
-        MembersAccounts memberAccounts = getMembersAccounts(memberId);
+        MembersAccounts memberAccounts = getMemberAccount(memberId);
         return memberAccounts.getUserPhoto().getImage_url();
     }
 
     public List<Feedback> getListOFeedbacks(int memberId) {
-        MembersAccounts memberAccounts = getMembersAccounts(memberId);
+        MembersAccounts memberAccounts = getMemberAccount(memberId);
         return memberAccounts.getFeedbacks();
     }
 

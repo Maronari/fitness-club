@@ -40,13 +40,22 @@ insert into trainers (first_name, second_name, speciality, experience, certifica
 ("Ольга", "Фёдорова", "тренер по аэробике", 2, 1, "22233447634", "olga@ol.com", "2023-01-12"),
 ("Евгений", "Орлов", "тренер по бегу", 8, 4, "11122334455", "evgeniy@mail.com", "2021-06-23");
 
+insert into trainers_photo (image_url) values
+("https://i.postimg.cc/XqbfNDBH/i.jpg"),
+("https://i.postimg.cc/Wbznd0qn/1674365371-3-34.jpg"),
+("https://i.postimg.cc/pTTTfQbW/f3ff0d04-c6fd-4162-9b67-78cdcbbf5fd7.jpg"),
+("https://i.postimg.cc/cH4mfzLv/Jacked-Nordic-Chad-Side-View.webp"),
+("https://i.postimg.cc/Wbznd0qn/1674365371-3-34.jpg"),
+("https://i.postimg.cc/Wbznd0qn/1674365371-3-34.jpg");
+
 insert into trainers_accounts values
-(1, "andrew.kachalkin", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", current_date(), "2020-12-23", "TRAINER"),
-(2, "ivan.stepanov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b1", current_date(), "2020-11-23", "TRAINER"),
-(3, "maria.vasilieva", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b2", current_date(), "2020-03-23", "TRAINER"),
-(4, "anna.smirnova", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b3", current_date(), "2020-09-23", "TRAINER"),
-(5, 'olga.smirnova', "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b4", current_date(), "2020-01-23", "TRAINER"),
-(6, "evgeniy.orlov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b5", current_date(), "2020-06-23", "TRAINER");
+(1, "andrew.kachalkin", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 1 , current_date(), "2020-12-23", "TRAINER"),
+(2, "ivan.stepanov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b1", 2, current_date(), "2020-11-23", "TRAINER"),
+(3, "maria.vasilieva", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b2", 3, current_date(), "2020-03-23", "TRAINER"),
+(4, "anna.smirnova", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b3", 4, current_date(), "2020-09-23", "TRAINER"),
+(5, 'olga.smirnova', "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b4", 5, current_date(), "2020-01-23", "TRAINER"),
+(6, "evgeniy.orlov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b5", 6, current_date(), "2020-06-23", "TRAINER");
+
 insert into position (role_name) values
 ("Администратор"),
 ('Менеджер'),
@@ -63,10 +72,12 @@ insert into staff_accounts values
 (3, "yanaB", "$2y$10$AWFx1TzUBsvOeRw17pDYeeDR.V50yDQvqH4moueRUzZecQ0kg0hBa", current_date(), "2019-02-3", "STAFF");
 
 insert into users_photo (image_url) values
-("https://pushinka.top/uploads/posts/2023-03/thumbs/1679913315_pushinka-top-p-avatarki-s-gigachadom-vkontakte-58.webp");
+("https://pushinka.top/uploads/posts/2023-03/thumbs/1679913315_pushinka-top-p-avatarki-s-gigachadom-vkontakte-58.webp"),
+("https://i.postimg.cc/ZKw8Znfd/kiss-cut-stickers-5-5x5-5-default-63866219a9dc4-1200x.webp");
 
 insert into members_accounts values
-("JohnDoe", 1, 1, "$2y$10$uXzTcs9nQcNo62JgoBzXJOjhyeuV5.kBUEt8l5l88XYVNtFnRPuGi", "2021-10-01", "2021-10-6", "MEMBER");
+("JohnDoe", 1, 1, "$2y$10$uXzTcs9nQcNo62JgoBzXJOjhyeuV5.kBUEt8l5l88XYVNtFnRPuGi", "2021-10-01", "2023-10-5", "MEMBER"),
+("KatyaS", 2, 2, "$2y$10$/B5.o6InFg3f4p/MqWb51.rUzvDJqjR1h13Q.kWmn3t8DGMkgmrvW", "2021-11-05", "2023-11-4", "MEMBER");
 
 insert into training_type(training_type_name, workout_description) values
 ("BODYPUMP", "Групповая тренировка со штангой. Отличный способ снижения веса. Развивает силу, повышает выносливость."),
