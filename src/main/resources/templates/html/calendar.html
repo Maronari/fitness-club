@@ -5,9 +5,10 @@
     <meta charset='utf-8' />
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}">
-    <!-- href="../../static/css/calendar.css"> -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}"> <!-- href="../../static/css/sidebar.css"> -->
-
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Fira+Sans'>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'> </script>
 
     <script>
@@ -15,8 +16,17 @@
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'ru',
+                firstDay: 1,
                 initialView: 'dayGridMonth',
                 events: '/trainings',
+                eventColor: 'color',
+                eventTimeFormat: { // like '14:30:00'
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false,
+                    hour12: false
+                },
                 eventClick: function (info) {
                     var baseUrl = window.location.protocol + "//" + window.location.host + "/";
                     window.location.href = window.location.origin + '/calendar/training/' + info.event.id;
@@ -39,12 +49,12 @@
                 <img th:src="@{/icons/profile.svg}" alt="Profile">
             </a>
             <a class="calendar" id="selected" href="">
-                <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+                <img th:src="@{/icons/calendar-white.svg}" alt="Calendar">
             </a>
-            <a class="statistic" href="#statistic">
+            <a class="statistic" th:href="'/statistic/' + ${role} + '/' + ${id}">
                 <img th:src="@{/icons/statistic.svg}" alt="Statistic">
             </a>
-            <a class="logout" href="/logout">
+            <a class="logout" th:href="'/logout'">
                 <img th:src="@{/icons/logout.svg}" alt="Log out">
             </a>
         </div>

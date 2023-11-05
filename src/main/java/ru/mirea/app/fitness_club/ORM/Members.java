@@ -60,8 +60,8 @@ public class Members {
         private List<InbodyAnalyses> memberInbodyAnalyses = new ArrayList<>();
 
         @ManyToMany(cascade = { CascadeType.ALL })
-        @JoinTable(name = "members_have_equipment_statistic", joinColumns = {
-                        @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_statistic")})
+        @JoinTable(name = "members_have_equipment_statistics", joinColumns = {
+                        @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_statistics")})
         private List<EquipmentStatistics> memberEquipmentStatistics = new ArrayList<>();
 
         @OneToOne(mappedBy = "member")

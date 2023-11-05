@@ -37,16 +37,18 @@
         <div class="profile-info">
             <div class="first-column">
                 <img th:src="${photoURL}" alt="Profile Photo" class="profile-photo">
-                <p class="email" th:text="'Ваша почта: ' + ${member.email}"></p>
-                <p class="last-visit" th:text="'Последняя тренировка: '+${lastvisitdate}"></p>
-                <p class="payment-date">Ближайшая оплата абонемента: завтра</p>
+                <p th:if="${role == 'member'}" class="email" th:text="'Ваша почта: ' + ${member.email}"></p>
+                <p th:if="${role == 'trainer'}" class="email" th:text="'Ваша почта: ' + ${trainer.email}"></p>
+                <p class="last-visit">Последняя тренировка: вчера</p>
+                <p th:if="${role == 'member'}" class="payment-date">Ближайшая оплата абонемента: завтра</p>
                     <h1>Новости</h1>
                     <div class="news-item" th:each="headline: ${news}">
                         <p th:text="${headline.getNews_title}"></p>
                         <p th:text="${headline.getNews_text}"></p>
                     </div>
             </div>
-            <div class="info">
+            <!--if {role} == member-->
+            <div th:if="${role == 'member'}" class="info">
                 <p class="name" th:text="${member.first_name + ' ' + member.second_name}"></p>
                 <p class="gender"> Пол:
                     <span th:if="${member.gender == '0'}">женский</span>
@@ -56,8 +58,15 @@
                 <p class="phone-number" th:text="'Телефон: ' + ${member.phone_number}"></p>
                 <p class="level" th:text="'Уровень: ' + ${roleName}"></p>
             </div>
+            <!--if {role} == trainer-->
+            <div th:if="${role == 'trainer'}" class="info">
+                <p class="name" th:text="${trainer.first_name + ' ' + trainer.second_name}"></p>
+                <p class="speciality" th:text="'Сппециальность: ' + ${trainer.speciality}"></p>
+                <p class="phone-number" th:text="'Телефон: ' + ${trainer.phone_number}"></p>
+            </div>
             <div class="third-column">
-                <div class="achievements-container">
+                <!--if {role} == member-->
+                <div th:if="${role == 'member'}" class="achievements-container">
                     <p>Ваши достижения</p>
                     <div class="achievements">
                         <div class="achievement-item" th:each="achievement : ${achievements}">
