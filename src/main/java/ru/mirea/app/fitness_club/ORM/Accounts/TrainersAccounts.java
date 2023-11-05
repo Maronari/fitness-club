@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ru.mirea.app.fitness_club.ORM.Trainers;
-import ru.mirea.app.fitness_club.ORM.TrainersPhoto;
 
 @Entity
 @Table(name = "trainers_accounts")
