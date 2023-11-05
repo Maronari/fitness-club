@@ -12,4 +12,5 @@ public class Event {
     private String start;
     private String end;
     private int id;
+    private String color;
 }

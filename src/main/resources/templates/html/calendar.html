@@ -5,7 +5,7 @@
     <meta charset='utf-8' />
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}"> <!-- href="../../static/css/sidebar.css"> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Fira+Sans'>
@@ -20,7 +20,13 @@
                 firstDay: 1,
                 initialView: 'dayGridMonth',
                 events: '/trainings',
-                eventColor: '#3e4684',
+                eventColor: 'color',
+                eventTimeFormat: { // like '14:30:00'
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false,
+                    hour12: false
+                },
                 eventClick: function (info) {
                     var baseUrl = window.location.protocol + "//" + window.location.host + "/";
                     window.location.href = window.location.origin + '/calendar/training/' + info.event.id;

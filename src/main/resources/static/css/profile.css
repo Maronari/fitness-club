@@ -78,7 +78,8 @@ body {
 .email,
 .last-visit,
 .level,
-.payment-date {
+.payment-date,
+.speciality {
     background-color: #f1f7fe;
     box-shadow: 0 0 2em #e6e9f9;
     gap: 2em;
@@ -146,7 +147,7 @@ body {
     gap: 2em;
     padding: 15px;
     width: 450px;
-    height: 300px;
+    height: 330px;
     border-radius: 10px;
     position: relative;
     top: 30px;
@@ -180,7 +181,7 @@ body {
     top: 0px;
 }
 
-.workouts-container .all-training-button {
+.all-training-button {
     padding: 1em;
     background: #3e4684;
     color: white;
@@ -188,6 +189,7 @@ body {
     border-radius: 20px;
     font-weight: 500;
     position: relative;
+    top: -15%;
     left: 65%;
     bottom: 10px;
     text-decoration: none;
