@@ -1,6 +1,7 @@
 package ru.mirea.app.fitness_club.Service;
 
 import java.util.List;
+import java.util.Comparator;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
@@ -31,7 +32,9 @@ public class MembersService {
 
     public List<TrainingSchedule> getListOfTrainingSchedule(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
-        return member.getMemberTrainingSchedules();
+        List<TrainingSchedule> memberTrainings = member.getMemberTrainingSchedules();
+        memberTrainings.sort(Comparator.comparing(TrainingSchedule::getSession_date));
+        return memberTrainings;
     }
 
     public String getTrainingTypeName(int memberId) {
@@ -39,18 +42,18 @@ public class MembersService {
         return trainingSchedule.get(memberId).getTrainingType().getTraining_type_name();
     }
 
-    public MembersAccounts getMembersAccounts(int memberId) {
+    public MembersAccounts getMemberAccount(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
         return member.getMemberAccounts();
     }
 
     public String getPhotoUrl(int memberId) {
-        MembersAccounts memberAccounts = getMembersAccounts(memberId);
+        MembersAccounts memberAccounts = getMemberAccount(memberId);
         return memberAccounts.getUserPhoto().getImage_url();
     }
 
     public List<Feedback> getListOFeedbacks(int memberId) {
-        MembersAccounts memberAccounts = getMembersAccounts(memberId);
+        MembersAccounts memberAccounts = getMemberAccount(memberId);
         return memberAccounts.getFeedbacks();
     }
 
@@ -82,5 +85,14 @@ public class MembersService {
     public List<EquipmentStatistics> getListOfEquipmentStatistics(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
         return member.getMemberEquipmentStatistics();
-    }    
+    }
+
+    public String getActivityName(int memberId) {
+        List<EquipmentStatistics> equipmentStatistics = getListOfEquipmentStatistics(memberId);
+        return equipmentStatistics.get(memberId).getActivityType().getActivity_name();
+    }
+
+    public Members save(Members member) {
+        return membersRepository.save(member);
+    }
 }

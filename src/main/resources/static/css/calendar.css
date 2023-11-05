@@ -36,3 +36,20 @@ body {
     background: #b2b4d4 !important;
     border: none !important;
 }
+    
+.fc-event {
+    padding: 2px;
+}
+
+.event-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.event-title {
+    /* styles for the title */
+}
+
+.event-time {
+    /* styles for the time */
+}
