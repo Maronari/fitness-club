@@ -18,7 +18,7 @@ insert into clubs values
 ('Аквамолл', 'ул. Южнобутовская, д.2,'),
 ('Первомайский', 'Первомайская, д. 93\20, (этаж 2)');
 
-insert into members (id_role,club_name,first_name,second_name,phone_number,email,birth_date,start_trial_date,end_trial_date,gender) values
+insert into members (id_role,clubs_name,first_name,second_name,phone_number,email,birth_date,start_trial_date,end_trial_date,gender) values
 (1, 'София', 'Алексей', 'Иванов', '1234567890', 'alex_will@example.com', '1990-01-01', '2021-10-01', '2021-11-01', 1),
 (2, 'София', 'Екатерина', 'Смирнова', '2345678901', 'sm.kate@example.com', '1995-05-05', '2021-09-01', NULL, 0),
 (1, 'Авиапарк', 'Дмитрий', 'Козлов', '3456789012', 'dmitry_k@example.com', '1985-12-31', '2021-08-01', '2021-09-01', 1),
