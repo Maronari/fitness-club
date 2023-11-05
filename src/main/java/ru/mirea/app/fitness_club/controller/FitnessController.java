@@ -155,6 +155,20 @@ public class FitnessController {
         return "html/statistic";
     }
 
+    @GetMapping("/trainers")
+    public String trainers(Model model) {
+        //get the loggined member
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String name = ((UserDetails) principal).getUsername();
+            Integer memberId = userDetailsService.getUserId(name);
+            Members member = membersService.getMember(memberId);
+            model.addAttribute("member", member);
+        }
+        //TODO
+        return "html/trainers";
+    }
+
     @GetMapping("/login")
     String login() {
         return "html/login";
