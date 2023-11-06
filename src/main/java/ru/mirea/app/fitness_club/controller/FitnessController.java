@@ -58,6 +58,7 @@ public class FitnessController {
                 model.addAttribute("achievements", membersService.getListOfMemberAchievements(id));
                 model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id)
                         .stream().limit(3).collect(Collectors.toList()));
+                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id).size());
                 model.addAttribute("photoURL", membersService.getPhotoUrl(id));
                 model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
                 break;

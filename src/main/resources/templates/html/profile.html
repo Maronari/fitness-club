@@ -67,7 +67,7 @@
             <div class="third-column">
                 <!--if {role} == member-->
                 <div th:if="${role == 'member'}" class="achievements-container">
-                    <p>Ваши достижения</p>
+                    <p class="workouts-title">Ваши достижения</p>
                     <div class="achievements">
                         <div class="achievement-item" th:each="achievement : ${achievements}">
                             <img th:src="${achievement.achievement_icon_url}">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="workouts-container">
-                    <p>Запланированные тренировки</p>
+                    <p class="workouts-title">Запланированные тренировки</p>
                     <div class="workouts">
                         <div class="workout-item" th:each="workout : ${workouts}">
                             <p th:text="${workout.trainingType.training_type_name}"></p>
@@ -84,7 +84,11 @@
                             <p th:text="${workout.session_time} + ' мин'"></p>
                         </div>
                     </div>
-                    <a class="all-training-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Все тренировки</a>
+                    <div class="container-bottom">
+                        <p class="other-workouts"  th:if="${workoutsCount - 3 > 0}" th:text="'...еще ' + ${workoutsCount - 3}"></p>
+                        <a class="all-training-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Все тренировки</a>
+                    </div>
+                    
                 </div>
             </div>
         </div>
