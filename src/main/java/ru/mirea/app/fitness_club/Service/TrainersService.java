@@ -16,8 +16,52 @@ import ru.mirea.app.fitness_club.Repository.TrainersRepository;
 public class TrainersService {
     private final TrainersRepository trainersRepository;
 
-    public Trainers getTrainers(Integer id) {
-        return trainersRepository.findById(id).orElse(null);
+    public Trainers getTrainer(Integer trainerId) {
+        return trainersRepository.findById(trainerId).orElse(null);
+    }
+
+    public List<Trainers> getListOfTrainers(){
+        return trainersRepository.findAll();
+    }
+
+    public String getTrainerFirstName(Integer trainerId) {
+        List<Trainers> trainers = trainersRepository.findAll();
+        for (Trainers trainer : trainers) {
+            if (trainer.getId_trainer() == trainerId) {
+                return trainer.getFirst_name();
+            }
+        }
+        return null;
+    }
+    
+    public String getTrainerSecondName(Integer trainerId) {
+        List<Trainers> trainers = trainersRepository.findAll();
+        for (Trainers trainer : trainers) {
+            if (trainer.getId_trainer() == trainerId) {
+                return trainer.getSecond_name();
+            }
+        }
+        return null;
+    }
+
+    public String getTrainerEmail(Integer trainerId) {
+        List<Trainers> trainers = trainersRepository.findAll();
+        for (Trainers trainer : trainers) {
+            if (trainer.getId_trainer() == trainerId) {
+                return trainer.getEmail();
+            }
+        }
+        return null;
+    }
+
+    public String getTrainerPhoneNumber(Integer trainerId) {
+        List<Trainers> trainers = trainersRepository.findAll();
+        for (Trainers trainer : trainers) {
+            if (trainer.getId_trainer() == trainerId) {
+                return trainer.getPhone_number();
+            }
+        }
+        return null;
     }
 
     public List<TrainingSchedule> getTrainingSchedules(int trainerId) {

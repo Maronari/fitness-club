@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,19 +11,20 @@
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Fira+Sans'>
     <title>Тренера</title>
 </head>
+
 <body>
     <div class="sidebar">
         <div class="logo">
             <img th:src="@{/icons/logo.png}" alt="Logo">
         </div>
         <div class="icons">
-            <a class="profile" th:href="'/profile/' + ${role} + '/' + ${id}">
+            <a class="profile" th:href="'/profile/member/' + ${member.id_member}">
                 <img th:src="@{/icons/profile.svg}" alt="Profile">
             </a>
-            <a class="calendar" th:href="'/calendar/' + ${role} + '/' + ${id}">
+            <a class="calendar" th:href="'/calendar/' + ${role} + '/' + ${member.id_member}">
                 <img th:src="@{/icons/calendar.svg}" alt="Calendar">
             </a>
-            <a class="statistic" th:href="'/statistic/' + ${role} + '/' + ${id}">
+            <a class="statistic" th:href="'/statistic/' + ${role} + '/' + ${member.id_member}">
                 <img th:src="@{/icons/statistic.svg}" alt="Statistic">
             </a>
             <a class="trainers" th:href="'/trainers'" id="selected">
@@ -35,7 +37,29 @@
     </div>
 
     <div class="content">
-        <!--TODO-->
+        <h1>Наши тренера</h1>
+        <div class="all-trainers">
+            <div class="trainer-item" th:each="trainer : ${trainers}">
+                <div class="trainer-photo">
+                    <img th:src="${trainer.trainerAccounts.trainerPhoto.image_url}">
+                </div>
+                <div class="trainer-description">
+                    <p th:text="${trainer.first_name} + ' ' + ${trainer.second_name}"></p>
+                </div>
+                <div class="buttons">
+                    <form th:action="'/trainers/subscribe'" method="post" th:object="${TrainingForm}">
+                        <input type="hidden" name="memberId" th:value="${memberId}">
+                        <input type="hidden" name="trainingId" th:value="${id}">
+                        <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
+                            th:classappend="${isSignedUp} ? 'gray-button' : ''"
+                            th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'"></button>
+                        <button type="submit" class="unsubscribe-button" th:if="${isSignedUp}"
+                            formaction="/training/unsubscribe">Отписаться</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
+
 </html>

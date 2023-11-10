@@ -62,7 +62,7 @@ public class FitnessController {
                 model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
                 break;
             case "trainer":
-                Trainers trainer = trainersService.getTrainers(id);
+                Trainers trainer = trainersService.getTrainer(id);
                 model.addAttribute("trainer", trainer);
                 model.addAttribute("workouts", trainersService.getListOfTrainingSchedule(id)
                         .stream().limit(3).collect(Collectors.toList()));
@@ -157,7 +157,7 @@ public class FitnessController {
 
     @GetMapping("/trainers")
     public String trainers(Model model) {
-        //get the loggined member
+        // get the loggined member
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String name = ((UserDetails) principal).getUsername();
@@ -165,7 +165,7 @@ public class FitnessController {
             Members member = membersService.getMember(memberId);
             model.addAttribute("member", member);
         }
-        //TODO
+        model.addAttribute("trainers", trainersService.getListOfTrainers());
         return "html/trainers";
     }
 

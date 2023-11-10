@@ -30,3 +30,95 @@ body {
     padding: 140px;
     padding-top: 0px;
 }
+
+.all-trainers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.trainer-item {
+    background-color: #f1f7fe;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 15px;
+    display: grid;
+    width: 260px;
+    height: 380px;
+    border-radius: 10px;
+    display: table-column;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    margin-right: 40px;
+}
+
+.trainer-photo {
+    width: 250px;
+    height: 270px;
+    max-height: 300px;
+    display: block;
+    margin: auto;
+}
+
+.trainer-photo img {
+    height: 100%;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.trainer-description{
+    margin: 5px 5px;
+}
+
+.buttons {
+    margin-top: 15px;
+}
+
+.signup-button {
+    margin-top: 15px;
+    background-color: #3e4684;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 5px;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 0 2em #e6e9f9;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow-y: hidden;
+}
+.unsubscribe-button {
+    background-color: rgb(178, 61, 61);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 0 2em #e6e9f9;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow-y: hidden;
+}
+
+.gray-button {
+    background-color: #bbc6da;
+    color: #3a3c50;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow-y: hidden;
+    cursor: default;
+}
