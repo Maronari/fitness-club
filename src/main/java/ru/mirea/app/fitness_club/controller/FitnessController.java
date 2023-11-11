@@ -24,10 +24,12 @@ import ru.mirea.app.fitness_club.ORM.Achievements;
 import ru.mirea.app.fitness_club.ORM.EquipmentStatistics;
 import ru.mirea.app.fitness_club.ORM.Event;
 import ru.mirea.app.fitness_club.ORM.Members;
+import ru.mirea.app.fitness_club.ORM.Staff;
 import ru.mirea.app.fitness_club.ORM.Trainers;
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
 import ru.mirea.app.fitness_club.ORM.Accounts.UserDetailsServiceImpl;
 import ru.mirea.app.fitness_club.Service.MembersService;
+import ru.mirea.app.fitness_club.Service.StaffService;
 import ru.mirea.app.fitness_club.Service.TrainersService;
 import ru.mirea.app.fitness_club.Service.TrainingForm;
 import ru.mirea.app.fitness_club.Service.TrainingScheduleService;
@@ -41,31 +43,35 @@ public class FitnessController {
     private final ClubsService clubsService;
     private final TrainingScheduleService trainingScheduleService;
     private final TrainersService trainersService;
+    private final StaffService staffService;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @GetMapping("/profile/{role}/{id}")
     public String profile(@PathVariable Integer id, @PathVariable String role, Model model) {
-        model.addAttribute("id", id);
         model.addAttribute("role", role);
         switch (role) {
             case "member":
                 Members member = membersService.getMember(id);
+                model.addAttribute("memberId", id);
                 model.addAttribute("memberClub", member.getClub());
                 model.addAttribute("roleName", member.getMembershipRole().getRole_name());
                 model.addAttribute("member", member);
                 model.addAttribute("achievements", membersService.getListOfMemberAchievements(id));
                 model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id)
                         .stream().limit(3).collect(Collectors.toList()));
+                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id).size());
                 model.addAttribute("photoURL", membersService.getPhotoUrl(id));
                 model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
                 break;
             case "trainer":
+                model.addAttribute("trainerId", id);
                 Trainers trainer = trainersService.getTrainer(id);
                 model.addAttribute("trainer", trainer);
                 model.addAttribute("workouts", trainersService.getListOfTrainingSchedule(id)
                         .stream().limit(3).collect(Collectors.toList()));
+                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id).size());
                 model.addAttribute("photoURL", trainersService.getPhotoUrl(id));
                 model.addAttribute("news", clubsService.getListOfClubNews("София"));
                 break;
@@ -77,15 +83,30 @@ public class FitnessController {
 
     @GetMapping("/calendar/{role}/{id}")
     public String calendar(@PathVariable Integer id, @PathVariable String role, Model model) {
-        model.addAttribute("id", id);
         model.addAttribute("role", role);
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String name = ((UserDetails) principal).getUsername();
-            Integer memberId = userDetailsService.getUserId(name);
-            Members member = membersService.getMember(memberId);
-            model.addAttribute("member", member);
+        String name = ((UserDetails) principal).getUsername();
+        switch (role) {
+            case "member":
+                Integer memberId = userDetailsService.getUserId(name);
+                Members member = membersService.getMember(memberId);
+                model.addAttribute("member", member);
+                model.addAttribute("memberId", memberId);
+                break;
+            case "trainer":
+                Integer trainerId = userDetailsService.getUserId(name);
+                Trainers trainer = trainersService.getTrainer(trainerId);
+                model.addAttribute("trainer", trainer);
+                model.addAttribute("trainerId", trainerId);
+                break;
+            case "staff":
+                Integer staffId = userDetailsService.getUserId(name);
+                Staff staff = staffService.getStaff(staffId);
+                model.addAttribute("staff", staff);
+                model.addAttribute("staffId", staffId);
+            default:
+                break;
         }
 
         return "html/calendar";
@@ -102,17 +123,32 @@ public class FitnessController {
         model.addAttribute("session_date", date);
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String name = ((UserDetails) principal).getUsername();
-            Integer memberId = userDetailsService.getUserId(name);
-            Members member = membersService.getMember(memberId);
-            String role = userDetailsService.getUserRole(name);
-
-            boolean isSignedUp = member.getMemberTrainingSchedules().contains(workout);
-            model.addAttribute("isSignedUp", isSignedUp);
-            model.addAttribute("role", role);
-            model.addAttribute("memberId", memberId);
+        String name = ((UserDetails) principal).getUsername();
+        String role = userDetailsService.getUserRole(name);
+        switch (role) {
+            case "member":
+                Integer memberId = userDetailsService.getUserId(name);
+                Members member = membersService.getMember(memberId);
+                boolean isSignedUp = member.getMemberTrainingSchedules().contains(workout);
+                model.addAttribute("isSignedUp", isSignedUp);
+                model.addAttribute("member", member);
+                model.addAttribute("memberId", memberId);
+                break;
+            case "trainer":
+                Integer trainerId = userDetailsService.getUserId(name);
+                Trainers trainer = trainersService.getTrainer(trainerId);
+                model.addAttribute("trainer", trainer);
+                model.addAttribute("trainerId", trainerId);
+                break;
+            case "staff":
+                Integer staffId = userDetailsService.getUserId(name);
+                Staff staff = staffService.getStaff(staffId);
+                model.addAttribute("staff", staff);
+                model.addAttribute("staffId", staffId);
+            default:
+                break;
         }
+        model.addAttribute("role", role);
         return "html/training";
     }
 
@@ -148,10 +184,36 @@ public class FitnessController {
 
     @GetMapping("/statistic/{role}/{id}")
     public String statistic(@PathVariable Integer id, @PathVariable String role, Model model) {
-        List<EquipmentStatistics> statistics = membersService.getListOfEquipmentStatistics(id);
-        model.addAttribute("statistics", statistics);
-        List<Achievements> achievements = membersService.getListOfMemberAchievements(id);
-        model.addAttribute("achievements", achievements);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name = ((UserDetails) principal).getUsername();
+        switch (role) {
+            case "member":
+                Integer memberId = userDetailsService.getUserId(name);
+                Members member = membersService.getMember(memberId);
+                List<EquipmentStatistics> statistics = membersService.getListOfEquipmentStatistics(id);
+                model.addAttribute("statistics", statistics);
+                List<Achievements> achievements = membersService.getListOfMemberAchievements(id);
+                model.addAttribute("achievements", achievements);
+                model.addAttribute("member", member);
+                model.addAttribute("memberId", memberId);
+                break;
+            case "trainer":
+                Integer trainerId = userDetailsService.getUserId(name);
+                Trainers trainer = trainersService.getTrainer(trainerId);
+                model.addAttribute("trainer", trainer);
+                model.addAttribute("trainerId", trainerId);
+                break;
+            case "staff":
+                Integer staffId = userDetailsService.getUserId(name);
+                Staff staff = staffService.getStaff(staffId);
+                model.addAttribute("staff", staff);
+                model.addAttribute("staffId", staffId);
+            default:
+                break;
+        }
+        model.addAttribute("role", role);
+
         return "html/statistic";
     }
 
@@ -159,12 +221,30 @@ public class FitnessController {
     public String trainers(Model model) {
         // get the loggined member
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String name = ((UserDetails) principal).getUsername();
-            Integer memberId = userDetailsService.getUserId(name);
-            Members member = membersService.getMember(memberId);
-            model.addAttribute("member", member);
+        String name = ((UserDetails) principal).getUsername();
+        String role = userDetailsService.getUserRole(name);
+        switch (role) {
+            case "member":
+                Integer memberId = userDetailsService.getUserId(name);
+                Members member = membersService.getMember(memberId);
+                model.addAttribute("member", member);
+                model.addAttribute("memberId", memberId);
+                break;
+            case "trainer":
+                Integer trainerId = userDetailsService.getUserId(name);
+                Trainers trainer = trainersService.getTrainer(trainerId);
+                model.addAttribute("trainer", trainer);
+                model.addAttribute("trainerId", trainerId);
+                break;
+            case "staff":
+                Integer staffId = userDetailsService.getUserId(name);
+                Staff staff = staffService.getStaff(staffId);
+                model.addAttribute("staff", staff);
+                model.addAttribute("staffId", staffId);
+            default:
+                break;
         }
+        model.addAttribute("role", role);
         model.addAttribute("trainers", trainersService.getListOfTrainers());
         return "html/trainers";
     }

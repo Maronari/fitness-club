@@ -18,18 +18,38 @@
             <img th:src="@{/icons/logo.png}" alt="Logo">
         </div>
         <div class="icons">
-            <a class="profile" th:href="'/profile/member/' + ${member.id_member}">
-                <img th:src="@{/icons/profile.svg}" alt="Profile">
-            </a>
-            <a class="calendar" th:href="'/calendar/' + ${role} + '/' + ${member.id_member}">
-                <img th:src="@{/icons/calendar.svg}" alt="Calendar">
-            </a>
-            <a class="statistic" th:href="'/statistic/' + ${role} + '/' + ${member.id_member}">
-                <img th:src="@{/icons/statistic.svg}" alt="Statistic">
-            </a>
-            <a class="trainers" th:href="'/trainers'" id="selected">
-                <img th:src="@{/icons/trainers-white.svg}" alt="trainers">
-            </a>
+            <th:block th:switch="${role}">
+                <div th:case="'member'">
+                    <a class="profile" th:href="'/profile/member/' + ${memberId}">
+                        <img th:src="@{/icons/profile-white.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" th:href="'/calendar/member/' + ${memberId}">
+                        <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+                    </a>
+                    <a class="statistic" th:href="'/statistic/member/' + ${memberId}">
+                        <img th:src="@{/icons/statistic.svg}" alt="Statistic">
+                    </a>
+                    <a class="trainers" th:href="'/trainers'" id="selected">
+                        <img th:src="@{/icons/trainers.svg}" alt="trainers">
+                    </a>
+                </div>
+                <div th:case="'trainer'">
+                    <a class="profile" th:href="'/profile/trainer/' + ${trainerId}">
+                        <img th:src="@{/icons/profile-white.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" th:href="'/calendar/trainer/' + ${trainerId}">
+                        <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+                    </a>
+                </div>
+                <div th:case="'staff'">
+                    <a class="profile" th:href="'/profile/staff/' + ${staffId}">
+                        <img th:src="@{/icons/profile-white.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" th:href="'/calendar/staff/' + ${staffId}">
+                        <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+                    </a>
+                </div>
+            </th:block>
             <a class="logout" th:href="'/logout'">
                 <img th:src="@{/icons/logout.svg}" alt="Log out">
             </a>
