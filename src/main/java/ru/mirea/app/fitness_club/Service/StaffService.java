@@ -13,16 +13,16 @@ import ru.mirea.app.fitness_club.Repository.StaffRepository;
 public class StaffService {
     private final StaffRepository staffRepository;
 
-    public Staff getMember(Integer id) {
-        return staffRepository.findById(id).orElse(null);
+    public Staff getStaff(Integer staffId) {
+        return staffRepository.findById(staffId).orElse(null);
     }
 
-    public StaffSchedule getMemberAchievements(int staffId) {
+    public StaffSchedule getStaffSchedule(int staffId) {
         Staff staff = staffRepository.findById(staffId).orElse(null); 
         return staff.getStaffSchedules();
     }
 
-    public StaffAccounts getStaffAccounts(int staffId) {
+    public StaffAccounts getStaffAccount(int staffId) {
         Staff staff = staffRepository.findById(staffId).orElse(null); 
         return staff.getStaffAccounts();
     }
