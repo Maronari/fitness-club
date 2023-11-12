@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/trainers.css}">
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Fira+Sans'>
+    <title>Тренера</title>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img th:src="@{/icons/logo.png}" alt="Logo">
+        </div>
+        <div class="icons">
+            <th:block th:switch="${role}">
+                <div th:case="'member'">
+                    <a class="profile" th:href="'/profile/member/' + ${memberId}">
+                        <img th:src="@{/icons/profile.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" th:href="'/calendar/member/' + ${memberId}">
+                        <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+                    </a>
+                    <a class="statistic" th:href="'/statistic/member/' + ${memberId}">
+                        <img th:src="@{/icons/statistic.svg}" alt="Statistic">
+                    </a>
+                    <a class="trainers" th:href="'/trainers'" id="selected">
+                        <img th:src="@{/icons/trainers-white.svg}" alt="trainers">
+                    </a>
+                </div>
+                <div th:case="'trainer'">
+                    <a class="profile" th:href="'/profile/trainer/' + ${trainerId}">
+                        <img th:src="@{/icons/profile-white.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" th:href="'/calendar/trainer/' + ${trainerId}">
+                        <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+                    </a>
+                </div>
+                <div th:case="'staff'">
+                    <a class="profile" th:href="'/profile/staff/' + ${staffId}">
+                        <img th:src="@{/icons/profile-white.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" th:href="'/calendar/staff/' + ${staffId}">
+                        <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+                    </a>
+                </div>
+            </th:block>
+            <a class="logout" th:href="'/logout'">
+                <img th:src="@{/icons/logout.svg}" alt="Log out">
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>Наши тренера</h1>
+        <div class="all-trainers">
+            <div class="trainer-item" th:each="trainer : ${trainers}">
+                <div class="trainer-photo">
+                    <img th:src="${trainer.trainerAccounts.trainerPhoto.image_url}">
+                </div>
+                <div class="trainer-description">
+                    <p th:text="${trainer.first_name} + ' ' + ${trainer.second_name}"></p>
+                </div>
+                <div class="buttons">
+                    <form th:action="'/trainers/subscribe'" method="post" th:object="${TrainingForm}">
+                        <input type="hidden" name="memberId" th:value="${memberId}">
+                        <input type="hidden" name="trainingId" th:value="${id}">
+                        <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
+                            th:classappend="${isSignedUp} ? 'gray-button' : ''"
+                            th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'"></button>
+                        <button type="submit" class="unsubscribe-button" th:if="${isSignedUp}"
+                            formaction="/training/unsubscribe">Отписаться</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

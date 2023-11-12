@@ -10,6 +10,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    align-content: center;
     padding-top: 30px;
     border-right: solid #d1dbe7;
     position: fixed;
@@ -19,7 +20,8 @@
 
 .profile,
 .calendar,
-.statistic {
+.statistic,
+.trainers {
     width: 70px;
     height: 60px;
     background-color: #dde5f4;
@@ -33,11 +35,11 @@
     background-color: #dde5f4;
     border-radius: 10px;
     position: relative;
-    top: 30%
+    top: 10%;
 }
 
 .logo {
-    margin-bottom: 40px;
+    margin-bottom: 15%;
 }
 
 .icons a {

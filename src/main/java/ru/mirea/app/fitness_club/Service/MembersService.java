@@ -93,9 +93,14 @@ public class MembersService {
         return member.getMemberEquipmentStatistics();
     }
 
-    public String getActivityName(int memberId) {
-        List<EquipmentStatistics> equipmentStatistics = getListOfEquipmentStatistics(memberId);
-        return equipmentStatistics.get(memberId).getActivityType().getActivity_name();
+    public String getActivityName(int memberId,int statisticsId) {
+        List<EquipmentStatistics> equipmentStatistics = getListOfEquipmentStatistics(memberId); 
+        for (EquipmentStatistics equipmentStatistic : equipmentStatistics) {
+            if (equipmentStatistic.getId_statistics() == statisticsId) {
+                return equipmentStatistic.getActivityType().getActivity_name();
+            }
+        }
+        return null;
     }
 
     public Members save(Members member) {

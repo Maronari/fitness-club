@@ -28,6 +28,9 @@
                     <a class="statistic" th:href="'/statistic/member/' + ${memberId}">
                         <img th:src="@{/icons/statistic.svg}" alt="Statistic">
                     </a>
+                    <a class="trainers" th:href="'/trainers'">
+                        <img th:src="@{/icons/trainers.svg}" alt="trainers">
+                    </a>
                 </div>
                 <div th:case="'trainer'">
                     <a class="profile" id="selected" th:href="'/profile/trainer/' + ${trainerId}">

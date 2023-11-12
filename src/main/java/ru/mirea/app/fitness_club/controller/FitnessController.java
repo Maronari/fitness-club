@@ -2,10 +2,12 @@ package ru.mirea.app.fitness_club.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -67,7 +70,7 @@ public class FitnessController {
                 break;
             case "trainer":
                 model.addAttribute("trainerId", id);
-                Trainers trainer = trainersService.getTrainers(id);
+                Trainers trainer = trainersService.getTrainer(id);
                 model.addAttribute("trainer", trainer);
                 model.addAttribute("workouts", trainersService.getListOfTrainingSchedule(id)
                         .stream().limit(3).collect(Collectors.toList()));
@@ -84,6 +87,8 @@ public class FitnessController {
     @GetMapping("/calendar/{role}/{id}")
     public String calendar(@PathVariable Integer id, @PathVariable String role, Model model) {
         model.addAttribute("role", role);
+        model.addAttribute("TrainersList", trainersService.getListOfTrainers());
+        model.addAttribute("TrainingTypeList", trainingScheduleService.getTrainingTypes());
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String name = ((UserDetails) principal).getUsername();
@@ -96,7 +101,7 @@ public class FitnessController {
                 break;
             case "trainer":
                 Integer trainerId = userDetailsService.getUserId(name);
-                Trainers trainer = trainersService.getTrainers(trainerId);
+                Trainers trainer = trainersService.getTrainer(trainerId);
                 model.addAttribute("trainer", trainer);
                 model.addAttribute("trainerId", trainerId);
                 break;
@@ -136,7 +141,7 @@ public class FitnessController {
                 break;
             case "trainer":
                 Integer trainerId = userDetailsService.getUserId(name);
-                Trainers trainer = trainersService.getTrainers(trainerId);
+                Trainers trainer = trainersService.getTrainer(trainerId);
                 model.addAttribute("trainer", trainer);
                 model.addAttribute("trainerId", trainerId);
                 break;
@@ -200,7 +205,7 @@ public class FitnessController {
                 break;
             case "trainer":
                 Integer trainerId = userDetailsService.getUserId(name);
-                Trainers trainer = trainersService.getTrainers(trainerId);
+                Trainers trainer = trainersService.getTrainer(trainerId);
                 model.addAttribute("trainer", trainer);
                 model.addAttribute("trainerId", trainerId);
                 break;
@@ -217,6 +222,38 @@ public class FitnessController {
         return "html/statistic";
     }
 
+    @GetMapping("/trainers")
+    public String trainers(Model model) {
+        // get the loggined member
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name = ((UserDetails) principal).getUsername();
+        String role = userDetailsService.getUserRole(name);
+        switch (role) {
+            case "member":
+                Integer memberId = userDetailsService.getUserId(name);
+                Members member = membersService.getMember(memberId);
+                model.addAttribute("member", member);
+                model.addAttribute("memberId", memberId);
+                break;
+            case "trainer":
+                Integer trainerId = userDetailsService.getUserId(name);
+                Trainers trainer = trainersService.getTrainer(trainerId);
+                model.addAttribute("trainer", trainer);
+                model.addAttribute("trainerId", trainerId);
+                break;
+            case "staff":
+                Integer staffId = userDetailsService.getUserId(name);
+                Staff staff = staffService.getStaff(staffId);
+                model.addAttribute("staff", staff);
+                model.addAttribute("staffId", staffId);
+            default:
+                break;
+        }
+        model.addAttribute("role", role);
+        model.addAttribute("trainers", trainersService.getListOfTrainers());
+        return "html/trainers";
+    }
+
     @GetMapping("/login")
     String login() {
         return "html/login";
@@ -229,8 +266,22 @@ public class FitnessController {
 
     @GetMapping("/trainings")
     @ResponseBody
-    public String getTrainings() {
-        List<Event> eventsList = trainingScheduleService.TrainingScheduleToEventList();
+    public String getTrainings(@RequestParam(value = "id_trainer", required = false) List<Integer> id_trainer,
+            @RequestParam(value = "id_training_type", required = false) List<Integer> id_training_type,
+            @RequestParam(value = "session_date_start", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date session_date_start,
+            @RequestParam(value = "session_date_end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date session_date_end,
+            @RequestParam(value = "session_time_start", required = false) Integer session_time_start,
+            @RequestParam(value = "session_time_end", required = false) Integer session_time_end) {
+
+        List<TrainingSchedule> trainingScheduleList;
+        trainingScheduleList = trainingScheduleService.getTrainingList(id_trainer,
+                id_training_type,
+                session_date_start,
+                session_date_end,
+                session_time_start,
+                session_time_end);
+
+        List<Event> eventsList = trainingScheduleService.TrainingScheduleToEventList(trainingScheduleList);
         String jsonMsg = null;
         try {
             ObjectMapper mapper = new ObjectMapper();
