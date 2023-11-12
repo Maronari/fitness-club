@@ -2,6 +2,7 @@ package ru.mirea.app.fitness_club.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,24 +15,33 @@ import ru.mirea.app.fitness_club.ORM.Event;
 import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.ORM.Trainers;
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
+import ru.mirea.app.fitness_club.ORM.TrainingType;
 import ru.mirea.app.fitness_club.ORM.Accounts.UserDetailsServiceImpl;
 import ru.mirea.app.fitness_club.Repository.TrainingScheduleRepository;
+import ru.mirea.app.fitness_club.Repository.TrainingTypeRepository;
 
 @Service
 @AllArgsConstructor
 public class TrainingScheduleService {
     private final TrainingScheduleRepository trainingScheduleRepository;
     private final MembersService membersService;
+    private final TrainingTypeRepository trainingTypeRepository;
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    public List<TrainingSchedule> getTrainingList() {
-        return trainingScheduleRepository.findAll();
+    public List<TrainingSchedule> getTrainingList(List<Integer> id_trainer,
+            List<Integer> id_training_type,
+            Date session_date_start,
+            Date session_date_end,
+            Integer session_time_start,
+            Integer session_time_end) {
+
+        return trainingScheduleRepository.findByFilter(id_trainer, id_training_type, session_date_start,
+                session_date_end, session_time_start, session_time_end);
     }
 
-    public List<Event> TrainingScheduleToEventList() {
+    public List<Event> TrainingScheduleToEventList(List<TrainingSchedule> trainingScheduleList) {
         List<Event> eventsList = new ArrayList<>();
-        List<TrainingSchedule> trainingScheduleList = getTrainingList();
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String name = ((UserDetails) principal).getUsername();
@@ -55,6 +65,10 @@ public class TrainingScheduleService {
             eventsList.add(new Event(trainingType, trainingDate, trainingDate, sessionId, color));
         }
         return eventsList;
+    }
+
+    public List<TrainingType> getTrainingTypes() {
+        return trainingTypeRepository.findAll();
     }
 
     public TrainingSchedule getTraining(int scheduleId) {
