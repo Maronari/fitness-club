@@ -61,35 +61,47 @@
         <h2 class="title" th:text="${training.trainingType.training_type_name}"></h2>
         <p class="club" th:text="'xxd София'"></p>
 
-        <div class="info-container">
-            <div class="workout-info">
-                <p class="description" th:text="${training.trainingType.workout_description}"></p>
-                <div class="workout-prop">
-                    <p class="date" th:text="${session_date}"></p>
-                    <p class="duration" th:text="${training.session_time}+' мин'"></p>
+        <div class="containers">
+            <div class="info-container">
+                <div class="workout-info">
+                    <p class="description" th:text="${training.trainingType.workout_description}"></p>
+                    <div class="workout-prop">
+                        <p class="date" th:text="${session_date}"></p>
+                        <p class="duration" th:text="${training.session_time}+' мин'"></p>
+                    </div>
                 </div>
             </div>
 
-            <div class="trainer-container">
-                <p class="trainer" th:text="'Тренер: ' + ${trainers.first_name}+' '+${trainers.second_name}"></p>
+            <div class="trainer-container" th:if="${role == 'member'}">
+                <p class="trainer" th:text="'Тренер: ' + ${trainer.first_name}+' '+${trainer.second_name}"></p>
+                <div class="trainer-photo">
+                    <img th:src="${trainer.trainerAccounts.trainerPhoto.image_url}">
+                </div>
             </div>
-        </div>
 
-        <div class="workout-program">
-            <h3>Программа тренировки</h3>
-            <p>5 минут - презентация</p>
-        </div>
+            <div class="workout-program-container">
+                <h3>Программа тренировки</h3>
+                <p>5 минут - презентация</p>
+            </div>
 
-        <div class="buttons">
-            <form th:action="'/calendar/training/subscribe'" method="post" th:object="${TrainingForm}">
-                <input type="hidden" name="memberId" th:value="${memberId}">
-                <input type="hidden" name="trainingId" th:value="${id}">
-                <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
-                    th:classappend="${isSignedUp} ? 'gray-button' : ''"
-                    th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'"></button>
-                <button type="submit" class="unsubscribe-button" th:if="${isSignedUp}"
-                    formaction="/calendar/training/unsubscribe">Отписаться</button>
-            </form>
+            <div class="buttons-container">
+                <th:block th:switch="${role}">
+                    <div th:case="'member'">
+                        <form th:action="'/calendar/training/subscribe'" method="post" th:object="${TrainingForm}">
+                            <input type="hidden" name="memberId" th:value="${memberId}">
+                            <input type="hidden" name="trainingId" th:value="${id}">
+                            <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
+                                th:classappend="${isSignedUp} ? 'gray-button' : ''"
+                                th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'"></button>
+                            <button type="submit" class="unsubscribe-button" th:if="${isSignedUp}"
+                                formaction="/calendar/training/unsubscribe">Отписаться</button>
+                        </form>
+                    </div>
+                    <div th:case="'trainer'">
+                        <button type="submit" class="trainer-button">Вы ведете</button>
+                    </div>
+                </th:block>
+            </div>
         </div>
     </div>
 

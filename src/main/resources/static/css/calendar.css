@@ -61,7 +61,7 @@ body {
     background-color: #f1f7fe;
 }
 
-.filter {
+.filter, .create-training {
     width: 400px;
     margin-left: 850px;
     background: #f1f7fe;
@@ -73,7 +73,7 @@ body {
     gap: 2em;
 }
 
-.filter p {
+.filter p, create-training p {
     padding-left: 10px;
 }
 
@@ -135,7 +135,7 @@ body {
     float: left;
 }
 
-.filter button {
+.create-training button {
     margin-top: 15px;
     background-color: #3e4684;
     border: none;

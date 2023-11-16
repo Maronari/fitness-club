@@ -79,4 +79,17 @@ public class TrainingScheduleService {
         TrainingSchedule training = trainingScheduleRepository.findById(scheduleId).orElse(null);
         return training.getTrainers();
     }
+
+    public void save(TrainingSchedule training) {
+        trainingScheduleRepository.save(training);
+        
+    }
+
+    public Integer getIdOfTraining(TrainingSchedule training) {
+        TrainingSchedule foundTraining = trainingScheduleRepository.findById(training.getId_session()).orElse(null);
+        if (foundTraining != null) {
+            return foundTraining.getId_session();
+        }
+        return null;
+    }
 }

@@ -1,7 +1,9 @@
 package ru.mirea.app.fitness_club.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,12 +33,15 @@ import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.ORM.Staff;
 import ru.mirea.app.fitness_club.ORM.Trainers;
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
+import ru.mirea.app.fitness_club.ORM.TrainingType;
 import ru.mirea.app.fitness_club.ORM.Accounts.UserDetailsServiceImpl;
 import ru.mirea.app.fitness_club.Service.MembersService;
 import ru.mirea.app.fitness_club.Service.StaffService;
 import ru.mirea.app.fitness_club.Service.TrainersService;
 import ru.mirea.app.fitness_club.Service.TrainingForm;
 import ru.mirea.app.fitness_club.Service.TrainingScheduleService;
+import ru.mirea.app.fitness_club.Service.TrainingTypeService;
+import ru.mirea.app.fitness_club.Service.AddTraining;
 import ru.mirea.app.fitness_club.Service.ClubsService;
 
 @Controller
@@ -47,6 +53,7 @@ public class FitnessController {
     private final TrainingScheduleService trainingScheduleService;
     private final TrainersService trainersService;
     private final StaffService staffService;
+    private final TrainingTypeService trainingTypeService;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -104,6 +111,7 @@ public class FitnessController {
                 Trainers trainer = trainersService.getTrainer(trainerId);
                 model.addAttribute("trainer", trainer);
                 model.addAttribute("trainerId", trainerId);
+                model.addAttribute("AddTraining", new AddTraining());
                 break;
             case "staff":
                 Integer staffId = userDetailsService.getUserId(name);
@@ -121,7 +129,7 @@ public class FitnessController {
     public String training(@PathVariable Integer id, Model model) {
         TrainingSchedule workout = trainingScheduleService.getTraining(id);
         model.addAttribute("training", workout);
-        model.addAttribute("trainers", trainingScheduleService.getTrainers(id));
+        model.addAttribute("trainer", trainingScheduleService.getTrainers(id));
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM, EE");
         String date = sdf.format(workout.getSession_date());
@@ -185,6 +193,30 @@ public class FitnessController {
         membersService.save(member);
 
         return "redirect:/calendar/training/" + String.valueOf(trainingId);
+    }
+
+    @PostMapping("/calendar/training/add")
+    public String trainingAdd(@ModelAttribute AddTraining form, BindingResult result, Model model) throws ParseException {
+
+        Integer id_trainer = Integer.parseInt(form.getId_trainer());
+        Integer id_training_type = Integer.parseInt(form.getId_training_type());
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        Date session_date = sf.parse(form.getSession_date());
+        Integer session_time = Integer.parseInt(form.getSession_time());
+
+        Trainers trainer = trainersService.getTrainer(id_trainer);
+        TrainingType trainingType = trainingTypeService.getTrainingType(id_training_type);
+
+        TrainingSchedule training = new TrainingSchedule(trainer,
+                trainingType,
+                session_date,
+                session_time,
+                new ArrayList<Members>());
+
+        trainingScheduleService.save(training);
+        System.out.println("training added");
+
+        return "redirect:/calendar/training/" + trainingScheduleService.getIdOfTraining(training);
     }
 
     @GetMapping("/statistic/{role}/{id}")
