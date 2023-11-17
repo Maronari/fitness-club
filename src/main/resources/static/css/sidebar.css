@@ -34,8 +34,9 @@
     height: 60px;
     background-color: #dde5f4;
     border-radius: 10px;
-    position: relative;
-    top: 10%;
+    position: absolute;
+    left: auto;
+	bottom: 10px;
 }
 
 .logo {
