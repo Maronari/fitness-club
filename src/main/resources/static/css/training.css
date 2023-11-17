@@ -134,10 +134,15 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    grid-row-start: 2;
+    grid-column-start: 1;
+    grid-row-end: 3;
 }
 
 .buttons-container {
     margin-top: 15px;
+    grid-column-start: 1;
+    grid-row-start: 3;
 }
 
 .signup-button {
