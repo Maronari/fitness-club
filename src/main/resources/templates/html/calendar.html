@@ -21,8 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/i18n/datepicker.en.js"></script>
 
-    <script>
-
+    <script th:if="${role == 'member'}">
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -66,6 +65,55 @@
             calendar.render();
         });
     </script>
+
+    <script th:if="${role == 'trainer'}" th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'ru',
+                firstDay: 1,
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'listWeek,dayGridMonth' // user can switch between the two
+                },
+                buttonText: {
+                    prev: '<',
+                    next: '>',
+                    today: 'Сегодня',
+                    week: 'По неделям',
+                    month: 'По месяцам'
+                },
+                events: function (fetchInfo, successCallback, failureCallback) {
+                    var form = document.getElementById('create-trainingForm');
+                    var formData = new FormData(form);
+                    console.log(formData);
+                    var id_trainer = /*[[${trainerId}]]*/[];
+                    //formData.set('id_trainer', id_trainer);
+                    var url = '/trainings?id_trainer=' + id_trainer;
+                    console.log(url);
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(events => successCallback(events))
+                        .catch(error => failureCallback(error));
+                },
+                eventColor: '#3e4684',
+                eventTimeFormat: { // like '14:30'
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false,
+                    hour12: false
+                },
+                eventClick: function (info) {
+                    var baseUrl = window.location.protocol + "//" + window.location.host + "/";
+                    window.location.href = window.location.origin + '/calendar/training/' + info.event.id;
+                }
+            });
+            calendar.render();
+        });
+    </script>
+
 </head>
 
 <body>
@@ -117,10 +165,10 @@
         <div class="container">
             <div id='calendar'></div>
 
-            <div class="filter">
+            <div class="filter" th:if="${role == 'member'}">
                 <h2>Фильтровать тренировки</h2>
                 <form id="filterForm" method="get">
-
+                    <!-- select trainer -->
                     <div class="trainer-select">
                         <p>Тренер</p>
                         <div th:each="trainer : ${TrainersList}">
@@ -130,7 +178,7 @@
                                 th:text="${trainer.first_name} + ' ' + ${trainer.second_name}"></label>
                         </div>
                     </div>
-
+                    <!-- select training type -->
                     <div class="type-select">
                         <p>Вид тренировки</p>
                         <div th:each="type : ${TrainingTypeList}">
@@ -140,16 +188,15 @@
                                 th:text="${type.training_type_name}"></label>
                         </div>
                     </div>
-
+                    <!-- select training dates period -->
                     <div class="training-date">
                         <p>Показать тренировки с</p>
                         <input type="text" th:id="'date-select-start'" placeholder="············"
                             name="session_date_start">
                         <p>По</p>
-                        <input type="text" th:id="'date-select-end'" placeholder="············"
-                            name="session_date_end">
+                        <input type="text" th:id="'date-select-end'" placeholder="············" name="session_date_end">
                     </div>
-
+                    <!-- select training duration period -->
                     <div class="session-time">
                         <p>Продолжительность тренировки</p>
                         <p class="session-time-block">От</p>
@@ -159,8 +206,38 @@
                         <input type="text" class="session-time-block" th:id="'time-select-end'" placeholder="··"
                             name="session_time_end">
                     </div>
+                </form>
+            </div>
 
-                    <!-- <button id="form-button" type="submit" value="Submit">Фильтровать</button> -->
+            <div class="create-training" th:if="${role == 'trainer'}">
+                <h2>Добавить тренировку</h2>
+                <form id="create-trainingForm" th:action="'/calendar/training/add'" th:object="${AddTraining}" method="post">
+
+                    <input type="hidden" name="id_trainer" th:value="${trainerId}" >
+                    <!-- select training type -->
+                    <div class="type-select">
+                        <p>Вид тренировки</p>
+                        <div th:each="type : ${TrainingTypeList}">
+                            <input type="radio" th:id="'type-select-' + ${type.id_training_type}"
+                                th:value="${type.id_training_type}" th:field="*{id_training_type}">
+                            <label th:for="${'type-' + type.id_training_type}"
+                                th:text="${type.training_type_name}"></label>
+                        </div>
+                    </div>
+                    <!-- select training date -->
+                    <div class="training-date">
+                        <p>Дата тренировки</p>
+                        <input type="datetime-local" th:id="'date-select'" placeholder="············" th:field="*{session_date}">
+                    </div>
+                    <!-- select training duration -->
+                    <div class="session-time">
+                        <p>Продолжительность тренировки</p>
+                        <input type="number" class="session-time-block" th:id="'time-select'" placeholder="··"
+                            th:field="*{session_time}">
+                        <p class="session-time-block" th:text="'мин'"></p>
+                    </div>
+
+                    <button type="submit" value="Submit">Добавить</button>
                 </form>
             </div>
         </div>
@@ -168,20 +245,30 @@
     </div>
 
     <script>
-        $('#training-date-start').datepicker({
-            language: 'en',
-            dateFormat: 'yyyy-mm-dd'
+        $('#date-select-start').datepicker({
+            language: "ru",
+            dateFormat: 'dd-mm-yyyy'
         });
     </script>
 
     <script>
-        $('#training-date-end').datepicker({
-            language: 'en',
-            dateFormat: 'yyyy-mm-dd'
+        $('#date-select-end').datepicker({
+            language: "ru",
+            dateFormat: 'dd-mm-yyyy'
         });
     </script>
 
-    <script>
+    <!-- <script>
+        $('#date-select').datepicker({
+            language: "ru",
+            timepicker: true,
+            minDate: new Date(),
+            dateFormat: 'dd-mm-yyyy',
+            timeFormat: 'hh:ii',
+        });
+    </script> -->
+
+    <script th:if="${role == 'member'}">
         // When the page loads...
         window.addEventListener('DOMContentLoaded', (event) => {
             // Restore the form state from localStorage
@@ -210,7 +297,7 @@
         });
     </script>
 
-    <script>
+    <script th:if="${role == 'member'}">
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {

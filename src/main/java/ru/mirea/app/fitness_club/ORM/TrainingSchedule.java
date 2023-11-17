@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
@@ -22,6 +24,7 @@ import lombok.NoArgsConstructor;
 public class TrainingSchedule {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_session;
 
     @ManyToOne
@@ -37,4 +40,14 @@ public class TrainingSchedule {
 
     @ManyToMany(mappedBy = "memberTrainingSchedules")
     private List<Members> members = new ArrayList<>();
+
+    public TrainingSchedule(Trainers trainers, TrainingType trainingType, Date session_date, int session_time,
+            List<Members> members) {
+        this.trainers = trainers;
+        this.trainingType = trainingType;
+        this.session_date = session_date;
+        this.session_time = session_time;
+        this.members = members;
+    }
+
 }

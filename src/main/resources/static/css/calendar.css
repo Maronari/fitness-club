@@ -61,7 +61,7 @@ body {
     background-color: #f1f7fe;
 }
 
-.filter {
+.filter, .create-training {
     width: 400px;
     margin-left: 850px;
     background: #f1f7fe;
@@ -73,7 +73,7 @@ body {
     gap: 2em;
 }
 
-.filter p {
+.filter p, create-training p {
     padding-left: 10px;
 }
 
@@ -92,6 +92,16 @@ body {
     border: none;
 }
 
+.training-date #date-select {
+    display: block;
+    background-color: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 0em;
+    margin: auto;
+    width: 300px;
+    border-radius: 10px;
+}
+
 .session-time input {
     display: flex;
     flex-direction: column;
@@ -100,7 +110,7 @@ body {
     box-shadow: 0 0 2em #e6e9f9;
     gap: 2em;
     padding: 10px;
-    margin: 10px;
+    margin: auto;
     width: 50px;
     border-radius: 10px;
     overflow-y: hidden;
@@ -135,7 +145,7 @@ body {
     float: left;
 }
 
-.filter button {
+.create-training button {
     margin-top: 15px;
     background-color: #3e4684;
     border: none;

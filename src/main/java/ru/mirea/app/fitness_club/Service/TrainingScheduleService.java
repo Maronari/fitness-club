@@ -42,28 +42,46 @@ public class TrainingScheduleService {
 
     public List<Event> TrainingScheduleToEventList(List<TrainingSchedule> trainingScheduleList) {
         List<Event> eventsList = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String name = ((UserDetails) principal).getUsername();
-        Integer memberId = userDetailsService.getUserId(name);
-        Members member = membersService.getMember(memberId);
+        String role = userDetailsService.getUserRole(name);
+        switch (role) {
+            case "member":
+                Integer memberId = userDetailsService.getUserId(name);
+                Members member = membersService.getMember(memberId);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                for (TrainingSchedule training : trainingScheduleList) {
+                    String color;
+                    if (member.getMemberTrainingSchedules().contains(training)) {
+                        color = "#3e4684";
+                    } else {
+                        color = "#b2b4d4";
+                    }
 
-        for (TrainingSchedule training : trainingScheduleList) {
-            String color;
-            if (member.getMemberTrainingSchedules().contains(training)) {
-                color = "#3e4684";
-            } else {
-                color = "#b2b4d4";
-            }
+                    String trainingType = training.getTrainingType().getTraining_type_name();
+                    String trainingDate = sdf.format(training.getSession_date()).toString();
+                    int sessionId = training.getId_session();
 
-            String trainingType = training.getTrainingType().getTraining_type_name();
-            String trainingDate = sdf.format(training.getSession_date()).toString();
-            int sessionId = training.getId_session();
+                    eventsList.add(new Event(trainingType, trainingDate, trainingDate, sessionId, color));
+                }
+                break;
+            case "trainer":
+                for (TrainingSchedule training : trainingScheduleList) {
+                    String color = "#3e4684";
 
-            eventsList.add(new Event(trainingType, trainingDate, trainingDate, sessionId, color));
+                    String trainingType = training.getTrainingType().getTraining_type_name();
+                    String trainingDate = sdf.format(training.getSession_date()).toString();
+                    int sessionId = training.getId_session();
+
+                    eventsList.add(new Event(trainingType, trainingDate, trainingDate, sessionId, color));
+                }
+                break;
+            default:
+                break;
         }
+
         return eventsList;
     }
 
@@ -78,5 +96,18 @@ public class TrainingScheduleService {
     public Trainers getTrainers(int scheduleId) {
         TrainingSchedule training = trainingScheduleRepository.findById(scheduleId).orElse(null);
         return training.getTrainers();
+    }
+
+    public void save(TrainingSchedule training) {
+        trainingScheduleRepository.save(training);
+
+    }
+
+    public Integer getIdOfTraining(TrainingSchedule training) {
+        TrainingSchedule foundTraining = trainingScheduleRepository.findById(training.getId_session()).orElse(null);
+        if (foundTraining != null) {
+            return foundTraining.getId_session();
+        }
+        return null;
     }
 }
