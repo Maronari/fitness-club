@@ -190,11 +190,13 @@
                     </div>
                     <!-- select training dates period -->
                     <div class="training-date">
-                        <p>Показать тренировки с</p>
-                        <input type="text" th:id="'date-select-start'" placeholder="············"
-                            name="session_date_start">
-                        <p>По</p>
-                        <input type="text" th:id="'date-select-end'" placeholder="············" name="session_date_end">
+                        <p>Показать тренировки</p>
+                        <p class="training-date-block">C</p>
+                        <input type="date" th:id="'date-select-start'" placeholder="············"
+                            name="session_date_start" class="training-date-block">
+                        <p class="training-date-block">По</p>
+                        <input type="date" th:id="'date-select-end'" placeholder="············" \
+                            name="session_date_end" class="training-date-block">
                     </div>
                     <!-- select training duration period -->
                     <div class="session-time">
@@ -211,9 +213,10 @@
 
             <div class="create-training" th:if="${role == 'trainer'}">
                 <h2>Добавить тренировку</h2>
-                <form id="create-trainingForm" th:action="'/calendar/training/add'" th:object="${AddTraining}" method="post">
+                <form id="create-trainingForm" th:action="'/calendar/training/add'" th:object="${AddTraining}"
+                    method="post">
 
-                    <input type="hidden" name="id_trainer" th:value="${trainerId}" >
+                    <input type="hidden" name="id_trainer" th:value="${trainerId}">
                     <!-- select training type -->
                     <div class="type-select">
                         <p>Вид тренировки</p>
@@ -227,7 +230,8 @@
                     <!-- select training date -->
                     <div class="training-date">
                         <p>Дата тренировки</p>
-                        <input type="datetime-local" th:id="'date-select'" placeholder="············" th:field="*{session_date}">
+                        <input type="datetime-local" th:id="'date-select'" placeholder="············"
+                            th:field="*{session_date}">
                     </div>
                     <!-- select training duration -->
                     <div class="session-time">
@@ -241,61 +245,7 @@
                 </form>
             </div>
         </div>
-
     </div>
-
-    <script>
-        $('#date-select-start').datepicker({
-            language: "ru",
-            dateFormat: 'dd-mm-yyyy'
-        });
-    </script>
-
-    <script>
-        $('#date-select-end').datepicker({
-            language: "ru",
-            dateFormat: 'dd-mm-yyyy'
-        });
-    </script>
-
-    <!-- <script>
-        $('#date-select').datepicker({
-            language: "ru",
-            timepicker: true,
-            minDate: new Date(),
-            dateFormat: 'dd-mm-yyyy',
-            timeFormat: 'hh:ii',
-        });
-    </script> -->
-
-    <script th:if="${role == 'member'}">
-        // When the page loads...
-        window.addEventListener('DOMContentLoaded', (event) => {
-            // Restore the form state from localStorage
-            document.querySelectorAll('#filterForm input, #filterForm select').forEach(function (element) {
-                var savedValue = localStorage.getItem(element.id);
-                if (element.type === 'checkbox') {
-                    element.checked = savedValue === 'true' ? true : false;
-                } else {
-                    if (savedValue) {
-                        element.value = savedValue;
-                    }
-                }
-            });
-
-            // When an input changes...
-            document.querySelectorAll('#filterForm input, #filterForm select').forEach(function (element) {
-                element.addEventListener('change', function () {
-                    // Save the new value to localStorage
-                    if (element.type === 'checkbox') {
-                        localStorage.setItem(element.id, element.checked);
-                    } else {
-                        localStorage.setItem(element.id, element.value);
-                    }
-                });
-            });
-        });
-    </script>
 
     <script th:if="${role == 'member'}">
         document.addEventListener('DOMContentLoaded', function () {
