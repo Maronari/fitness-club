@@ -80,7 +80,7 @@ insert into members_accounts values
 insert into feedback(username,feedback_text,feedback_date,rating) values
 ("JohnDoe", "Вы давно не ходили в зал", "2021-10-29", 5),
 ("JohnDoe", "Вы зарегистрировались на сайте", "2021-10-01", 5),
-("JohnDoe", "Что-то с чем-то", "2021-10-15", 5);
+("JohnDoe", "Что-то с чем-то", "2021-10-15", 3);
 
 insert into gyms (club_name,gym_name,capacity,available_hours) values
 ('София', 'Тренажерный зал', 50, 14),

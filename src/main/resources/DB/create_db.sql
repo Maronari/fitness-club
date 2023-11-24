@@ -591,7 +591,7 @@ CREATE TABLE IF NOT EXISTS `fitness_club_db`.`visits_history` (
 ENGINE = InnoDB;
 
 USE `fitness_club_db`;
-
+/*добавление данных в существующую таблицу после обновления данных*/
 DELIMITER $$
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER
@@ -601,7 +601,7 @@ BEGIN
   INSERT INTO members_have_achievements (receipt_date)
   VALUES (NOW());
 END$$
-
+/*добавление данных в создаваемую таблицу после обновления данных*/
 USE `fitness_club_db`$$
 create table equipment_supplies(
 id_supply int,
@@ -615,7 +615,7 @@ INSERT INTO `fitness_club_db`.`equipment_supplies`
 (`id_supply`, `date_supply`)
   VALUES (NEW.id_equipment, NOW());
 END$$
-
+/*проверка добавляемых данных на корректность перед добавлением*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`members_BEFORE_INSERT` BEFORE INSERT ON `members` FOR EACH ROW
 BEGIN
@@ -623,7 +623,7 @@ IF NEW.end_trial_date < NEW.start_trial_date THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert a member with an end trial date earlier start date.';
   END IF;
 END$$
-
+/*сравнение добавляемого имени с существующими перед добавлением*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER 
 `fitness_club_db`.`members_accounts_BEFORE_INSERT` BEFORE INSERT ON `members_accounts` FOR EACH ROW
@@ -632,7 +632,7 @@ IF EXISTS (SELECT 1 FROM `fitness_club_db`.`members_accounts` WHERE username = N
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert a new member with an existing username.';
   END IF;
 END$$
-
+/*сравнение добавляемого имени с существующими перед изменением*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`members_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `members_accounts` FOR EACH ROW
 BEGIN
@@ -640,7 +640,7 @@ IF EXISTS (SELECT 1 FROM `fitness_club_db`.`members_accounts` WHERE username = N
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
   END IF;
 END$$
-
+/*добавление данных в создаваемую таблицу после обновления данных*/
 USE `fitness_club_db`$$
 create table news_audit(
 id int,
@@ -651,7 +651,7 @@ BEGIN
 INSERT INTO news_audit (id,date_changed)
   VALUES (NEW.id_news, NOW());
 END$$
-
+/*проверка добавляемых данных на корректность перед добавлением*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`nutrition_plan_BEFORE_INSERT` BEFORE INSERT ON `nutrition_plan` FOR EACH ROW
 BEGIN
@@ -659,15 +659,15 @@ IF NEW.end_date < NEW.start_date THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert a plan with a date in the past.';
   END IF;
 END$$
-
+/*сравнение добавляемого имени с существующими перед добавлением*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`staff_accounts_BEFORE_INSERT` BEFORE INSERT ON `staff_accounts` FOR EACH ROW
 BEGIN
 IF EXISTS (SELECT 1 FROM `fitness_club_db`.`staff_accounts` WHERE username = NEW.username) THEN 
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot make a new accaount with an existing username.';
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot make a new account with an existing username.';
   END IF;
 END$$
-
+/*сравнение добавляемого имени с существующими перед изменением*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`staff_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `staff_accounts` FOR EACH ROW
 BEGIN
@@ -675,13 +675,13 @@ IF EXISTS (SELECT 1 FROM `fitness_club_db`.`staff_accounts` WHERE username = NEW
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
   END IF;
 END$$
-
+/*удаление связаных данных после удаления данных*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`trainers_AFTER_DELETE` AFTER DELETE ON `trainers` FOR EACH ROW
 BEGIN
 DELETE FROM `fitness_club_db`.`training_schedule` WHERE id_trainer = OLD.id_trainer;
 END$$
-
+/*сравнение добавляемого имени с существующими перед добавлением*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`trainers_accounts_BEFORE_INSERT` BEFORE INSERT ON `trainers_accounts` FOR EACH ROW
 BEGIN
@@ -689,7 +689,7 @@ IF EXISTS (SELECT 1 FROM `fitness_club_db`.`trainers_accounts` WHERE username = 
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot make a new account with an existing username.';
   END IF;
 END$$
-
+/*сравнение добавляемого имени с существующими перед изменением*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`trainers_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `trainers_accounts` FOR EACH ROW
 BEGIN
@@ -697,7 +697,7 @@ IF EXISTS (SELECT 1 FROM `fitness_club_db`.`trainers_accounts` WHERE username = 
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
   END IF;
 END$$
-
+/*сравнение добавляемой даты с настоящей перед добавлением*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER
 `fitness_club_db`.`training_schedule_BEFORE_INSERT`
@@ -707,7 +707,7 @@ IF NEW.session_date < CURDATE() THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert a session with a date in the past.';
   END IF;
 END$$
-
+/*добавление данных в создаваемую таблицу после обновления данных*/
 USE `fitness_club_db`$$
 create table training_schedule_audit(
 id_session int, 
@@ -720,7 +720,7 @@ BEGIN
   INSERT INTO training_schedule_audit (`id_session`, `changed_at`)
   VALUES (NEW.id_session, NOW());
 END$$
-
+/*сравнение добавляемой даты с настоящей перед добавлением*/
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`visits_history_BEFORE_INSERT` BEFORE INSERT ON `visits_history` FOR EACH ROW
 BEGIN
@@ -730,62 +730,43 @@ IF NEW.visit_date < CURDATE() THEN
 END$$
 
 
-DELIMITER ;
-
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clubs_equipment`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `visits_history_add`()
 BEGIN
-select clubs.club_name,gym_name,name,quantity,type_name
-from clubs
-join gyms using(club_name)
-join gyms_have_equipment using(id_gym)
-join equipment using(id_equipment)
-join equipment_type using(id_equipment_type);
+insert into visits_history(visit_date) values
+('2024-09-11');
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clubs_gyms`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `staff_add`()
 BEGIN
-select clubs.club_name,gym_name,capacity
-from clubs
-join gyms using(club_name);
+insert into staff (id_position,first_name,second_name,phone_number,email,hire_date,staff_about,gender) values
+(3, "Сергей", "Михайлов", "222", "dgfg.p@gmail.com", "2020-10-2", "Какой-то мужик", 1);
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clubs_news`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `training_type_add`()
 BEGIN
-select clubs.club_name, news_title,news_text
-from clubs
-join clubs_have_news using(club_name)
-join news using(id_news);
+insert into training_type(training_type_name, workout_description) values
+("Прыжки", "Групповые прыжки вверх с двух ног. Отличный способ бесполезно провести время. Развлекайтесь!");
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `members_achievements`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `visits_history_6_delete`()
 BEGIN
-select first_name,second_name,achievement_title,achievement_description,receipt_date
-from members
-join members_have_achievements using (id_member)
-join achievements using (id_achievement)
-order by receipt_date asc;
+DELETE FROM visits_history WHERE id_visit = 6;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `members_activities`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `staff_5_delete`()
 BEGIN
-select first_name,second_name,approaches,kilocalories,activity_name
-from members
-join members_have_equipment_statistics using (id_member)
-join equipment_statistics using (id_statistics)
-join activity_type using(id_activity);
+DELETE FROM staff WHERE id_staff = 5;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `members_clubs`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `training_type_delete`()
 BEGIN
-select first_name,second_name,club_name
-from members
-join clubs using (club_name);
+DELETE FROM training_type WHERE id_training_type = 5;
 END$$
 DELIMITER ;
 DELIMITER $$
@@ -857,10 +838,10 @@ DELIMITER ;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `staff_schedule`()
 BEGIN
-select first_name,second_name,club_name,shift,weekday
+select first_name,second_name,staff_schedule.club_name,shift,weekday
 from staff,staff_schedule,clubs
 where staff.id_staff=staff_schedule.id_staff
-and staff_schedule.clubs_name=clubs.club_name;
+and staff_schedule.club_name=clubs.club_name;
 END$$
 DELIMITER ;
 DELIMITER $$
@@ -874,63 +855,43 @@ order by session_date asc;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `amount_achievements_1`() RETURNS int
+CREATE FUNCTION TotalMembersWithNutritionPlan(id_plan INT) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a 
-from members,members_have_achievements,achievements
-where members.id_member=1
-and members_have_achievements.id_member=members.id_member
-and members_have_achievements.id_achievement=achievements.id_achievement;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`nutrition_plan` WHERE `id_plan` = id_plan;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `amount_achievements_2`() RETURNS int
+CREATE FUNCTION TotalTrainersWithTrainingType(id_training_type INT) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a 
-from members,members_have_achievements,achievements
-where members.id_member=2
-and members_have_achievements.id_member=members.id_member
-and members_have_achievements.id_achievement=achievements.id_achievement;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(DISTINCT `id_trainer`) INTO total FROM `fitness_club_db`.`training_schedule` WHERE `id_training_type` = id_training_type;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `amount_achievements_3`() RETURNS int
+CREATE FUNCTION TotalStaffInPosition(id_position INT) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a 
-from members,members_have_achievements,achievements
-where members.id_member=3
-and members_have_achievements.id_member=members.id_member
-and members_have_achievements.id_achievement=achievements.id_achievement;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`staff` WHERE `id_position` = id_position;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `amount_achievements_4`() RETURNS int
+CREATE FUNCTION TotalNewsForClub(club_name VARCHAR(45)) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a 
-from members,members_have_achievements,achievements
-where members.id_member=4
-and members_have_achievements.id_member=members.id_member
-and members_have_achievements.id_achievement=achievements.id_achievement;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`clubs_have_news` WHERE `club_name` = club_name;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `amount_achievements_5`() RETURNS int
+CREATE DEFINER=`root`@`localhost` FUNCTION `AverageRatingFeedbackForMember`(username VARCHAR(45)) RETURNS FLOAT
 BEGIN
-declare a int;
-select count(members.first_name) into a 
-from members,members_have_achievements,achievements
-where members.id_member=5
-and members_have_achievements.id_member=members.id_member
-and members_have_achievements.id_achievement=achievements.id_achievement;
-RETURN a;
+DECLARE avg_rating FLOAT;
+    SELECT AVG(`rating`) INTO avg_rating FROM `fitness_club_db`.`feedback` WHERE `username` = username;
+    RETURN avg_rating;
 END$$
 DELIMITER ;
 DELIMITER $$
@@ -946,105 +907,78 @@ RETURN a;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `members_amount_2`() RETURNS int
+CREATE DEFINER=`root`@`localhost` FUNCTION `TotalMemberOnTrainingDate`(dateon DATE) RETURNS int
 BEGIN
-declare a int;
-select count(members.first_name) into a 
-from members,members_have_training_schedule,training_schedule
-where training_schedule.id_session=2
-and members_have_training_schedule.id_member=members.id_member
-and training_schedule.id_session=members_have_training_schedule.id_session;
-RETURN a;
+DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`training_schedule` WHERE DATE(`session_date`) = dateon;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `members_amount_3`() RETURNS int
+CREATE FUNCTION TotalVisitsOnDate(dateon DATE) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a 
-from members,members_have_training_schedule,training_schedule
-where training_schedule.id_session=3
-and members_have_training_schedule.id_member=members.id_member
-and training_schedule.id_session=members_have_training_schedule.id_session;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`visits_history` WHERE `visit_date` = dateon;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `members_amount_4`() RETURNS int
+CREATE FUNCTION TotalEquipmentInGym(id INT) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a 
-from members,members_have_training_schedule,training_schedule
-where training_schedule.id_session=4
-and members_have_training_schedule.id_member=members.id_member
-and training_schedule.id_session=members_have_training_schedule.id_session;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`gyms_have_equipment` WHERE `id_gym` = id;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `members_amount_5`() RETURNS int
+CREATE FUNCTION TotalEquipmentOfType(id INT) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a 
-from members,members_have_training_schedule,training_schedule
-where training_schedule.id_session=5
-and members_have_training_schedule.id_member=members.id_member
-and training_schedule.id_session=members_have_training_schedule.id_session;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`equipment` WHERE `id_equipment_type` = id;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `members_amount_6`() RETURNS int
+CREATE FUNCTION TotalSessionsForTrainer(id INT) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a 
-from members,members_have_training_schedule,training_schedule
-where training_schedule.id_session=6
-and members_have_training_schedule.id_member=members.id_member
-and training_schedule.id_session=members_have_training_schedule.id_session;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`training_schedule` WHERE `id_trainer` = id;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `members_amount_Авиапарк`() RETURNS int
+CREATE FUNCTION TotalGymsInClub(nameon VARCHAR(45)) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a from clubs,members 
-where clubs.club_name='Авиапарк'
-and clubs.club_name=members.club_name;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`gyms` WHERE `club_name` = nameon;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `members_amount_Аквамолл`() RETURNS int
+CREATE FUNCTION TotalAchievementsForMember(id INT) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a from clubs,members 
-where clubs.club_name='Аквамолл'
-and clubs.club_name=members.club_name;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`members_have_achievements` WHERE `id_member` = id;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `members_amount_Первомайский`() RETURNS int
+CREATE FUNCTION TotalMembersInClub(nameon VARCHAR(45)) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a from clubs,members 
-where clubs.club_name='Первомайский'
-and clubs.club_name=members.club_name;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`members` WHERE `club_name` = nameon;
+    RETURN total;
 END$$
 DELIMITER ;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `members_amount_София`() RETURNS int
+CREATE FUNCTION TotalMembersWithAchievement(id INT) RETURNS INT
 BEGIN
-declare a int;
-select count(members.first_name) into a from clubs,members 
-where clubs.club_name='София'
-and clubs.club_name=members.club_name;
-RETURN a;
+    DECLARE total INT;
+    SELECT COUNT(*) INTO total FROM `fitness_club_db`.`members_have_achievements` WHERE `id_achievement` = id;
+    RETURN total;
 END$$
 DELIMITER ;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
