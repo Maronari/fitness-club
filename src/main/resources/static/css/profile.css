@@ -46,6 +46,7 @@ body {
     width: 330px;
     height: 330px;
     border-radius: 10px;
+    background-color: #f1f7fe;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -196,7 +197,7 @@ body {
     background: #3e4684;
     color: white;
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     font-weight: 500;
     position: relative;
     text-decoration: none;
@@ -204,13 +205,31 @@ body {
     vertical-align: middle;
 }
 
+.news-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
 .news {
     position: relative;
     top:300px;
-
+    padding-bottom: 30px;
 }
 
-.news-title {
-    font-size: 18px;
+.headlines {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.news-item {
+    background-color: #f1f7fe;
+    border-radius: 10px;
+}
+
+.news-item p {
+    padding-left: 10px;
+}
+
+.headline-title {
     font-weight: bold;
 }

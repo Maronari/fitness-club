@@ -123,10 +123,13 @@
 
         <div class="news">
             <h1>Новости</h1>
-            <div class="news-item" th:each="headline: ${news}">
-                <p th:text="${headline.getNews_title}"></p>
-                <p th:text="${headline.getNews_text}"></p>
+            <div class="headlines">
+                <div class="news-item" th:each="headline: ${news}">
+                    <p class="headline-title" th:text="${headline.getNews_title}"></p>
+                    <p class="headline-text" th:text="${headline.getNews_text}"></p>
+                </div>
             </div>
+            
         </div>
 
     </div>

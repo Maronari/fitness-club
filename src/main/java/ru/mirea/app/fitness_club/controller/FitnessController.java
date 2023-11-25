@@ -71,8 +71,14 @@ public class FitnessController {
                 model.addAttribute("member", member);
                 model.addAttribute("achievements", membersService.getListOfMemberAchievements(id));
                 model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id)
-                        .stream().limit(3).collect(Collectors.toList()));
-                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id).size());
+                        .stream()
+                        .filter(workout -> workout.getSession_date().after(new Date()))
+                        .limit(3)
+                        .collect(Collectors.toList()));
+                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id)
+                        .stream()
+                        .filter(workout -> workout.getSession_date().after(new Date()))
+                        .count());
                 model.addAttribute("photoURL", membersService.getPhotoUrl(id));
                 model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
                 break;
@@ -330,22 +336,27 @@ public class FitnessController {
             @RequestParam(value = "session_time_start", required = false) Integer sessionTimeStart,
             @RequestParam(value = "session_time_end", required = false) Integer sessionTimeEnd) throws ParseException {
 
-        Date startDate;
-        Date endDate;
+        Date startDate = null;
+        Date endDate = null;
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            startDate = sf.parse(sessionDateStart);
-        } catch (ParseException e) {
-            startDate = null;
+        if (sessionDateStart != null) {
+            try {
+                startDate = sf.parse(sessionDateStart);
+            } catch (ParseException e) {
+                startDate = null;
+            }
         }
-        try {
-            endDate = sf.parse(sessionDateEnd);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(endDate);
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
-            endDate = calendar.getTime();
-        } catch (ParseException e) {
-            endDate = null;
+
+        if (sessionDateEnd != null) {
+            try {
+                endDate = sf.parse(sessionDateEnd);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(endDate);
+                calendar.set(Calendar.HOUR_OF_DAY, 23);
+                endDate = calendar.getTime();
+            } catch (ParseException e) {
+                endDate = null;
+            }
         }
 
         List<TrainingSchedule> trainingScheduleList;

@@ -29,6 +29,7 @@ body {
     flex-grow: 1;
     padding: 140px;
     padding-top: 0px;
+    max-width: 100%;
 }
 
 .all-trainers {

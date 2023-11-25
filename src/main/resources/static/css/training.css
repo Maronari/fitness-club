@@ -142,7 +142,7 @@ body {
 .buttons-container {
     margin-top: 15px;
     grid-column-start: 1;
-    grid-row-start: 3;
+    grid-row-start: 2;
 }
 
 .signup-button {
