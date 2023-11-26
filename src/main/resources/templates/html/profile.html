@@ -66,13 +66,20 @@
                     th:text="'Последняя тренировка: ' + ${#dates.format(member.membersVisits.get(member.membersVisits.size()-1).visit_date, 'dd-MM')}">
                 </p>
                 <span th:if="${member.end_trial_date != NULL AND member.end_trial_date > #dates.createNow()}">
-                    <p class="payment-date" th:text="'Ближайшая оплата абонемента: ' + ${#dates.format(member.end_trial_date, 'dd-MM')}"></p>
+                    <p class="payment-date"
+                        th:text="'Ближайшая оплата абонемента: ' + ${#dates.format(member.end_trial_date, 'dd-MM')}">
+                    </p>
                 </span>
             </div>
-            <!--if {role} == member-->
+            <!--if {role} == trainer-->
             <div th:if="${role == 'trainer'}" class="first-column">
                 <img th:src="${photoURL}" alt="Profile Photo" class="profile-photo">
                 <p class="email" th:text="'Ваша почта: ' + ${trainer.email}"></p>
+            </div>
+            <!--if {role} == staff-->
+            <div th:if="${role == 'trainer'}" class="first-column">
+                <img th:src="${photoURL}" alt="Profile Photo" class="profile-photo">
+                <p class="email" th:text="'Ваша почта: ' + ${staff.email}"></p>
             </div>
             <!--if {role} == member-->
             <div th:if="${role == 'member'}" class="info">
@@ -81,7 +88,8 @@
                     <span th:if="${member.gender == '0'}">женский</span>
                     <span th:unless="${member.gender == '0'}">мужской</span>
                 </p>
-                <p class="birth-date" th:text="'День рождения: ' + ${#dates.format(member.birth_date, 'dd-MM-yyyy')}"></p>
+                <p class="birth-date" th:text="'День рождения: ' + ${#dates.format(member.birth_date, 'dd-MM-yyyy')}">
+                </p>
                 <p class="phone-number" th:text="'Телефон: ' + ${member.phone_number}"></p>
                 <p class="level" th:text="'Уровень: ' + ${roleName}"></p>
             </div>
@@ -89,6 +97,12 @@
             <div th:if="${role == 'trainer'}" class="info">
                 <p class="name" th:text="${trainer.first_name + ' ' + trainer.second_name}"></p>
                 <p class="speciality" th:text="'Специальность: ' + ${trainer.speciality}"></p>
+                <p class="phone-number" th:text="'Телефон: ' + ${trainer.phone_number}"></p>
+            </div>
+            <!--if {role} == staff-->
+            <div th:if="${role == 'staff'}" class="info">
+                <p class="name" th:text="${staff.first_name + ' ' + staff.second_name}"></p>
+                <p class="speciality" th:text="${staff.staff_about}"></p>
                 <p class="phone-number" th:text="'Телефон: ' + ${trainer.phone_number}"></p>
             </div>
             <div class="third-column">
@@ -102,7 +116,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="workouts-container">
+                <!--if {role} == member or trainer-->
+                <div th:if="${role != 'staff'}" class="workouts-container">
                     <p class="workouts-title">Запланированные тренировки</p>
                     <div class="workouts">
                         <div class="workout-item" th:each="workout : ${workouts}">
@@ -116,7 +131,24 @@
                             th:text="'...еще ' + ${workoutsCount - 3}"></p>
                         <a class="all-training-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Все тренировки</a>
                     </div>
-
+                </div>
+                <!--if {role} == staff-->
+                <div th:if="${role == 'staff'}" class="schedule-container">
+                    <p class="schedule-title">Ближайшие задачи</p>
+                    <div class="schedule">
+                        <div class="schedule-item" th:each="element : ${staffSchedule}">
+                            <p th:text="${element.club.club_name}"></p>
+                            <p th:text="${#dates.format(element.date, 'dd-MM')}"></p>
+                            <th:block th:switch="${element.shift}">
+                                <p th:case="'1'" th:text="6:00 - 12:00"></p>
+                                <p th:case="'2'" th:text="12:00 - 18:00"></p>
+                                <p th:case="'3'" th:text="18:00 - 0:00"></p>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="container-bottom">
+                        <a class="all-staff-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Всё расписание</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,7 +161,7 @@
                     <p class="headline-text" th:text="${headline.getNews_text}"></p>
                 </div>
             </div>
-            
+
         </div>
 
     </div>

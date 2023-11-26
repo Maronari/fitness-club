@@ -87,10 +87,23 @@ public class FitnessController {
                 Trainers trainer = trainersService.getTrainer(id);
                 model.addAttribute("trainer", trainer);
                 model.addAttribute("workouts", trainersService.getListOfTrainingSchedule(id)
-                        .stream().limit(3).collect(Collectors.toList()));
-                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id).size());
+                        .stream()
+                        .filter(workout -> workout.getSession_date().after(new Date()))
+                        .limit(3)
+                        .collect(Collectors.toList()));
+                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id)
+                        .stream()
+                        .filter(workout -> workout.getSession_date().after(new Date()))
+                        .count());
                 model.addAttribute("photoURL", trainersService.getPhotoUrl(id));
                 model.addAttribute("news", clubsService.getListOfClubNews("София"));
+                break;
+            case "staff":
+                Staff staff = staffService.getStaff(id);
+                model.addAttribute("staffId", id);
+                model.addAttribute("staff", staff);
+                model.addAttribute("photoURL", staffService.getPhotoUrl(id));
+
                 break;
             default:
                 break;

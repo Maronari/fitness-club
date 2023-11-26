@@ -1,4 +1,4 @@
-package ru.mirea.app.fitness_club.ORM.Accounts;
+package ru.mirea.app.fitness_club.ORM;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

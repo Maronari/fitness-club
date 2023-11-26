@@ -86,6 +86,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const dateControl = document.querySelector('input[type="datetime-local"]');
+        let now = new Date();
+        let dd = String(now.getDate()).padStart(2, '0');
+        let mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = now.getFullYear();
+        let hh = String(now.getHours()).padStart(2, '0');
+        let min = String(now.getMinutes()).padStart(2, '0');
+        
+        now = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + min;
+        dateControl.min = now;
+    </script>
+
 </body>
 
 </html>

@@ -6,6 +6,7 @@
     <title>Расписание занятий</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/calendar.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
+
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Fira+Sans'>
@@ -15,11 +16,11 @@
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- Air Datepicker -->
+    <!-- Air Datepicker
     <link href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/css/datepicker.min.css" rel="stylesheet"
         type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/datepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/i18n/datepicker.en.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/i18n/datepicker.en.js"></script> -->
 
     <script th:if="${role == 'member'}">
         document.addEventListener('DOMContentLoaded', function () {
@@ -222,7 +223,7 @@
                         <p>Вид тренировки</p>
                         <div th:each="type : ${TrainingTypeList}">
                             <input type="radio" th:id="'type-select-' + ${type.id_training_type}"
-                                th:value="${type.id_training_type}" th:field="*{id_training_type}">
+                                th:value="${type.id_training_type}" th:field="*{id_training_type}" class="input-type">
                             <label th:for="${'type-' + type.id_training_type}"
                                 th:text="${type.training_type_name}"></label>
                         </div>
@@ -230,14 +231,14 @@
                     <!-- select training date -->
                     <div class="training-date">
                         <p>Дата тренировки</p>
-                        <input type="date" th:id="'date-select'" placeholder="············"
-                            th:field="*{session_date}">
+                        <input type="datetime-local" th:id="'date-select'" placeholder="············" th:field="*{session_date}"
+                            id="input-date">
                     </div>
                     <!-- select training duration -->
                     <div class="session-time">
                         <p>Продолжительность тренировки</p>
                         <input type="number" class="session-time-block" th:id="'time-select'" placeholder="··"
-                            th:field="*{session_time}">
+                            th:field="*{session_time}" id="input-duration">
                         <p class="session-time-block" th:text="'мин'"></p>
                     </div>
 
@@ -246,6 +247,48 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const dateControl = document.querySelector('input[type="datetime-local"]');
+        let now = new Date();
+        let dd = String(now.getDate()).padStart(2, '0');
+        let mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = now.getFullYear();
+        let hh = String(now.getHours()).padStart(2, '0');
+        let min = String(now.getMinutes()).padStart(2, '0');
+        
+        now = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + min;
+        dateControl.min = now;
+
+        const timeControl = document.querySelector('input[type="number"]');
+        timeControl.min = 30;
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('create-trainingForm').addEventListener('submit', function(event) {
+                let inputs = this.getElementsByTagName('input');
+                let radioChecked = false;
+                for (let i = 0; i < inputs.length; i++) {
+                    if (inputs[i].type === 'radio') {
+                        if (inputs[i].checked) {
+                            radioChecked = true;
+                        }
+                    } else if (inputs[i].value == '' || inputs[i].value == null) {
+                        alert("Пожалуйста, введите все параметры тренировки");
+                        event.preventDefault(); // prevent form from being submitted
+                        return;
+                    }
+                }
+                if (!radioChecked) {
+                    alert("Пожалуйста, выберите тип тренировки");
+                    event.preventDefault(); // prevent form from being submitted
+                    return;
+                }
+            });
+        });
+    </script>
+
 
     <script th:if="${role == 'member'}">
         document.addEventListener('DOMContentLoaded', function () {

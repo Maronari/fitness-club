@@ -31,4 +31,9 @@ public class StaffService {
         Staff staff = staffRepository.findById(staffId).orElse(null); 
         return staff.getPosition().getRole_name();
     }
+
+    public String getPhotoUrl(Integer staffId) {
+        StaffAccounts staffAccount = getStaffAccount(staffId);
+        return staffAccount.getStaffPhoto().getImage_url();
+    }
 }

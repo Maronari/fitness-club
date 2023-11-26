@@ -1,5 +1,7 @@
 package ru.mirea.app.fitness_club.ORM;
 
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -27,6 +29,6 @@ public class StaffSchedule {
     @JoinColumn(name = "clubs_name")
     private Clubs club;
 
-    private int weekday;
+    private Date date;
     private int shift;
 }
