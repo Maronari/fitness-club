@@ -77,7 +77,7 @@
                 <p class="email" th:text="'Ваша почта: ' + ${trainer.email}"></p>
             </div>
             <!--if {role} == staff-->
-            <div th:if="${role == 'trainer'}" class="first-column">
+            <div th:if="${role == 'staff'}" class="first-column">
                 <img th:src="${photoURL}" alt="Profile Photo" class="profile-photo">
                 <p class="email" th:text="'Ваша почта: ' + ${staff.email}"></p>
             </div>
@@ -103,7 +103,7 @@
             <div th:if="${role == 'staff'}" class="info">
                 <p class="name" th:text="${staff.first_name + ' ' + staff.second_name}"></p>
                 <p class="speciality" th:text="${staff.staff_about}"></p>
-                <p class="phone-number" th:text="'Телефон: ' + ${trainer.phone_number}"></p>
+                <p class="phone-number" th:text="'Телефон: ' + ${staff.phone_number}"></p>
             </div>
             <div class="third-column">
                 <!--if {role} == member-->
@@ -140,20 +140,20 @@
                             <p th:text="${element.club.club_name}"></p>
                             <p th:text="${#dates.format(element.date, 'dd-MM')}"></p>
                             <th:block th:switch="${element.shift}">
-                                <p th:case="'1'" th:text="6:00 - 12:00"></p>
-                                <p th:case="'2'" th:text="12:00 - 18:00"></p>
-                                <p th:case="'3'" th:text="18:00 - 0:00"></p>
+                                <p th:case="'1'" th:text="'6:00 - 12:00'"></p>
+                                <p th:case="'2'" th:text="'12:00 - 18:00'"></p>
+                                <p th:case="'3'" th:text="'18:00 - 0:00'"></p>
                             </th:block>
                         </div>
                     </div>
                     <div class="container-bottom">
-                        <a class="all-staff-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Всё расписание</a>
+                        <a class="all-schedule-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Всё расписание</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="news">
+        <div class="news" th:if="${role == 'member'}">
             <h1>Новости</h1>
             <div class="headlines">
                 <div class="news-item" th:each="headline: ${news}">

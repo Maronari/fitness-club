@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TrainersPhoto {
     @Id
-    private int id_photo;
+    private int id_trainers_photo;
     private String image_url;
 }

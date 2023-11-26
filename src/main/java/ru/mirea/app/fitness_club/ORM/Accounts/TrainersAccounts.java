@@ -29,7 +29,7 @@ public class TrainersAccounts {
     private String username;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_photo")
+    @JoinColumn(name = "id_trainers_photo")
     private TrainersPhoto trainerPhoto;
 
     private String password;

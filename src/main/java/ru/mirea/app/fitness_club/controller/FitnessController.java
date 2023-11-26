@@ -91,19 +91,22 @@ public class FitnessController {
                         .filter(workout -> workout.getSession_date().after(new Date()))
                         .limit(3)
                         .collect(Collectors.toList()));
-                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id)
+                model.addAttribute("workoutsCount", trainersService.getListOfTrainingSchedule(id)
                         .stream()
                         .filter(workout -> workout.getSession_date().after(new Date()))
                         .count());
                 model.addAttribute("photoURL", trainersService.getPhotoUrl(id));
-                model.addAttribute("news", clubsService.getListOfClubNews("София"));
                 break;
             case "staff":
                 Staff staff = staffService.getStaff(id);
                 model.addAttribute("staffId", id);
                 model.addAttribute("staff", staff);
                 model.addAttribute("photoURL", staffService.getPhotoUrl(id));
-
+                model.addAttribute("staffSchedule", staffService.getListOfStaffSchedule(id)
+                        .stream()
+                        .filter(work -> work.getDate().after(new Date()))
+                        .limit(3)
+                        .collect(Collectors.toList()));
                 break;
             default:
                 break;

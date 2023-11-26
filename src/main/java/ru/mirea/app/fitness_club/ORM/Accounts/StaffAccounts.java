@@ -33,6 +33,6 @@ public class StaffAccounts {
     private String user_role;    
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_photo")
+    @JoinColumn(name = "id_staff_photo")
     private StaffPhoto staffPhoto;
 }

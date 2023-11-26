@@ -142,7 +142,7 @@ body {
     text-align: center;
 }
 
-.workouts-container {
+.workouts-container, .schedule-container {
     background-color: #f1f7fe;
     box-shadow: 0 0 2em #e6e9f9;
     gap: 2em;
@@ -154,12 +154,12 @@ body {
     top: 30px;
 }
 
-.workouts-title {
+.workouts-title, .schedule-title {
     position: relative;
     top: -10px;
 }
 
-.workouts {
+.workouts, .schedule {
     display: grid;
     grid-template-rows: repeat(3, 1fr);
     height: 220px;
@@ -168,13 +168,13 @@ body {
     border-top: solid #d1dbe7;
 }
 
-.workout-item {
+.workout-item, .schedule-item {
     border-bottom: solid #d1dbe7;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
 
-.workout-item p {
+.workout-item p, .schedule-item p {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -192,7 +192,7 @@ body {
     vertical-align: middle;
 }
 
-.all-training-button {
+.all-training-button, .all-schedule-button {
     padding: 1em;
     background: #3e4684;
     color: white;
