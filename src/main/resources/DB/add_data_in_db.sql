@@ -94,11 +94,6 @@ insert into training_type(training_type_name, workout_description) values
 ("Персональная тренировка", "Ваша тренировка с личным тренером");
 
 insert into training_schedule(id_trainer, id_training_type, session_date, session_time)  values 
-(1, 1, "2023-12-30 14:00:00", 55),
-(3, 3, "2023-11-28 14:30:00", 55),
-(1, 1, "2023-11-27 17:30:00", 55),
-(5, 4, "2023-11-27 15:30:00", 30),
-(4, 2, "2023-11-26 18:00:00", 55),
 (2, 2, "2023-12-05 10:30:00", 55),
 (1, 1, '2023-12-01 10:00:00', 60),
 (2, 2, '2023-12-02 11:00:00', 90),
@@ -146,10 +141,10 @@ insert into nutrition_plan(id_member,nutrition_description,start_date) values
 (5, 'План питания для снижения жира и поддержания мышечной формы', '2021-06-01');
 
 insert into visits_history(visit_date) values
-('2023-11-26'),
-('2023-11-27'),
-('2023-11-27'),
 ('2023-11-28'),
+('2023-11-29'),
+('2023-11-30'),
+('2023-12-1'),
 ('2023-11-28');
 
 insert into equipment_type(type_name) values
