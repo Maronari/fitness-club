@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -31,12 +30,14 @@ import ru.mirea.app.fitness_club.ORM.EquipmentStatistics;
 import ru.mirea.app.fitness_club.ORM.Event;
 import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.ORM.Staff;
+import ru.mirea.app.fitness_club.ORM.StaffSchedule;
 import ru.mirea.app.fitness_club.ORM.Trainers;
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
 import ru.mirea.app.fitness_club.ORM.TrainingType;
 import ru.mirea.app.fitness_club.ORM.Accounts.UserDetailsServiceImpl;
 import ru.mirea.app.fitness_club.Service.MembersService;
 import ru.mirea.app.fitness_club.Service.PersonalTrainingForm;
+import ru.mirea.app.fitness_club.Service.StaffScheduleService;
 import ru.mirea.app.fitness_club.Service.StaffService;
 import ru.mirea.app.fitness_club.Service.TrainersService;
 import ru.mirea.app.fitness_club.Service.TrainingForm;
@@ -52,11 +53,10 @@ public class FitnessController {
     private final MembersService membersService;
     private final ClubsService clubsService;
     private final TrainingScheduleService trainingScheduleService;
+    private final StaffScheduleService staffScheduleService;
     private final TrainersService trainersService;
     private final StaffService staffService;
     private final TrainingTypeService trainingTypeService;
-
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @GetMapping("/profile/{role}/{id}")
@@ -383,7 +383,23 @@ public class FitnessController {
                 sessionTimeStart,
                 sessionTimeEnd);
 
-        List<Event> eventsList = trainingScheduleService.TrainingScheduleToEventList(trainingScheduleList);
+        List<Event> eventsList = trainingScheduleService.trainingScheduleToEventList(trainingScheduleList);
+        String jsonMsg = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonMsg = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(eventsList);
+        } catch (IOException ioex) {
+            System.out.println(ioex.getMessage());
+        }
+        return jsonMsg;
+    }
+
+    @GetMapping("/calendar/work/events")
+    @ResponseBody
+    public String getWorks() {
+        List<StaffSchedule> staffScheduleList;
+        staffScheduleList = staffScheduleService.getStaffScheduleList();
+        List<Event> eventsList = staffScheduleService.staffScheduleToEvents(staffScheduleList);
         String jsonMsg = null;
         try {
             ObjectMapper mapper = new ObjectMapper();

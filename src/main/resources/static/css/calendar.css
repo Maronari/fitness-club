@@ -37,9 +37,14 @@ body {
     margin: 0;
 }
 
-#calendar {
+#calendar.member-calendar,
+#calendar.trainer-calendar {
     width: 800px;
     position: fixed;
+}
+
+#calendar.staff-calendar {
+    width: 1350px;
 }
 
 :root {
@@ -55,6 +60,11 @@ body {
 
 .fc-event {
     padding: 2px;
+}
+
+#calendar.member-calendar .fc-event:hover,
+#calendar.trainer-calendar .fc-event:hover{
+    cursor: pointer;
 }
 
 .fc-list-day-cushion {

@@ -16,12 +16,6 @@
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- Air Datepicker
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/css/datepicker.min.css" rel="stylesheet"
-        type="text/css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/datepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/i18n/datepicker.en.js"></script> -->
-
     <script th:if="${role == 'member'}">
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
@@ -62,6 +56,38 @@
                     var baseUrl = window.location.protocol + "//" + window.location.host + "/";
                     window.location.href = window.location.origin + '/calendar/training/' + info.event.id;
                 }
+            });
+            calendar.render();
+        });
+    </script>
+
+    <script th:if="${role == 'staff'}">
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'ru',
+                firstDay: 1,
+                initialView: 'listWeek',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'listWeek,dayGridMonth' // user can switch between the two
+                },
+                buttonText: {
+                    prev: '<',
+                    next: '>',
+                    today: 'Сегодня',
+                    week: 'По неделям',
+                    month: 'По месяцам'
+                },
+                events: "/calendar/work/events",
+                eventColor: 'color',
+                eventTimeFormat: { // like '14:30'
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false,
+                    hour12: false
+                },
             });
             calendar.render();
         });
@@ -164,91 +190,104 @@
 
     <div class="content">
         <div class="container">
-            <div id='calendar'></div>
+            <th:block th:switch="${role}">
+                <div th:case="'member'">
 
-            <div class="filter" th:if="${role == 'member'}">
-                <h2>Фильтровать тренировки</h2>
-                <form id="filterForm" method="get">
-                    <!-- select trainer -->
-                    <div class="trainer-select">
-                        <p>Тренер</p>
-                        <div th:each="trainer : ${TrainersList}">
-                            <input type="checkbox" th:id="'trainer-select-' + ${trainer.id_trainer}"
-                                th:value="${trainer.id_trainer}" name="id_trainer" />
-                            <label th:for="${'trainer-' + trainer.id_trainer}"
-                                th:text="${trainer.first_name} + ' ' + ${trainer.second_name}"></label>
-                        </div>
-                    </div>
-                    <!-- select training type -->
-                    <div class="type-select">
-                        <p>Вид тренировки</p>
-                        <div th:each="type : ${TrainingTypeList}">
-                            <input type="checkbox" th:id="'type-select-' + ${type.id_training_type}"
-                                th:value="${type.id_training_type}" name="id_training_type" />
-                            <label th:for="${'type-' + type.id_training_type}"
-                                th:text="${type.training_type_name}"></label>
-                        </div>
-                    </div>
-                    <!-- select training dates period -->
-                    <div class="training-date">
-                        <p>Показать тренировки</p>
-                        <p class="training-date-block">C</p>
-                        <input type="date" th:id="'date-select-start'" placeholder="············"
-                            name="session_date_start" class="training-date-block">
-                        <p class="training-date-block">По</p>
-                        <input type="date" th:id="'date-select-end'" placeholder="············" \
-                            name="session_date_end" class="training-date-block">
-                    </div>
-                    <!-- select training duration period -->
-                    <div class="session-time">
-                        <p>Продолжительность тренировки</p>
-                        <p class="session-time-block">От</p>
-                        <input type="text" class="session-time-block" th:id="'time-select-start'" placeholder="··"
-                            name="session_time_start">
-                        <p class="session-time-block">До</p>
-                        <input type="text" class="session-time-block" th:id="'time-select-end'" placeholder="··"
-                            name="session_time_end">
-                    </div>
-                </form>
-            </div>
+                    <div id='calendar' class="member-calendar"></div>
 
-            <div class="create-training" th:if="${role == 'trainer'}">
-                <h2>Добавить тренировку</h2>
-                <form id="create-trainingForm" th:action="'/calendar/training/add'" th:object="${AddTraining}"
-                    method="post">
+                    <div class="filter">
+                        <h2>Фильтровать тренировки</h2>
+                        <form id="filterForm" method="get">
+                            <!-- select trainer -->
+                            <div class="trainer-select">
+                                <p>Тренер</p>
+                                <div th:each="trainer : ${TrainersList}">
+                                    <input type="checkbox" th:id="'trainer-select-' + ${trainer.id_trainer}"
+                                        th:value="${trainer.id_trainer}" name="id_trainer" />
+                                    <label th:for="${'trainer-' + trainer.id_trainer}"
+                                        th:text="${trainer.first_name} + ' ' + ${trainer.second_name}"></label>
+                                </div>
+                            </div>
+                            <!-- select training type -->
+                            <div class="type-select">
+                                <p>Вид тренировки</p>
+                                <div th:each="type : ${TrainingTypeList}">
+                                    <input type="checkbox" th:id="'type-select-' + ${type.id_training_type}"
+                                        th:value="${type.id_training_type}" name="id_training_type" />
+                                    <label th:for="${'type-' + type.id_training_type}"
+                                        th:text="${type.training_type_name}"></label>
+                                </div>
+                            </div>
+                            <!-- select training dates period -->
+                            <div class="training-date">
+                                <p>Показать тренировки</p>
+                                <p class="training-date-block">C</p>
+                                <input type="date" th:id="'date-select-start'" placeholder="············"
+                                    name="session_date_start" class="training-date-block">
+                                <p class="training-date-block">По</p>
+                                <input type="date" th:id="'date-select-end'" placeholder="············" \
+                                    name="session_date_end" class="training-date-block">
+                            </div>
+                            <!-- select training duration period -->
+                            <div class="session-time">
+                                <p>Продолжительность тренировки</p>
+                                <p class="session-time-block">От</p>
+                                <input type="text" class="session-time-block" th:id="'time-select-start'"
+                                    placeholder="··" name="session_time_start">
+                                <p class="session-time-block">До</p>
+                                <input type="text" class="session-time-block" th:id="'time-select-end'" placeholder="··"
+                                    name="session_time_end">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div th:case="'trainer'">
+                    <div id='calendar' class="trainer-calendar"></div>
 
-                    <input type="hidden" name="id_trainer" th:value="${trainerId}">
-                    <!-- select training type -->
-                    <div class="type-select">
-                        <p>Вид тренировки</p>
-                        <div th:each="type : ${TrainingTypeList}">
-                            <input type="radio" th:id="'type-select-' + ${type.id_training_type}"
-                                th:value="${type.id_training_type}" th:field="*{id_training_type}" class="input-type">
-                            <label th:for="${'type-' + type.id_training_type}"
-                                th:text="${type.training_type_name}"></label>
-                        </div>
-                    </div>
-                    <!-- select training date -->
-                    <div class="training-date">
-                        <p>Дата тренировки</p>
-                        <input type="datetime-local" th:id="'date-select'" placeholder="············" th:field="*{session_date}"
-                            id="input-date">
-                    </div>
-                    <!-- select training duration -->
-                    <div class="session-time">
-                        <p>Продолжительность тренировки</p>
-                        <input type="number" class="session-time-block" th:id="'time-select'" placeholder="··"
-                            th:field="*{session_time}" id="input-duration">
-                        <p class="session-time-block" th:text="'мин'"></p>
-                    </div>
+                    <div class="create-training">
+                        <h2>Добавить тренировку</h2>
+                        <form id="create-trainingForm" th:action="'/calendar/training/add'" th:object="${AddTraining}"
+                            method="post">
 
-                    <button type="submit" value="Submit">Добавить</button>
-                </form>
-            </div>
+                            <input type="hidden" name="id_trainer" th:value="${trainerId}">
+                            <!-- select training type -->
+                            <div class="type-select">
+                                <p>Вид тренировки</p>
+                                <div th:each="type : ${TrainingTypeList}">
+                                    <input type="radio" th:id="'type-select-' + ${type.id_training_type}"
+                                        th:value="${type.id_training_type}" th:field="*{id_training_type}"
+                                        class="input-type">
+                                    <label th:for="${'type-' + type.id_training_type}"
+                                        th:text="${type.training_type_name}"></label>
+                                </div>
+                            </div>
+                            <!-- select training date -->
+                            <div class="training-date">
+                                <p>Дата тренировки</p>
+                                <input type="datetime-local" th:id="'date-select'" placeholder="············"
+                                    th:field="*{session_date}" id="input-date">
+                            </div>
+                            <!-- select training duration -->
+                            <div class="session-time">
+                                <p>Продолжительность тренировки</p>
+                                <input type="number" class="session-time-block" th:id="'time-select'" placeholder="··"
+                                    th:field="*{session_time}" id="input-duration">
+                                <p class="session-time-block" th:text="'мин'"></p>
+                            </div>
+
+                            <button type="submit" value="Submit">Добавить</button>
+                        </form>
+                    </div>
+                </div>
+                <div th:case="'staff'">
+                    <div id='calendar' class='staff-calendar'></div>
+                </div>
+            </th:block>
+
         </div>
     </div>
 
-    <script>
+    <script th:if="${role == 'trainer'}">
         const dateControl = document.querySelector('input[type="datetime-local"]');
         let now = new Date();
         let dd = String(now.getDate()).padStart(2, '0');
@@ -256,7 +295,7 @@
         let yyyy = now.getFullYear();
         let hh = String(now.getHours()).padStart(2, '0');
         let min = String(now.getMinutes()).padStart(2, '0');
-        
+
         now = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + min;
         dateControl.min = now;
 
@@ -264,9 +303,9 @@
         timeControl.min = 30;
     </script>
 
-    <script>
+    <script th:if="${role == 'trainer'}">
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('create-trainingForm').addEventListener('submit', function(event) {
+            document.getElementById('create-trainingForm').addEventListener('submit', function (event) {
                 let inputs = this.getElementsByTagName('input');
                 let radioChecked = false;
                 for (let i = 0; i < inputs.length; i++) {
