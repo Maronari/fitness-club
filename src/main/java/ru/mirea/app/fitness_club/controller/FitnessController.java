@@ -215,7 +215,11 @@ public class FitnessController {
 
         membersService.save(member);
 
-        return "redirect:/calendar/training/" + String.valueOf(trainingId);
+        if (training.getTrainingType().getId_training_type() == 5) {
+            return "redirect:/calendar/member/" + memberId;
+        }
+
+        return "redirect:/calendar/training/" + trainingId;
     }
 
     @PostMapping("/calendar/training/add")

@@ -53,6 +53,12 @@ public class TrainingScheduleService {
                 Members member = membersService.getMember(memberId);
 
                 for (TrainingSchedule training : trainingScheduleList) {
+
+                    if ((training.getTrainingType().getId_training_type() == 5)
+                            && !(member.getMemberTrainingSchedules().contains(training))) {
+                                continue;
+                    }
+
                     String color;
                     if (member.getMemberTrainingSchedules().contains(training)) {
                         color = "#3e4684";
