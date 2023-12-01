@@ -13,6 +13,7 @@ call staff_5_delete;
 call training_type_delete;
 call staff_info;
 call staff_schedule;
+call members_have_training_schedule_delete;
 select members_amount_1();
 select TotalMemberOnTrainingDate('2024-01-31');
 select TotalVisitsOnDate('2024-01-02');
