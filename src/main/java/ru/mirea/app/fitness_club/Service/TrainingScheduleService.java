@@ -40,7 +40,7 @@ public class TrainingScheduleService {
                 session_date_end, session_time_start, session_time_end);
     }
 
-    public List<Event> TrainingScheduleToEventList(List<TrainingSchedule> trainingScheduleList) {
+    public List<Event> trainingScheduleToEventList(List<TrainingSchedule> trainingScheduleList) {
         List<Event> eventsList = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 

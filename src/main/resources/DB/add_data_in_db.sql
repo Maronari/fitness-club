@@ -141,11 +141,11 @@ insert into nutrition_plan(id_member,nutrition_description,start_date) values
 (5, 'План питания для снижения жира и поддержания мышечной формы', '2021-06-01');
 
 insert into visits_history(visit_date) values
+('2023-11-28'),
+('2023-11-29'),
+('2023-11-30'),
 ('2023-12-1'),
-('2023-12-1'),
-('2023-12-1'),
-('2023-12-1'),
-('2023-12-1');
+('2023-11-28');
 
 insert into equipment_type(type_name) values
 ('Гантели'),

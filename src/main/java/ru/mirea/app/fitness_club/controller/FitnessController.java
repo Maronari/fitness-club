@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -31,11 +30,14 @@ import ru.mirea.app.fitness_club.ORM.EquipmentStatistics;
 import ru.mirea.app.fitness_club.ORM.Event;
 import ru.mirea.app.fitness_club.ORM.Members;
 import ru.mirea.app.fitness_club.ORM.Staff;
+import ru.mirea.app.fitness_club.ORM.StaffSchedule;
 import ru.mirea.app.fitness_club.ORM.Trainers;
 import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
 import ru.mirea.app.fitness_club.ORM.TrainingType;
 import ru.mirea.app.fitness_club.ORM.Accounts.UserDetailsServiceImpl;
 import ru.mirea.app.fitness_club.Service.MembersService;
+import ru.mirea.app.fitness_club.Service.PersonalTrainingForm;
+import ru.mirea.app.fitness_club.Service.StaffScheduleService;
 import ru.mirea.app.fitness_club.Service.StaffService;
 import ru.mirea.app.fitness_club.Service.TrainersService;
 import ru.mirea.app.fitness_club.Service.TrainingForm;
@@ -51,11 +53,10 @@ public class FitnessController {
     private final MembersService membersService;
     private final ClubsService clubsService;
     private final TrainingScheduleService trainingScheduleService;
+    private final StaffScheduleService staffScheduleService;
     private final TrainersService trainersService;
     private final StaffService staffService;
     private final TrainingTypeService trainingTypeService;
-
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @GetMapping("/profile/{role}/{id}")
@@ -70,8 +71,14 @@ public class FitnessController {
                 model.addAttribute("member", member);
                 model.addAttribute("achievements", membersService.getListOfMemberAchievements(id));
                 model.addAttribute("workouts", membersService.getListOfTrainingSchedule(id)
-                        .stream().limit(3).collect(Collectors.toList()));
-                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id).size());
+                        .stream()
+                        .filter(workout -> workout.getSession_date().after(new Date()))
+                        .limit(3)
+                        .collect(Collectors.toList()));
+                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id)
+                        .stream()
+                        .filter(workout -> workout.getSession_date().after(new Date()))
+                        .count());
                 model.addAttribute("photoURL", membersService.getPhotoUrl(id));
                 model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
                 break;
@@ -80,10 +87,26 @@ public class FitnessController {
                 Trainers trainer = trainersService.getTrainer(id);
                 model.addAttribute("trainer", trainer);
                 model.addAttribute("workouts", trainersService.getListOfTrainingSchedule(id)
-                        .stream().limit(3).collect(Collectors.toList()));
-                model.addAttribute("workoutsCount", membersService.getListOfTrainingSchedule(id).size());
+                        .stream()
+                        .filter(workout -> workout.getSession_date().after(new Date()))
+                        .limit(3)
+                        .collect(Collectors.toList()));
+                model.addAttribute("workoutsCount", trainersService.getListOfTrainingSchedule(id)
+                        .stream()
+                        .filter(workout -> workout.getSession_date().after(new Date()))
+                        .count());
                 model.addAttribute("photoURL", trainersService.getPhotoUrl(id));
-                model.addAttribute("news", clubsService.getListOfClubNews("София"));
+                break;
+            case "staff":
+                Staff staff = staffService.getStaff(id);
+                model.addAttribute("staffId", id);
+                model.addAttribute("staff", staff);
+                model.addAttribute("photoURL", staffService.getPhotoUrl(id));
+                model.addAttribute("staffSchedule", staffService.getListOfStaffSchedule(id)
+                        .stream()
+                        .filter(work -> work.getDate().after(new Date()))
+                        .limit(3)
+                        .collect(Collectors.toList()));
                 break;
             default:
                 break;
@@ -196,7 +219,8 @@ public class FitnessController {
     }
 
     @PostMapping("/calendar/training/add")
-    public String trainingAdd(@ModelAttribute AddTraining form, BindingResult result, Model model) throws ParseException {
+    public String trainingAdd(@ModelAttribute AddTraining form, BindingResult result, Model model)
+            throws ParseException {
 
         Integer id_trainer = Integer.parseInt(form.getId_trainer());
         Integer id_training_type = Integer.parseInt(form.getId_training_type());
@@ -286,6 +310,29 @@ public class FitnessController {
         return "html/trainers";
     }
 
+    @PostMapping("/trainers/subscribe")
+    public String subscribe(@ModelAttribute PersonalTrainingForm form, Model model) throws ParseException {
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        Date sessionDate = sf.parse(form.getTrainingDate());
+        Trainers trainer = trainersService.getTrainer(form.getTrainerId());
+        TrainingType trainingType = trainingTypeService.getTrainingType(5);
+
+        TrainingSchedule personaltraining = new TrainingSchedule(trainer,
+                trainingType,
+                sessionDate,
+                60,
+                new ArrayList<Members>());
+
+        trainingScheduleService.save(personaltraining);
+        Members member = membersService.getMember(form.getMemberId());
+        member.getMemberTrainingSchedules()
+                .add(trainingScheduleService.getTraining(trainingScheduleService.getIdOfTraining(personaltraining)));
+        membersService.save(member);
+
+        return "redirect:/calendar/training/" + trainingScheduleService.getIdOfTraining(personaltraining);
+    }
+
     @GetMapping("/login")
     String login() {
         return "html/login";
@@ -298,22 +345,61 @@ public class FitnessController {
 
     @GetMapping("/trainings")
     @ResponseBody
-    public String getTrainings(@RequestParam(value = "id_trainer", required = false) List<Integer> id_trainer,
-            @RequestParam(value = "id_training_type", required = false) List<Integer> id_training_type,
-            @RequestParam(value = "session_date_start", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date session_date_start,
-            @RequestParam(value = "session_date_end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date session_date_end,
-            @RequestParam(value = "session_time_start", required = false) Integer session_time_start,
-            @RequestParam(value = "session_time_end", required = false) Integer session_time_end) {
+    public String getTrainings(@RequestParam(value = "id_trainer", required = false) List<Integer> trainerId,
+            @RequestParam(value = "id_training_type", required = false) List<Integer> trainingTypeId,
+            @RequestParam(value = "session_date_start", required = false) String sessionDateStart,
+            @RequestParam(value = "session_date_end", required = false) String sessionDateEnd,
+            @RequestParam(value = "session_time_start", required = false) Integer sessionTimeStart,
+            @RequestParam(value = "session_time_end", required = false) Integer sessionTimeEnd) throws ParseException {
+
+        Date startDate = null;
+        Date endDate = null;
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        if (sessionDateStart != null) {
+            try {
+                startDate = sf.parse(sessionDateStart);
+            } catch (ParseException e) {
+                startDate = null;
+            }
+        }
+
+        if (sessionDateEnd != null) {
+            try {
+                endDate = sf.parse(sessionDateEnd);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(endDate);
+                calendar.set(Calendar.HOUR_OF_DAY, 23);
+                endDate = calendar.getTime();
+            } catch (ParseException e) {
+                endDate = null;
+            }
+        }
 
         List<TrainingSchedule> trainingScheduleList;
-        trainingScheduleList = trainingScheduleService.getTrainingList(id_trainer,
-                id_training_type,
-                session_date_start,
-                session_date_end,
-                session_time_start,
-                session_time_end);
+        trainingScheduleList = trainingScheduleService.getTrainingList(trainerId,
+                trainingTypeId,
+                startDate,
+                endDate,
+                sessionTimeStart,
+                sessionTimeEnd);
 
-        List<Event> eventsList = trainingScheduleService.TrainingScheduleToEventList(trainingScheduleList);
+        List<Event> eventsList = trainingScheduleService.trainingScheduleToEventList(trainingScheduleList);
+        String jsonMsg = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonMsg = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(eventsList);
+        } catch (IOException ioex) {
+            System.out.println(ioex.getMessage());
+        }
+        return jsonMsg;
+    }
+
+    @GetMapping("/calendar/work/events")
+    @ResponseBody
+    public String getWorks() {
+        List<StaffSchedule> staffScheduleList;
+        staffScheduleList = staffScheduleService.getStaffScheduleList();
+        List<Event> eventsList = staffScheduleService.staffScheduleToEvents(staffScheduleList);
         String jsonMsg = null;
         try {
             ObjectMapper mapper = new ObjectMapper();

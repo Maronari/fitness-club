@@ -66,20 +66,40 @@
                 <div class="trainer-description">
                     <p th:text="${trainer.first_name} + ' ' + ${trainer.second_name}"></p>
                 </div>
-                <div class="buttons">
-                    <form th:action="'/trainers/subscribe'" method="post" th:object="${TrainingForm}">
+                <div class="buttons" th:if="${role == 'member'}">
+                    <form th:action="'/trainers/subscribe'" method="post" th:object="${PersonalTrainingForm}">
                         <input type="hidden" name="memberId" th:value="${memberId}">
-                        <input type="hidden" name="trainingId" th:value="${id}">
+                        <input type="hidden" name="trainerId" th:value="${trainer.id_trainer}">
+
+                        <div class="registration">
+                            <input type="datetime-local" min="" class="date" name="trainingDate" />
+                            <!-- TODO - min date -->
+                        </div>
+
                         <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
                             th:classappend="${isSignedUp} ? 'gray-button' : ''"
-                            th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'"></button>
-                        <button type="submit" class="unsubscribe-button" th:if="${isSignedUp}"
-                            formaction="/training/unsubscribe">Отписаться</button>
+                            th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'">
+                        </button>
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const dateControl = document.querySelector('input[type="datetime-local"]');
+        let now = new Date();
+        let dd = String(now.getDate()).padStart(2, '0');
+        let mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = now.getFullYear();
+        let hh = String(now.getHours()).padStart(2, '0');
+        let min = String(now.getMinutes()).padStart(2, '0');
+        
+        now = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + min;
+        dateControl.min = now;
+    </script>
+
 </body>
 
 </html>
