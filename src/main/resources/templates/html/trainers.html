@@ -67,7 +67,8 @@
                     <p th:text="${trainer.first_name} + ' ' + ${trainer.second_name}"></p>
                 </div>
                 <div class="buttons" th:if="${role == 'member'}">
-                    <form th:action="'/trainers/subscribe'" method="post" th:object="${PersonalTrainingForm}">
+                    <form th:action="'/trainers/subscribe'" method="post" th:object="${PersonalTrainingForm}"
+                        class="subscribe-form">
                         <input type="hidden" name="memberId" th:value="${memberId}">
                         <input type="hidden" name="trainerId" th:value="${trainer.id_trainer}">
 
@@ -95,9 +96,27 @@
         let yyyy = now.getFullYear();
         let hh = String(now.getHours()).padStart(2, '0');
         let min = String(now.getMinutes()).padStart(2, '0');
-        
+
         now = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + min;
         dateControl.min = now;
+    </script>
+
+    <script>
+        const forms = document.querySelectorAll('.subscribe-form'); // replace 'formClass' with the actual class of your forms
+
+        forms.forEach(form => {
+            const dateControl = form.querySelector('input[type="datetime-local"]');
+
+            form.addEventListener('submit', function (event) {
+                let now = new Date();
+                let selectedDate = new Date(dateControl.value);
+
+                if (!dateControl.value || selectedDate < now) {
+                    event.preventDefault();
+                    alert( 'Пожалуйста, введите дату');
+                }
+            });
+        });
     </script>
 
 </body>
