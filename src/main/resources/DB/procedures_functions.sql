@@ -158,6 +158,58 @@ DELETE FROM training_schedule WHERE id_session = OLD.id_session;
 END$$
 
 
+/*удаление удаленных данных*/
+CREATE TRIGGER visits_history_AFTER_DELETE after delete on members_have_visits_history FOR EACH ROW
+BEGIN
+DELETE FROM visits_history WHERE id_visit = OLD.id_visit;
+END$$
+
+
+/*удаление удаленных данных*/
+CREATE TRIGGER achievements_AFTER_DELETE after delete on members_have_achievements FOR EACH ROW
+BEGIN
+DELETE FROM achievements WHERE id_achievement = OLD.id_achievement;
+END$$
+
+
+/*удаление удаленных данных*/
+CREATE TRIGGER inbody_analyses_AFTER_DELETE after delete on members_have_inbody_analyses FOR EACH ROW
+BEGIN
+DELETE FROM inbody_analyses WHERE id_inbody_analys = OLD.id_inbody_analys;
+END$$
+
+
+/*удаление удаленных данных*/
+CREATE TRIGGER equipment_statistics_AFTER_DELETE after delete on members_have_equipment_statistics FOR EACH ROW
+BEGIN
+DELETE FROM equipment_statistics WHERE id_statistics = OLD.id_statistics;
+END$$
+
+
+
+CREATE PROCEDURE members_have_equipment_statistics_delete()
+BEGIN
+delete from members_have_equipment_statistics where id_statistics=1;
+select *from equipment_statistics;
+END$$
+
+CREATE PROCEDURE members_have_inbody_analyses_delete()
+BEGIN
+delete from members_have_inbody_analyses where id_inbody_analys=1;
+select *from inbody_analyses;
+END$$
+
+CREATE PROCEDURE members_have_achievements_delete()
+BEGIN
+delete from members_have_achievements where id_achievement=1;
+select *from achievements;
+END$$
+
+CREATE PROCEDURE members_have_visits_history_delete()
+BEGIN
+delete from members_have_visits_history where id_visit=1;
+select *from visits_history;
+END$$
 
 CREATE PROCEDURE members_have_training_schedule_delete()
 BEGIN
@@ -274,6 +326,8 @@ join training_schedule using (id_trainer)
 join training_type using (id_training_type)
 order by session_date asc;
 END$$
+
+
 
 CREATE FUNCTION TotalMembersWithNutritionPlan(id_plan INT) RETURNS INT
 BEGIN

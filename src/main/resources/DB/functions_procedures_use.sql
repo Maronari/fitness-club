@@ -14,6 +14,11 @@ call training_type_delete;
 call staff_info;
 call staff_schedule;
 call members_have_training_schedule_delete;
+call members_have_visits_history_delete();
+call members_have_achievements_delete();
+call members_have_inbody_analyses_delete();
+call members_have_equipment_statistics_delete();
+
 select members_amount_1();
 select TotalMemberOnTrainingDate('2024-01-31');
 select TotalVisitsOnDate('2024-01-02');
