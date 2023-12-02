@@ -2,7 +2,9 @@ package ru.mirea.app.fitness_club.ORM;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -46,7 +48,8 @@ public class Members {
 
         @ManyToMany(cascade = { CascadeType.ALL })
         @JoinTable(name = "members_have_achievements", joinColumns = {
-                        @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_achievement") })
+                        @JoinColumn(name = "id_member") }, inverseJoinColumns = {
+                                        @JoinColumn(name = "id_achievement") })
         private List<Achievements> memberAchievements = new ArrayList<>();
 
         @ManyToMany(cascade = { CascadeType.ALL })
@@ -56,12 +59,13 @@ public class Members {
 
         @ManyToMany(cascade = { CascadeType.ALL })
         @JoinTable(name = "members_have_inbody_analyses", joinColumns = {
-                        @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_inbody_analys") })
+                        @JoinColumn(name = "id_member") }, inverseJoinColumns = {
+                                        @JoinColumn(name = "id_inbody_analys") })
         private List<InbodyAnalyses> memberInbodyAnalyses = new ArrayList<>();
 
         @ManyToMany(cascade = { CascadeType.ALL })
         @JoinTable(name = "members_have_equipment_statistics", joinColumns = {
-                        @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_statistics")})
+                        @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_statistics") })
         private List<EquipmentStatistics> memberEquipmentStatistics = new ArrayList<>();
 
         @OneToOne(mappedBy = "member")
@@ -70,8 +74,18 @@ public class Members {
         @OneToOne(mappedBy = "member")
         private NutritionPlan nutritionPlans;
 
-        @ManyToMany(cascade = { CascadeType.ALL })
+        @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
         @JoinTable(name = "members_have_training_schedule", joinColumns = {
                         @JoinColumn(name = "id_member") }, inverseJoinColumns = { @JoinColumn(name = "id_session") })
-        private List<TrainingSchedule> memberTrainingSchedules = new ArrayList<>();
+        private Set<TrainingSchedule> memberTrainingSchedules = new HashSet<>();
+
+        public void addTrainingSchedule(TrainingSchedule trainingSchedule) {
+                memberTrainingSchedules.add(trainingSchedule);
+                trainingSchedule.getMembers().add(this);
+        }
+
+        public void removeTrainingSchedule(TrainingSchedule trainingSchedule) {
+                memberTrainingSchedules.remove(trainingSchedule);
+                trainingSchedule.getMembers().remove(this);
+        }
 }

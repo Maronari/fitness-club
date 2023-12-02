@@ -104,9 +104,8 @@ public class TrainingScheduleService {
         return training.getTrainers();
     }
 
-    public void save(TrainingSchedule training) {
-        trainingScheduleRepository.save(training);
-
+    public TrainingSchedule saveAndFlush(TrainingSchedule training) {
+        return trainingScheduleRepository.saveAndFlush(training);
     }
 
     public Integer getIdOfTraining(TrainingSchedule training) {

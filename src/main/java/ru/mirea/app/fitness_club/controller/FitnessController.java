@@ -241,7 +241,7 @@ public class FitnessController {
                 session_time,
                 new ArrayList<Members>());
 
-        trainingScheduleService.save(training);
+        trainingScheduleService.saveAndFlush(training);
         System.out.println("training added");
 
         return "redirect:/calendar/training/" + trainingScheduleService.getIdOfTraining(training);
@@ -328,10 +328,10 @@ public class FitnessController {
                 60,
                 new ArrayList<Members>());
 
-        trainingScheduleService.save(personaltraining);
+        personaltraining = trainingScheduleService.saveAndFlush(personaltraining);
+
         Members member = membersService.getMember(form.getMemberId());
-        member.getMemberTrainingSchedules()
-                .add(trainingScheduleService.getTraining(trainingScheduleService.getIdOfTraining(personaltraining)));
+        member.addTrainingSchedule(personaltraining);
         membersService.save(member);
 
         return "redirect:/calendar/training/" + trainingScheduleService.getIdOfTraining(personaltraining);

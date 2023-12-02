@@ -755,7 +755,7 @@ END$$
 /*сравнение добавляемой даты с настоящей перед добавлением*/
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`visits_history_BEFORE_INSERT` BEFORE INSERT ON `visits_history` FOR EACH ROW
 BEGIN
-IF NEW.visit_date > CURDATE() THEN 
+IF NEW.visit_date < CURDATE() THEN 
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert a visit with a date in the past.';
   END IF;
 END$$
