@@ -20,7 +20,7 @@ public class TrainersService {
         return trainersRepository.findById(trainerId).orElse(null);
     }
 
-    public List<Trainers> getListOfTrainers(){
+    public List<Trainers> getListOfTrainers() {
         return trainersRepository.findAll();
     }
 
@@ -33,7 +33,7 @@ public class TrainersService {
         }
         return null;
     }
-    
+
     public String getTrainerSecondName(Integer trainerId) {
         List<Trainers> trainers = trainersRepository.findAll();
         for (Trainers trainer : trainers) {
@@ -65,7 +65,7 @@ public class TrainersService {
     }
 
     public List<TrainingSchedule> getTrainingSchedules(int trainerId) {
-        Trainers trainers = trainersRepository.findById(trainerId).orElse(null); 
+        Trainers trainers = trainersRepository.findById(trainerId).orElse(null);
         return trainers.getTrainingSchedules();
     }
 
@@ -83,6 +83,10 @@ public class TrainersService {
 
     public String getPhotoUrl(int trainersId) {
         TrainersAccounts trainerAccount = getTrainerAccount(trainersId);
-        return trainerAccount.getTrainerPhoto().getImage_url();
+        try {
+            return trainerAccount.getTrainerPhoto().getImage_url();
+        } catch (Exception e) {
+            return "https://i.postimg.cc/Wbznd0qn/1674365371-3-34.jpg";
+        }
     }
 }

@@ -21,23 +21,27 @@ public class StaffService {
     }
 
     public List<StaffSchedule> getStaffSchedule(int staffId) {
-        Staff staff = staffRepository.findById(staffId).orElse(null); 
+        Staff staff = staffRepository.findById(staffId).orElse(null);
         return staff.getStaffSchedules();
     }
 
     public StaffAccounts getStaffAccount(int staffId) {
-        Staff staff = staffRepository.findById(staffId).orElse(null); 
+        Staff staff = staffRepository.findById(staffId).orElse(null);
         return staff.getStaffAccounts();
     }
 
     public String getPositionName(int staffId) {
-        Staff staff = staffRepository.findById(staffId).orElse(null); 
+        Staff staff = staffRepository.findById(staffId).orElse(null);
         return staff.getPosition().getRole_name();
     }
 
     public String getPhotoUrl(Integer staffId) {
         StaffAccounts staffAccount = getStaffAccount(staffId);
-        return staffAccount.getStaffPhoto().getImage_url();
+        try {
+            return staffAccount.getStaffPhoto().getImage_url();
+        } catch (Exception e) {
+            return "https://i.postimg.cc/Wbznd0qn/1674365371-3-34.jpg";
+        }
     }
 
     public List<StaffSchedule> getListOfStaffSchedule(Integer staffId) {

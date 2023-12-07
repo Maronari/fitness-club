@@ -1,6 +1,7 @@
 USE `fitness_club_db`;
-/*добавление данных в существующую таблицу после обновления данных*/
+
 DELIMITER $$
+USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER
 `fitness_club_db`.`achievements_AFTER_UPDATE`
 AFTER UPDATE ON `achievements` FOR EACH ROW
@@ -9,8 +10,7 @@ BEGIN
   VALUES (NOW());
 END$$
 
-
-/*добавление данных в создаваемую таблицу после обновления данных*/
+USE `fitness_club_db`$$
 create table equipment_supplies(
 id_supply int,
 date_supply datetime);
@@ -24,8 +24,7 @@ INSERT INTO `fitness_club_db`.`equipment_supplies`
   VALUES (NEW.id_equipment, NOW());
 END$$
 
-
-/*проверка добавляемых данных на корректность перед добавлением*/
+USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`members_BEFORE_INSERT` BEFORE INSERT ON `members` FOR EACH ROW
 BEGIN
 IF NEW.end_trial_date < NEW.start_trial_date THEN 
@@ -33,8 +32,7 @@ IF NEW.end_trial_date < NEW.start_trial_date THEN
   END IF;
 END$$
 
-
-/*сравнение добавляемого имени с существующими перед добавлением*/
+USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER 
 `fitness_club_db`.`members_accounts_BEFORE_INSERT` BEFORE INSERT ON `members_accounts` FOR EACH ROW
 BEGIN
@@ -43,17 +41,15 @@ IF EXISTS (SELECT 1 FROM `fitness_club_db`.`members_accounts` WHERE username = N
   END IF;
 END$$
 
+-- USE `fitness_club_db`$$
+-- CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`members_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `members_accounts` FOR EACH ROW
+-- BEGIN
+-- IF EXISTS (SELECT 1 FROM `fitness_club_db`.`members_accounts` WHERE username = NEW.username) THEN 
+--     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
+--   END IF;
+-- END$$
 
-/*сравнение добавляемого имени с существующими перед изменением*/
-CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`members_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `members_accounts` FOR EACH ROW
-BEGIN
-IF EXISTS (SELECT 1 FROM `fitness_club_db`.`members_accounts` WHERE username = NEW.username) THEN 
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
-  END IF;
-END$$
-
-
-/*добавление данных в создаваемую таблицу после обновления данных*/
+USE `fitness_club_db`$$
 create table news_audit(
 id int,
 date_changed datetime);
@@ -64,8 +60,7 @@ INSERT INTO news_audit (id,date_changed)
   VALUES (NEW.id_news, NOW());
 END$$
 
-
-/*проверка добавляемых данных на корректность перед добавлением*/
+USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`nutrition_plan_BEFORE_INSERT` BEFORE INSERT ON `nutrition_plan` FOR EACH ROW
 BEGIN
 IF NEW.end_date < NEW.start_date THEN 
@@ -73,42 +68,37 @@ IF NEW.end_date < NEW.start_date THEN
   END IF;
 END$$
 
-
-/*сравнение добавляемого имени с существующими перед добавлением*/
+USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`staff_accounts_BEFORE_INSERT` BEFORE INSERT ON `staff_accounts` FOR EACH ROW
 BEGIN
 IF EXISTS (SELECT 1 FROM `fitness_club_db`.`staff_accounts` WHERE username = NEW.username) THEN 
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot make a new account with an existing username.';
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot make a new accaount with an existing username.';
   END IF;
 END$$
 
+-- USE `fitness_club_db`$$
+-- CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`staff_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `staff_accounts` FOR EACH ROW
+-- BEGIN
+-- IF EXISTS (SELECT 1 FROM `fitness_club_db`.`staff_accounts` WHERE username = NEW.username) THEN 
+--     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
+--   END IF;
+-- END$$
 
-/*сравнение добавляемого имени с существующими перед изменением*/
-CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`staff_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `staff_accounts` FOR EACH ROW
-BEGIN
-IF EXISTS (SELECT 1 FROM `fitness_club_db`.`staff_accounts` WHERE username = NEW.username) THEN 
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
-  END IF;
-END$$
-
-
-/*удаление связаных данных после удаления данных*/
+USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`trainers_AFTER_DELETE` AFTER DELETE ON `trainers` FOR EACH ROW
 BEGIN
 DELETE FROM `fitness_club_db`.`training_schedule` WHERE id_trainer = OLD.id_trainer;
 END$$
 
+-- USE `fitness_club_db`$$
+-- CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`trainers_accounts_BEFORE_INSERT` BEFORE INSERT ON `trainers_accounts` FOR EACH ROW
+-- BEGIN
+-- IF EXISTS (SELECT 1 FROM `fitness_club_db`.`trainers_accounts` WHERE username = NEW.username) THEN 
+--     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot make a new account with an existing username.';
+--   END IF;
+-- END$$
 
-/*сравнение добавляемого имени с существующими перед добавлением*/
-CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`trainers_accounts_BEFORE_INSERT` BEFORE INSERT ON `trainers_accounts` FOR EACH ROW
-BEGIN
-IF EXISTS (SELECT 1 FROM `fitness_club_db`.`trainers_accounts` WHERE username = NEW.username) THEN 
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot make a new account with an existing username.';
-  END IF;
-END$$
-
-
-/*сравнение добавляемого имени с существующими перед изменением*/
+USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`trainers_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `trainers_accounts` FOR EACH ROW
 BEGIN
 IF EXISTS (SELECT 1 FROM `fitness_club_db`.`trainers_accounts` WHERE username = NEW.username) THEN 
@@ -116,8 +106,7 @@ IF EXISTS (SELECT 1 FROM `fitness_club_db`.`trainers_accounts` WHERE username = 
   END IF;
 END$$
 
-
-/*сравнение добавляемой даты с настоящей перед добавлением*/
+USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER
 `fitness_club_db`.`training_schedule_BEFORE_INSERT`
 BEFORE INSERT ON `training_schedule` FOR EACH ROW
@@ -127,8 +116,7 @@ IF NEW.session_date < CURDATE() THEN
   END IF;
 END$$
 
-
-/*добавление данных в создаваемую таблицу после обновления данных*/
+USE `fitness_club_db`$$
 create table training_schedule_audit(
 id_session int, 
 changed_at date);
@@ -141,51 +129,13 @@ BEGIN
   VALUES (NEW.id_session, NOW());
 END$$
 
-
-/*сравнение добавляемой даты с настоящей перед добавлением*/
+USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`visits_history_BEFORE_INSERT` BEFORE INSERT ON `visits_history` FOR EACH ROW
 BEGIN
-IF NEW.visit_date > CURDATE() THEN 
+IF NEW.visit_date < CURDATE() THEN 
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert a visit with a date in the past.';
   END IF;
 END$$
-
-
-/*удаление удаленных данных*/
-CREATE TRIGGER training_schedule_AFTER_DELETE after delete on members_have_training_schedule FOR EACH ROW
-BEGIN
-DELETE FROM training_schedule WHERE id_session = OLD.id_session;
-END$$
-
-
-/*удаление удаленных данных*/
-CREATE TRIGGER visits_history_AFTER_DELETE after delete on members_have_visits_history FOR EACH ROW
-BEGIN
-DELETE FROM visits_history WHERE id_visit = OLD.id_visit;
-END$$
-
-
-/*удаление удаленных данных*/
-CREATE TRIGGER achievements_AFTER_DELETE after delete on members_have_achievements FOR EACH ROW
-BEGIN
-DELETE FROM achievements WHERE id_achievement = OLD.id_achievement;
-END$$
-
-
-/*удаление удаленных данных*/
-CREATE TRIGGER inbody_analyses_AFTER_DELETE after delete on members_have_inbody_analyses FOR EACH ROW
-BEGIN
-DELETE FROM inbody_analyses WHERE id_inbody_analys = OLD.id_inbody_analys;
-END$$
-
-
-/*удаление удаленных данных*/
-CREATE TRIGGER equipment_statistics_AFTER_DELETE after delete on members_have_equipment_statistics FOR EACH ROW
-BEGIN
-DELETE FROM equipment_statistics WHERE id_statistics = OLD.id_statistics;
-END$$
-
-
 
 CREATE PROCEDURE members_have_equipment_statistics_delete()
 BEGIN
@@ -437,6 +387,7 @@ BEGIN
     SELECT COUNT(*) INTO total FROM `fitness_club_db`.`members_have_achievements` WHERE `id_achievement` = id;
     RETURN total;
 END$$
+
 DELIMITER ;
 
 

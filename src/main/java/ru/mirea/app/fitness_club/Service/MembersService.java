@@ -49,7 +49,11 @@ public class MembersService {
 
     public String getPhotoUrl(int memberId) {
         MembersAccounts memberAccounts = getMemberAccount(memberId);
-        return memberAccounts.getUserPhoto().getImage_url();
+        try {
+            return memberAccounts.getUserPhoto().getImage_url();
+        } catch (Exception e) {
+            return "https://i.postimg.cc/Wbznd0qn/1674365371-3-34.jpg";
+        }
     }
 
     public List<Feedback> getListOFeedbacks(int memberId) {
