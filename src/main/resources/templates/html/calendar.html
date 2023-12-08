@@ -301,6 +301,7 @@
 
         const timeControl = document.querySelector('input[type="number"]');
         timeControl.min = 30;
+        timeControl.max = 120;
     </script>
 
     <script th:if="${role == 'trainer'}">
