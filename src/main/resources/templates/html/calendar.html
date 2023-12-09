@@ -304,9 +304,9 @@
         timeControl.max = 120;
     </script>
 
-    <script th:if="${role == 'trainer'}">
+    <script th:if="${role == 'trainer'}" th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('create-trainingForm').addEventListener('submit', function (event) {
+            document.getElementById('create-trainingForm').addEventListener('submit', async function (event) {
                 let inputs = this.getElementsByTagName('input');
                 let radioChecked = false;
                 for (let i = 0; i < inputs.length; i++) {
@@ -325,10 +325,26 @@
                     event.preventDefault(); // prevent form from being submitted
                     return;
                 }
+
+                var id_trainer =  /*[[${trainerId}]]*/[];
+                var url = '/trainings?id_trainer=' + id_trainer;
+                let response = await fetch(url);
+                let trainings = await response.json();
+                var newTrainingStart = new Date(document.getElementById('date-select').value);
+                var newTrainingEnd = new Date(newTrainingStart.getTime() + document.getElementById('time-select').value * 60000);
+                for (var i = 0; i < trainings.length; i++) {
+                    var trainingStart = new Date(trainings[i].start);
+                    var trainingEnd = new Date(trainings[i].end);
+                    if ((newTrainingStart >= trainingStart && newTrainingStart <= trainingEnd) ||
+                        (newTrainingEnd >= trainingStart && newTrainingEnd <= trainingEnd)) {
+                        alert("Время тренировки пересекается с уже существующей тренировкой");
+                        event.preventDefault(); // prevent form from being submitted
+                        return;
+                    }
+                }
             });
         });
     </script>
-
 
     <script th:if="${role == 'member'}">
         document.addEventListener('DOMContentLoaded', function () {
