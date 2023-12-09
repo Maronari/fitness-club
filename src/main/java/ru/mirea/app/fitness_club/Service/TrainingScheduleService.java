@@ -67,11 +67,16 @@ public class TrainingScheduleService {
                         color = "#b2b4d4";
                     }
 
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(training.getSession_date());
+                    cal.add(Calendar.MINUTE, training.getSession_time());
+
                     String trainingType = training.getTrainingType().getTraining_type_name();
-                    String trainingDate = sdf.format(training.getSession_date()).toString();
+                    String trainingDateStart = sdf.format(training.getSession_date()).toString();
+                    String trainingDateEnd = sdf.format(cal.getTime()).toString();
                     int sessionId = training.getId_session();
 
-                    eventsList.add(new Event(trainingType, trainingDate, trainingDate, sessionId, color));
+                    eventsList.add(new Event(trainingType, trainingDateStart, trainingDateEnd, sessionId, color));
                 }
                 break;
             case "trainer":

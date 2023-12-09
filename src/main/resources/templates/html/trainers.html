@@ -13,6 +13,8 @@
 </head>
 
 <body>
+    <div id="overlay"></div>
+
     <div class="sidebar">
         <div class="logo">
             <img th:src="@{/icons/logo.png}" alt="Logo">
@@ -72,20 +74,128 @@
                         <input type="hidden" name="memberId" th:value="${memberId}">
                         <input type="hidden" name="trainerId" th:value="${trainer.id_trainer}">
 
-                        <div class="registration">
-                            <input type="datetime-local" min="" class="date" name="trainingDate" id="date-select" />
+                        <button type="button" id="openSidebar">Записаться</button>
+
+                        <div id="sidebar">
+
+                            <h2>Выберите время тренировки</h2>
+                            <div class="registration">
+                                <input type="datetime-local" min="" class="date" name="trainingDate" id="date-select" />
+                            </div>
+
+                            <div id="schedule">
+                                <h2>Занятость тренера</h2>
+                                <ul id="scheduleList"></ul>
+                            </div>
+
+                            <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
+                                th:classappend="${isSignedUp} ? 'gray-button' : ''"
+                                th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'">
+                            </button>
+
+                            <button type="button" id="closeSidebar">Закрыть</button>
                         </div>
 
-                        <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
-                            th:classappend="${isSignedUp} ? 'gray-button' : ''"
-                            th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'">
-                        </button>
 
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+
+    </script>
+
+    <script>
+        function formatTime(date) {
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+
+            // Pad the hours and minutes with leading zeros, if necessary
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+
+            return hours + ':' + minutes;
+        }
+
+        function formatDateToYYYYMMDD(date) {
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1; // getMonth() returns 0-11
+            let day = date.getDate();
+
+            // Pad the month and day with leading zeros, if necessary
+            month = month < 10 ? '0' + month : month;
+            day = day < 10 ? '0' + day : day;
+
+            return year + '-' + month + '-' + day;
+        }
+
+        function formatDateToDDMM(date) {
+            let month = date.getMonth() + 1; // getMonth() returns 0-11
+            let day = date.getDate();
+
+            // Pad the month and day with leading zeros, if necessary
+            month = month < 10 ? '0' + month : month;
+            day = day < 10 ? '0' + day : day;
+
+            return day + '-' + month;
+        }
+
+        function fetchSchedule(form) {
+            let id_trainer = form.elements["trainerId"].value;
+            let trainingDate = new Date(form.elements["trainingDate"].value);
+            let dateStart = new Date(trainingDate.getFullYear(), trainingDate.getMonth(), trainingDate.getDate());
+            //let dateEnd = new Date(trainingDate.getFullYear(), trainingDate.getMonth(), trainingDate.getDate());
+            let url = '/trainings?id_trainer=' + id_trainer
+                + '&session_date_start=' + formatDateToYYYYMMDD(dateStart)
+                + '&session_date_end=' + formatDateToYYYYMMDD(dateStart);
+            console.log("url " + url);
+            fetch(url)
+                .then(response => response.json())
+                .then(data => displaySchedule(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displaySchedule(schedule) {
+            const scheduleList = document.getElementById('scheduleList');
+            scheduleList.innerHTML = ''; // Clear the list
+
+            schedule.forEach(item => {
+                const listItem = document.createElement('li');
+                let startTime = formatTime(new Date(item.start));
+                let endTime = formatTime(new Date(item.end));
+                listItem.textContent = `${item.title}: ${formatDateToDDMM(new Date(item.start))} с ${startTime} до ${endTime}`;
+                scheduleList.appendChild(listItem);
+            });
+        }
+
+        const forms = document.querySelectorAll('.subscribe-form');
+        const openSidebarButtons = document.querySelectorAll('.openSidebar');
+        const closeSidebarButtons = document.querySelectorAll('.closeSidebar');
+        const sidebars = document.querySelectorAll('.closeSidebar');
+
+        forms.forEach(form => {
+
+            let trainingDateField = form.elements["trainingDate"];
+            let previousDate = null;
+
+            trainingDateField.addEventListener('change', function () {
+                fetchSchedule(form);
+            });
+
+            // Call fetchSchedule when the sidebar is opened
+            form.querySelector('#openSidebar').addEventListener('click', function () {
+                form.querySelector('#sidebar').classList.add('active');
+                document.getElementById('overlay').style.display = 'block';
+            });
+
+            form.querySelector('#closeSidebar').addEventListener('click', function () {
+                form.querySelector('#sidebar').classList.remove('active');
+                document.getElementById('overlay').style.display = 'none';
+            });
+        });
+    </script>
 
     <script>
         const dateControl = document.querySelector('input[type="datetime-local"]');
@@ -147,7 +257,7 @@
             }
         }
 
-        const forms = document.querySelectorAll('.subscribe-form');
+        //const forms = document.querySelectorAll('.subscribe-form');
 
         forms.forEach(form => {
             form.addEventListener('submit', async function (event) {

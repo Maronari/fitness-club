@@ -29,7 +29,7 @@ body {
     flex-grow: 1;
     padding: 140px;
     padding-top: 0px;
-    max-width: 100%;
+    max-width: 80%;
 }
 
 .all-trainers {
@@ -43,7 +43,7 @@ body {
     padding: 15px;
     display: grid;
     width: 260px;
-    height: 400px;
+    height: 365px;
     border-radius: 10px;
     display: table-column;
     justify-content: space-between;
@@ -100,6 +100,7 @@ body {
     -ms-user-select: none;
     user-select: none;
     overflow-y: hidden;
+    margin-right: 20px;
 }
 
 .gray-button {
@@ -114,7 +115,7 @@ body {
 }
 
 .registration {
-    background-color: white;
+    background-color: #f1f7fe;
     padding: 5px 10px;
     margin: 5px 5px;
     width: 200px;
@@ -129,4 +130,77 @@ input[ type="datetime-local"] {
     justify-content: center;
     align-items: center;
     border: none;
+    background-color: #f1f7fe;
+}
+
+#sidebar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 350px;
+    height: 100%;
+    background-color: #dde5f4;
+    padding: 20px;
+    box-sizing: border-box;
+    transform: translateX(100%);
+    transition: transform 0.2s ease-in-out;
+    z-index: 2;
+}
+
+#sidebar.active {
+    transform: translateX(0);
+}
+
+#openSidebar,
+#closeSidebar {
+    margin-top: 15px;
+    background-color: #3e4684;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 5px;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 0 2em #e6e9f9;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow-y: hidden;
+}
+
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1; /* Ensure it's below the sidebar */
+}
+
+#schedule {
+    margin-top: 20px;
+}
+
+#sidebar h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+#scheduleList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#scheduleList li {
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #f1f7fe;
+    border-radius: 5px;
 }

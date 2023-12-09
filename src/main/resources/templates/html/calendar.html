@@ -254,11 +254,13 @@
                             <div class="type-select">
                                 <p>Вид тренировки</p>
                                 <div th:each="type : ${TrainingTypeList}">
-                                    <input type="radio" th:id="'type-select-' + ${type.id_training_type}"
-                                        th:value="${type.id_training_type}" th:field="*{id_training_type}"
-                                        class="input-type">
-                                    <label th:for="${'type-' + type.id_training_type}"
-                                        th:text="${type.training_type_name}"></label>
+                                    <div th:if="${type.id_training_type != 5}">
+                                        <input type="radio" th:id="'type-select-' + ${type.id_training_type}"
+                                            th:value="${type.id_training_type}" th:field="*{id_training_type}"
+                                            class="input-type">
+                                        <label th:for="${'type-' + type.id_training_type}"
+                                            th:text="${type.training_type_name}"></label>
+                                    </div>
                                 </div>
                             </div>
                             <!-- select training date -->
