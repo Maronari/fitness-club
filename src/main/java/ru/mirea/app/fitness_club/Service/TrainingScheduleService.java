@@ -2,6 +2,7 @@ package ru.mirea.app.fitness_club.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class TrainingScheduleService {
 
                     if ((training.getTrainingType().getId_training_type() == 5)
                             && !(member.getMemberTrainingSchedules().contains(training))) {
-                                continue;
+                        continue;
                     }
 
                     String color;
@@ -77,11 +78,16 @@ public class TrainingScheduleService {
                 for (TrainingSchedule training : trainingScheduleList) {
                     String color = "#3e4684";
 
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(training.getSession_date());
+                    cal.add(Calendar.MINUTE, training.getSession_time());
+
                     String trainingType = training.getTrainingType().getTraining_type_name();
-                    String trainingDate = sdf.format(training.getSession_date()).toString();
+                    String trainingDateStart = sdf.format(training.getSession_date()).toString();
+                    String trainingDateEnd = sdf.format(cal.getTime()).toString();
                     int sessionId = training.getId_session();
 
-                    eventsList.add(new Event(trainingType, trainingDate, trainingDate, sessionId, color));
+                    eventsList.add(new Event(trainingType, trainingDateStart, trainingDateEnd, sessionId, color));
                 }
                 break;
             default:
@@ -89,6 +95,19 @@ public class TrainingScheduleService {
         }
 
         return eventsList;
+    }
+
+    public Date getTrainingDateStart(int scheduleId) {
+        TrainingSchedule training = trainingScheduleRepository.findById(scheduleId).orElse(null);
+        return training.getSession_date();
+    }
+
+    public Date getTrainingDateEnd(int scheduleId) {
+        TrainingSchedule training = trainingScheduleRepository.findById(scheduleId).orElse(null);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(training.getSession_date());
+        cal.add(Calendar.MINUTE, training.getSession_time());
+        return cal.getTime();
     }
 
     public List<TrainingType> getTrainingTypes() {

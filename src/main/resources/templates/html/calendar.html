@@ -275,7 +275,7 @@
                                 <p class="session-time-block" th:text="'мин'"></p>
                             </div>
 
-                            <button type="submit" value="Submit">Добавить</button>
+                            <button type="submit" id="create-trainingForm-button">Добавить</button>
                         </form>
                     </div>
                 </div>
@@ -304,26 +304,73 @@
         timeControl.max = 120;
     </script>
 
-    <script th:if="${role == 'trainer'}">
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('create-trainingForm').addEventListener('submit', function (event) {
-                let inputs = this.getElementsByTagName('input');
-                let radioChecked = false;
-                for (let i = 0; i < inputs.length; i++) {
-                    if (inputs[i].type === 'radio') {
-                        if (inputs[i].checked) {
-                            radioChecked = true;
+    <script th:if="${role == 'trainer'}" th:inline="javascript">
+        async function checkData(form) {
+            var id_trainer = /*[[${trainerId}]]*/[];
+            var url = '/trainings?id_trainer=' + id_trainer;
+
+            let newEventStart = new Date(document.getElementById('date-select').value);
+            let durationMinutes = parseInt(document.getElementById('time-select').value);
+            let newEventEnd = new Date(newEventStart.getTime() + durationMinutes * 60000);
+
+            if (!(newEventStart === null || newEventStart === '' || newEventEnd === null || newEventEnd === '')) {
+
+                let isOverlapping;
+
+                await fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        for (let event of data) {
+                            let eventStart = new Date(event.start);
+                            let eventEnd = new Date(event.end);
+
+                            if ((newEventStart >= eventStart && newEventStart <= eventEnd) ||
+                                (newEventEnd >= eventStart && newEventEnd <= eventEnd) ||
+                                (newEventStart <= eventStart && newEventEnd >= eventEnd)) {
+                                alert("Тренировка пересекается с существующей");
+                                isOverlapping = true; // Set isOverlapping to true here
+                                return false;
+                            }
                         }
-                    } else if (inputs[i].value == '' || inputs[i].value == null) {
-                        alert("Пожалуйста, введите все параметры тренировки");
-                        event.preventDefault(); // prevent form from being submitted
-                        return;
-                    }
+                        console.log("The new event does not overlap with any existing events.");
+                    })
+                    .catch(error => console.error('Error:', error))
+
+                console.log(isOverlapping);
+                if (isOverlapping === true) {
+                    return false;
                 }
-                if (!radioChecked) {
-                    alert("Пожалуйста, выберите тип тренировки");
-                    event.preventDefault(); // prevent form from being submitted
-                    return;
+            }
+
+            let inputs = form.getElementsByTagName('input');
+            let radioChecked = false;
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].type === 'radio') {
+                    if (inputs[i].checked) {
+                        radioChecked = true;
+                    }
+                } else if (inputs[i].value == '' || inputs[i].value == null) {
+                    alert("Пожалуйста, введите все параметры тренировки");
+                    //event.preventDefault(); // prevent form from being submitted
+                    return false;
+                }
+            }
+            if (!radioChecked) {
+                alert("Пожалуйста, выберите тип тренировки");
+                //event.preventDefault(); // prevent form from being submitted
+                return false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('create-trainingForm');
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault(); // prevent form from submitting
+                var a = await checkData(form); // wait for checkData to complete
+                if (a != false) {
+                    form.submit(); // manually submit form
+                } else {
+
                 }
             });
         });

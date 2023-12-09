@@ -73,8 +73,7 @@
                         <input type="hidden" name="trainerId" th:value="${trainer.id_trainer}">
 
                         <div class="registration">
-                            <input type="datetime-local" min="" class="date" name="trainingDate" />
-                            <!-- TODO - min date -->
+                            <input type="datetime-local" min="" class="date" name="trainingDate" id="date-select" />
                         </div>
 
                         <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
@@ -102,18 +101,60 @@
     </script>
 
     <script>
-        const forms = document.querySelectorAll('.subscribe-form'); // replace 'formClass' with the actual class of your forms
+        async function checkData(form) {
+            var id_trainer = form.elements["trainerId"].value;
+            var url = '/trainings?id_trainer=' + id_trainer;
+
+            let newEventStart = new Date(document.getElementById('date-select').value);
+            let newEventEnd = new Date(newEventStart.getTime() + 60 * 60000);
+
+            if (!(newEventStart === null || newEventStart === '' || newEventEnd === null || newEventEnd === '')) {
+
+                let isOverlapping;
+
+                await fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        for (let event of data) {
+                            let eventStart = new Date(event.start);
+                            let eventEnd = new Date(event.end);
+
+                            if ((newEventStart >= eventStart && newEventStart <= eventEnd) ||
+                                (newEventEnd >= eventStart && newEventEnd <= eventEnd) ||
+                                (newEventStart <= eventStart && newEventEnd >= eventEnd)) {
+                                alert("Тренировка пересекается с существующей");
+                                isOverlapping = true; // Set isOverlapping to true here
+                                return false;
+                            }
+                        }
+                        console.log("The new event does not overlap with any existing events.");
+                    })
+                    .catch(error => console.error('Error:', error))
+
+                console.log(isOverlapping);
+                if (isOverlapping === true) {
+                    return false;
+                }
+            }
+
+            const dateControl = form.querySelector('input[type="datetime-local"]');
+            let now = new Date();
+            let selectedDate = new Date(dateControl.value);
+
+            if (!dateControl.value || selectedDate < now) {
+                alert('Пожалуйста, введите дату');
+                return false;
+            }
+        }
+
+        const forms = document.querySelectorAll('.subscribe-form');
 
         forms.forEach(form => {
-            const dateControl = form.querySelector('input[type="datetime-local"]');
-
-            form.addEventListener('submit', function (event) {
-                let now = new Date();
-                let selectedDate = new Date(dateControl.value);
-
-                if (!dateControl.value || selectedDate < now) {
-                    event.preventDefault();
-                    alert( 'Пожалуйста, введите дату');
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault(); // prevent form from submitting
+                var a = await checkData(form); // wait for checkData to complete
+                if (a != false) {
+                    form.submit(); // manually submit form
                 }
             });
         });
