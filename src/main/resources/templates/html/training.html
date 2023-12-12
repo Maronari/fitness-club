@@ -79,6 +79,17 @@
                 </div>
             </div>
 
+            <div class="members-container" th:if="${role == 'trainer'}">
+                <h3 class="members-title">Участники</h3>
+                <ul class="members-list">
+                    <li th:each="member : ${training.members}"
+                        th:text="${member.first_name} + ' ' + ${member.second_name}">
+                    </li>
+
+                </ul>
+
+            </div>
+
             <div class="buttons-container">
                 <th:block th:switch="${role}">
                     <div th:case="'member'">

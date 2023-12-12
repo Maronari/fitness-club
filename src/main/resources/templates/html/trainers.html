@@ -80,7 +80,7 @@
 
                             <h2>Выберите время тренировки</h2>
                             <div class="registration">
-                                <input type="datetime-local" min="" class="date" name="trainingDate" id="date-select" />
+                                <input max="9999-12-31T23:59" type="datetime-local" min="1900-01-01T00:00" class="date" name="trainingDate" id="date-select" />
                             </div>
 
                             <div id="schedule">
@@ -166,7 +166,9 @@
                 let startTime = formatTime(new Date(item.start));
                 let endTime = formatTime(new Date(item.end));
                 listItem.textContent = `${item.title}: ${formatDateToDDMM(new Date(item.start))} с ${startTime} до ${endTime}`;
-                scheduleList.appendChild(listItem);
+                if (new Date(item.start) > new Date()) {
+                    scheduleList.appendChild(listItem);
+                }
             });
         }
 

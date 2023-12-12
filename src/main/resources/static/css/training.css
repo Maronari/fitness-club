@@ -107,7 +107,43 @@ body {
     grid-row-end: 3;
 }
 
- .trainer-photo {
+.members-container {
+    margin-top: -15px;
+    margin-left: 30px;
+    background-color: #f1f7fe;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 2em;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 270px;
+    border-radius: 10px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    grid-row-start: 1;
+    grid-column-start: 2;
+    grid-row-end: 3;
+}
+
+.members-container h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.members-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.members-list li {
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #dde5f4;
+    border-radius: 5px;
+}
+
+.trainer-photo {
     width: 250px;
     height: 250px;
     max-height: 270px;

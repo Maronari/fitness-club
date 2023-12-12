@@ -222,20 +222,22 @@
                             <div class="training-date">
                                 <p>Показать тренировки</p>
                                 <p class="training-date-block">C</p>
-                                <input type="date" th:id="'date-select-start'" placeholder="············"
-                                    name="session_date_start" class="training-date-block">
+                                <input min="1900-01-01" max="9999-12-31" type="date" th:id="'date-select-start'"
+                                    placeholder="············" name="session_date_start" class="training-date-block">
                                 <p class="training-date-block">По</p>
-                                <input type="date" th:id="'date-select-end'" placeholder="············" \
-                                    name="session_date_end" class="training-date-block">
+                                <input min="1900-01-01" max="9999-12-31" type="date" th:id="'date-select-end'"
+                                    placeholder="············" \ name="session_date_end" class="training-date-block">
                             </div>
                             <!-- select training duration period -->
                             <div class="session-time">
                                 <p>Продолжительность тренировки</p>
                                 <p class="session-time-block">От</p>
-                                <input type="text" class="session-time-block" th:id="'time-select-start'"
-                                    placeholder="··" name="session_time_start">
+                                <input type="number" min="30" max="120" maxlength="3" step="1"
+                                    class="session-time-block" th:id="'time-select-start'" placeholder="··"
+                                    name="session_time_start">
                                 <p class="session-time-block">До</p>
-                                <input type="text" class="session-time-block" th:id="'time-select-end'" placeholder="··"
+                                <input type="number" min="30" max="120" maxlength="3" step="1"
+                                    class="session-time-block" th:id="'time-select-end'" placeholder="··"
                                     name="session_time_end">
                             </div>
                         </form>
@@ -266,14 +268,14 @@
                             <!-- select training date -->
                             <div class="training-date">
                                 <p>Дата тренировки</p>
-                                <input type="datetime-local" th:id="'date-select'" placeholder="············"
-                                    th:field="*{session_date}" id="input-date">
+                                <input max="9999-12-31T23:59" type="datetime-local" th:id="'date-select'"
+                                    placeholder="············" th:field="*{session_date}" id="input-date">
                             </div>
                             <!-- select training duration -->
                             <div class="session-time">
                                 <p>Продолжительность тренировки</p>
-                                <input type="number" class="session-time-block" th:id="'time-select'" placeholder="··"
-                                    th:field="*{session_time}" id="input-duration">
+                                <input type="number" step="1" class="session-time-block" th:id="'time-select'"
+                                    placeholder="··" th:field="*{session_time}" id="input-duration">
                                 <p class="session-time-block" th:text="'мин'"></p>
                             </div>
 
@@ -372,26 +374,19 @@
                 if (a != false) {
                     form.submit(); // manually submit form
                 } else {
-
-                }
-
-                var id_trainer =  /*[[${trainerId}]]*/[];
-                var url = '/trainings?id_trainer=' + id_trainer;
-                let response = await fetch(url);
-                let trainings = await response.json();
-                var newTrainingStart = new Date(document.getElementById('date-select').value);
-                var newTrainingEnd = new Date(newTrainingStart.getTime() + document.getElementById('time-select').value * 60000);
-                for (var i = 0; i < trainings.length; i++) {
-                    var trainingStart = new Date(trainings[i].start);
-                    var trainingEnd = new Date(trainings[i].end);
-                    if ((newTrainingStart >= trainingStart && newTrainingStart <= trainingEnd) ||
-                        (newTrainingEnd >= trainingStart && newTrainingEnd <= trainingEnd)) {
-                        alert("Время тренировки пересекается с уже существующей тренировкой");
-                        event.preventDefault(); // prevent form from being submitted
-                        return;
-                    }
                 }
             });
+        });
+    </script>
+
+    <script>
+        $('input[type="number"][maxlength]').on('change', function() {
+            var value = parseInt(this.value, 10);
+            if (value < 30) {
+                this.value = 30;
+            } else if (value > 120) {
+                this.value = 120;
+            }
         });
     </script>
 

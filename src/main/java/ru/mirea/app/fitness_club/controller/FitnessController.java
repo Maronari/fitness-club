@@ -152,7 +152,6 @@ public class FitnessController {
     public String training(@PathVariable Integer id, Model model) {
         TrainingSchedule workout = trainingScheduleService.getTraining(id);
         model.addAttribute("training", workout);
-        model.addAttribute("trainer", trainingScheduleService.getTrainers(id));
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM, EE");
         String date = sdf.format(workout.getSession_date());
@@ -166,6 +165,7 @@ public class FitnessController {
                 Integer memberId = userDetailsService.getUserId(name);
                 Members member = membersService.getMember(memberId);
                 boolean isSignedUp = member.getMemberTrainingSchedules().contains(workout);
+                model.addAttribute("trainer", trainingScheduleService.getTrainers(id));
                 model.addAttribute("isSignedUp", isSignedUp);
                 model.addAttribute("member", member);
                 model.addAttribute("memberId", memberId);
@@ -353,8 +353,8 @@ public class FitnessController {
             @RequestParam(value = "id_training_type", required = false) List<Integer> trainingTypeId,
             @RequestParam(value = "session_date_start", required = false) String sessionDateStart,
             @RequestParam(value = "session_date_end", required = false) String sessionDateEnd,
-            @RequestParam(value = "session_time_start", required = false) Integer sessionTimeStart,
-            @RequestParam(value = "session_time_end", required = false) Integer sessionTimeEnd) throws ParseException {
+            @RequestParam(value = "session_time_start", required = false, defaultValue = "30") Integer sessionTimeStart,
+            @RequestParam(value = "session_time_end", required = false, defaultValue = "120") Integer sessionTimeEnd) throws ParseException {
 
         Date startDate = null;
         Date endDate = null;
