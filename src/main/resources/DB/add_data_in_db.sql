@@ -50,11 +50,11 @@ insert into trainers_photo (image_url) values
 
 insert into trainers_accounts (username, password, id_trainers_photo, last_login, account_creation_date, user_role)  values
 ("andrew.kachalkin", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 1 , current_date(), "2020-12-23", "TRAINER"),
-("ivan.stepanov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b1", 2, current_date(), "2020-11-23", "TRAINER"),
-("maria.vasilieva", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b2", 3, current_date(), "2020-03-23", "TRAINER"),
-("anna.smirnova", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b3", 4, current_date(), "2020-09-23", "TRAINER"),
-("olga.smirnova", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b4", 5, current_date(), "2020-01-23", "TRAINER"),
-("evgeniy.orlov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b5", 6, current_date(), "2020-06-23", "TRAINER");
+("ivan.stepanov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 2, current_date(), "2020-11-23", "TRAINER"),
+("maria.vasilieva", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 3, current_date(), "2020-03-23", "TRAINER"),
+("anna.smirnova", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 4, current_date(), "2020-09-23", "TRAINER"),
+("olga.smirnova", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 5, current_date(), "2020-01-23", "TRAINER"),
+("evgeniy.orlov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 6, current_date(), "2020-06-23", "TRAINER");
 
 insert into position (role_name) values
 ("Администратор"),

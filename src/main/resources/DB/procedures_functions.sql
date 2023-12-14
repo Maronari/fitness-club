@@ -1,16 +1,13 @@
 USE `fitness_club_db`;
 
 DELIMITER $$
-USE `fitness_club_db`$$
-CREATE DEFINER = CURRENT_USER TRIGGER
-`fitness_club_db`.`achievements_AFTER_UPDATE`
-AFTER UPDATE ON `achievements` FOR EACH ROW
+CREATE TRIGGER achievements_AFTER_UPDATE
+AFTER UPDATE ON achievements FOR EACH ROW
 BEGIN
   INSERT INTO members_have_achievements (receipt_date)
   VALUES (NOW());
 END$$
 
-USE `fitness_club_db`$$
 create table equipment_supplies(
 id_supply int,
 date_supply datetime);
@@ -41,13 +38,13 @@ IF EXISTS (SELECT 1 FROM `fitness_club_db`.`members_accounts` WHERE username = N
   END IF;
 END$$
 
--- USE `fitness_club_db`$$
--- CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`members_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `members_accounts` FOR EACH ROW
--- BEGIN
--- IF EXISTS (SELECT 1 FROM `fitness_club_db`.`members_accounts` WHERE username = NEW.username) THEN 
---     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
---   END IF;
--- END$$
+USE `fitness_club_db`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`members_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `members_accounts` FOR EACH ROW
+BEGIN
+IF EXISTS (SELECT 1 FROM `fitness_club_db`.`members_accounts` WHERE username = NEW.username) THEN 
+     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
+   END IF;
+END$$
 
 USE `fitness_club_db`$$
 create table news_audit(
@@ -76,13 +73,12 @@ IF EXISTS (SELECT 1 FROM `fitness_club_db`.`staff_accounts` WHERE username = NEW
   END IF;
 END$$
 
--- USE `fitness_club_db`$$
--- CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`staff_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `staff_accounts` FOR EACH ROW
--- BEGIN
--- IF EXISTS (SELECT 1 FROM `fitness_club_db`.`staff_accounts` WHERE username = NEW.username) THEN 
---     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
---   END IF;
--- END$$
+CREATE TRIGGER staff_accounts_BEFORE_UPDATE BEFORE UPDATE ON staff_accounts FOR EACH ROW
+BEGIN
+IF EXISTS (SELECT 1 FROM `fitness_club_db`.`staff_accounts` WHERE not (old.username = NEW.username)) THEN 
+     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot change to an existing username.';
+   END IF;
+END$$
 
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`trainers_AFTER_DELETE` AFTER DELETE ON `trainers` FOR EACH ROW
@@ -90,13 +86,12 @@ BEGIN
 DELETE FROM `fitness_club_db`.`training_schedule` WHERE id_trainer = OLD.id_trainer;
 END$$
 
--- USE `fitness_club_db`$$
--- CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`trainers_accounts_BEFORE_INSERT` BEFORE INSERT ON `trainers_accounts` FOR EACH ROW
--- BEGIN
--- IF EXISTS (SELECT 1 FROM `fitness_club_db`.`trainers_accounts` WHERE username = NEW.username) THEN 
---     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot make a new account with an existing username.';
---   END IF;
--- END$$
+CREATE TRIGGER trainers_accounts_BEFORE_INSERT BEFORE INSERT ON `trainers_accounts` FOR EACH ROW
+BEGIN
+IF EXISTS (SELECT 1 FROM `fitness_club_db`.`trainers_accounts` WHERE username = NEW.username) THEN 
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot make a new account with an existing username.';
+   END IF;
+END$$
 
 USE `fitness_club_db`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`trainers_accounts_BEFORE_UPDATE` BEFORE UPDATE ON `trainers_accounts` FOR EACH ROW
@@ -129,13 +124,54 @@ BEGIN
   VALUES (NEW.id_session, NOW());
 END$$
 
-USE `fitness_club_db`$$
-CREATE DEFINER = CURRENT_USER TRIGGER `fitness_club_db`.`visits_history_BEFORE_INSERT` BEFORE INSERT ON `visits_history` FOR EACH ROW
+CREATE TRIGGER visits_history_BEFORE_INSERT BEFORE INSERT ON `visits_history` FOR EACH ROW
 BEGIN
 IF NEW.visit_date < CURDATE() THEN 
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert a visit with a date in the past.';
   END IF;
 END$$
+
+CREATE TRIGGER training_schedule_AFTER_DELETE after delete on members_have_training_schedule for each row
+begin
+	delete from training_schedule where training_schedule.id_training_type=5 and training_schedule.id_session=old.id_session;
+end$$
+
+CREATE TRIGGER visits_history_AFTER_DELETE after delete on members_have_visits_history for each row
+begin
+	delete from visits_history where visits_history.id_visit=old.id_visit;
+end$$
+
+CREATE TRIGGER achievements_AFTER_DELETE after delete on members_have_achievements for each row
+begin
+	delete from achievements where achievements.id_achievement=old.id_achievement;
+end$$
+
+CREATE TRIGGER inbody_analyses_AFTER_DELETE after delete on members_have_inbody_analyses for each row
+begin
+	delete from inbody_analyses where inbody_analyses.id_inbody_analys=old.id_inbody_analys;
+end$$
+
+CREATE TRIGGER equipment_statistics_AFTER_DELETE after delete on members_have_equipment_statistics for each row
+begin
+	delete from equipment_statistics where equipment_statistics.id_statistics=old.id_statistics;
+end$$
+
+CREATE TRIGGER users_photo_AFTER_DELETE after delete on members_accounts for each row
+begin
+	delete from users_photo where users_photo.id_photo=old.id_photo;
+end$$
+
+CREATE TRIGGER trainers_photo_AFTER_DELETE after delete on trainers_accounts for each row
+begin
+	delete from trainers_photo where trainers_photo.id_trainers_photo=old.id_trainers_photo;
+end$$
+
+CREATE TRIGGER staff_photo_AFTER_DELETE after delete on staff_accounts for each row
+begin
+	delete from staff_photo where staff_photo.id_staff_photo=old.id_staff_photo;
+end$$
+
+
 
 CREATE PROCEDURE members_have_equipment_statistics_delete()
 BEGIN
