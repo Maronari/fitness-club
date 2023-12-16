@@ -367,7 +367,7 @@ public class FitnessController {
 
     @GetMapping("/logout")
     String logout() {
-        return "redirect:/login";
+        return "redirect:/login?logout";
     }
 
     @GetMapping("/trainings")
