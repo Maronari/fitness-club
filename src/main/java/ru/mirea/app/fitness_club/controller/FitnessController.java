@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ import ru.mirea.app.fitness_club.ORM.Achievements;
 import ru.mirea.app.fitness_club.ORM.EquipmentStatistics;
 import ru.mirea.app.fitness_club.ORM.Event;
 import ru.mirea.app.fitness_club.ORM.Members;
+import ru.mirea.app.fitness_club.ORM.News;
 import ru.mirea.app.fitness_club.ORM.Staff;
 import ru.mirea.app.fitness_club.ORM.StaffSchedule;
 import ru.mirea.app.fitness_club.ORM.Trainers;
@@ -36,6 +38,7 @@ import ru.mirea.app.fitness_club.ORM.TrainingSchedule;
 import ru.mirea.app.fitness_club.ORM.TrainingType;
 import ru.mirea.app.fitness_club.ORM.Accounts.UserDetailsServiceImpl;
 import ru.mirea.app.fitness_club.Service.MembersService;
+import ru.mirea.app.fitness_club.Service.NewsService;
 import ru.mirea.app.fitness_club.Service.PersonalTrainingForm;
 import ru.mirea.app.fitness_club.Service.StaffScheduleService;
 import ru.mirea.app.fitness_club.Service.StaffService;
@@ -57,6 +60,7 @@ public class FitnessController {
     private final TrainersService trainersService;
     private final StaffService staffService;
     private final TrainingTypeService trainingTypeService;
+    private final NewsService newsService;
     private UserDetailsServiceImpl userDetailsService;
 
     @GetMapping("/profile/{role}/{id}")
@@ -80,7 +84,7 @@ public class FitnessController {
                         .filter(workout -> workout.getSession_date().after(new Date()))
                         .count());
                 model.addAttribute("photoURL", membersService.getPhotoUrl(id));
-                model.addAttribute("news", clubsService.getListOfClubNews(member.getClub().getClub_name()));
+                model.addAttribute("allNews", newsService.getListOfClubNews());
                 break;
             case "trainer":
                 model.addAttribute("trainerId", id);
@@ -112,6 +116,25 @@ public class FitnessController {
                 break;
         }
         return "html/profile";
+    }
+
+    @GetMapping("/news")
+    @ResponseBody
+    public String news(@RequestParam(value = "club", required = false) String clubId) {
+        String jsonMsg = null;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            if (clubId != null) {
+                List<News> newsList = clubsService.getListOfClubNews(clubId);
+                jsonMsg = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(newsList);
+                return jsonMsg;
+            }
+            List<News> newsList = newsService.getListOfClubNews();
+            jsonMsg = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(newsList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonMsg;
     }
 
     @GetMapping("/calendar/{role}/{id}")
@@ -354,7 +377,9 @@ public class FitnessController {
             @RequestParam(value = "session_date_start", required = false) String sessionDateStart,
             @RequestParam(value = "session_date_end", required = false) String sessionDateEnd,
             @RequestParam(value = "session_time_start", required = false, defaultValue = "30") Integer sessionTimeStart,
-            @RequestParam(value = "session_time_end", required = false, defaultValue = "120") Integer sessionTimeEnd) throws ParseException {
+            @RequestParam(value = "session_time_end", required = false, defaultValue = "120") Integer sessionTimeEnd,
+            @RequestParam(value = "trainer_schedule", required = false, defaultValue = "0") Integer trainerSchedule)
+            throws ParseException {
 
         Date startDate = null;
         Date endDate = null;
@@ -379,6 +404,10 @@ public class FitnessController {
             }
         }
 
+        if (trainerSchedule == null) {
+            trainerSchedule = 0;
+        }
+
         List<TrainingSchedule> trainingScheduleList;
         trainingScheduleList = trainingScheduleService.getTrainingList(trainerId,
                 trainingTypeId,
@@ -387,7 +416,8 @@ public class FitnessController {
                 sessionTimeStart,
                 sessionTimeEnd);
 
-        List<Event> eventsList = trainingScheduleService.trainingScheduleToEventList(trainingScheduleList);
+        List<Event> eventsList = trainingScheduleService.trainingScheduleToEventList(trainingScheduleList,
+                trainerSchedule);
         String jsonMsg = null;
         try {
             ObjectMapper mapper = new ObjectMapper();

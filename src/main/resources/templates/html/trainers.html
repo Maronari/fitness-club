@@ -80,7 +80,8 @@
 
                             <h2>Выберите время тренировки</h2>
                             <div class="registration">
-                                <input max="9999-12-31T23:59" type="datetime-local" min="1900-01-01T00:00" class="date" name="trainingDate" id="date-select" />
+                                <input max="9999-12-31T23:59" type="datetime-local" class="date" name="trainingDate"
+                                    id="date-select" />
                             </div>
 
                             <div id="schedule">
@@ -95,8 +96,6 @@
 
                             <button type="button" id="closeSidebar">Закрыть</button>
                         </div>
-
-
                     </form>
                 </div>
             </div>
@@ -146,19 +145,19 @@
             let id_trainer = form.elements["trainerId"].value;
             let trainingDate = new Date(form.elements["trainingDate"].value);
             let dateStart = new Date(trainingDate.getFullYear(), trainingDate.getMonth(), trainingDate.getDate());
-            //let dateEnd = new Date(trainingDate.getFullYear(), trainingDate.getMonth(), trainingDate.getDate());
             let url = '/trainings?id_trainer=' + id_trainer
                 + '&session_date_start=' + formatDateToYYYYMMDD(dateStart)
-                + '&session_date_end=' + formatDateToYYYYMMDD(dateStart);
+                + '&session_date_end=' + formatDateToYYYYMMDD(dateStart)
+                + '&trainer_schedule=' + 1;
             console.log("url " + url);
             fetch(url)
                 .then(response => response.json())
-                .then(data => displaySchedule(data))
+                .then(data => displaySchedule(data, form))
                 .catch(error => console.error('Error:', error));
         }
 
-        function displaySchedule(schedule) {
-            const scheduleList = document.getElementById('scheduleList');
+        function displaySchedule(schedule, form) {
+            const scheduleList = form.querySelector('#scheduleList');
             scheduleList.innerHTML = ''; // Clear the list
 
             schedule.forEach(item => {
@@ -166,9 +165,7 @@
                 let startTime = formatTime(new Date(item.start));
                 let endTime = formatTime(new Date(item.end));
                 listItem.textContent = `${item.title}: ${formatDateToDDMM(new Date(item.start))} с ${startTime} до ${endTime}`;
-                if (new Date(item.start) > new Date()) {
-                    scheduleList.appendChild(listItem);
-                }
+                scheduleList.appendChild(listItem);
             });
         }
 
@@ -200,7 +197,7 @@
     </script>
 
     <script>
-        const dateControl = document.querySelector('input[type="datetime-local"]');
+        const dateControls = document.querySelectorAll('input[type="datetime-local"]');
         let now = new Date();
         let dd = String(now.getDate()).padStart(2, '0');
         let mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -209,15 +206,19 @@
         let min = String(now.getMinutes()).padStart(2, '0');
 
         now = yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + min;
-        dateControl.min = now;
+        dateControls.forEach(dateControl => {
+            dateControl.min = now;
+        });
+
     </script>
 
     <script>
         async function checkData(form) {
             var id_trainer = form.elements["trainerId"].value;
-            var url = '/trainings?id_trainer=' + id_trainer;
+            var url = '/trainings?id_trainer=' + id_trainer
+            + '&trainer_schedule=' + 1;
 
-            let newEventStart = new Date(document.getElementById('date-select').value);
+            let newEventStart = new Date(form.querySelector('#date-select').value);
             let newEventEnd = new Date(newEventStart.getTime() + 60 * 60000);
 
             if (!(newEventStart === null || newEventStart === '' || newEventEnd === null || newEventEnd === '')) {
@@ -253,13 +254,11 @@
             let now = new Date();
             let selectedDate = new Date(dateControl.value);
 
-            if (!dateControl.value || selectedDate < now) {
+            if (!dateControl.value) {
                 alert('Пожалуйста, введите дату');
                 return false;
             }
         }
-
-        //const forms = document.querySelectorAll('.subscribe-form');
 
         forms.forEach(form => {
             form.addEventListener('submit', async function (event) {

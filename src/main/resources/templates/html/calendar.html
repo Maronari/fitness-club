@@ -328,8 +328,8 @@
                             let eventStart = new Date(event.start);
                             let eventEnd = new Date(event.end);
 
-                            if ((newEventStart >= eventStart && newEventStart <= eventEnd) ||
-                                (newEventEnd >= eventStart && newEventEnd <= eventEnd) ||
+                            if ((newEventStart >= eventStart && newEventStart < eventEnd) ||
+                                (newEventEnd > eventStart && newEventEnd <= eventEnd) ||
                                 (newEventStart <= eventStart && newEventEnd >= eventEnd)) {
                                 alert("Тренировка пересекается с существующей");
                                 isOverlapping = true; // Set isOverlapping to true here

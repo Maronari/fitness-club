@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>ru.mirea.app</groupId>
 	<artifactId>fitness_club</artifactId>
-	<version>0.93</version>
+	<version>1.0RELEASE</version>
 	<name>fitness_club</name>
 	<description>the final project on the discipline PISiBDRV</description>
 	

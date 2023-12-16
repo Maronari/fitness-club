@@ -205,6 +205,10 @@ body {
     vertical-align: middle;
 }
 
+.news-button {
+    margin-bottom: 20px;
+}
+
 .news-title {
     font-size: 18px;
     font-weight: bold;
@@ -219,6 +223,7 @@ body {
 .headlines {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
 }
 
 .news-item {

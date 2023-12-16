@@ -3,6 +3,8 @@ package ru.mirea.app.fitness_club.ORM;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -23,6 +25,7 @@ public class News {
     private String news_title;
     private String news_text;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "clubNews")
     private List<Clubs> clubs = new ArrayList<>();
 }

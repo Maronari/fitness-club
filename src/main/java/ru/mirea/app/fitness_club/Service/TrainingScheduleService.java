@@ -41,7 +41,7 @@ public class TrainingScheduleService {
                 session_date_end, session_time_start, session_time_end);
     }
 
-    public List<Event> trainingScheduleToEventList(List<TrainingSchedule> trainingScheduleList) {
+    public List<Event> trainingScheduleToEventList(List<TrainingSchedule> trainingScheduleList, Integer trainerSchedule) {
         List<Event> eventsList = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
@@ -56,7 +56,8 @@ public class TrainingScheduleService {
                 for (TrainingSchedule training : trainingScheduleList) {
 
                     if ((training.getTrainingType().getId_training_type() == 5)
-                            && !(member.getMemberTrainingSchedules().contains(training))) {
+                            && !(member.getMemberTrainingSchedules().contains(training))
+                            && (trainerSchedule != 1)) {
                         continue;
                     }
 

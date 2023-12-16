@@ -14,8 +14,8 @@
     padding-top: 30px;
     border-right: solid #d1dbe7;
     position: fixed;
-    box-shadow: 0 0 2em #e6e9f9;
     gap: 2em;
+    z-index: 2;
 }
 
 .profile,

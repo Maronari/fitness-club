@@ -155,16 +155,48 @@
 
         <div class="news" th:if="${role == 'member'}">
             <h1>Новости</h1>
+            <input class="news-button" type="checkbox">Новости моего клуба</input>
             <div class="headlines">
-                <div class="news-item" th:each="headline: ${news}">
+                <div class="news-item" th:each="headline: ${allNews}">
                     <p class="headline-title" th:text="${headline.getNews_title}"></p>
                     <p class="headline-text" th:text="${headline.getNews_text}"></p>
                 </div>
             </div>
-
         </div>
-
     </div>
+
+    <!-- TODO: realize newsAPI -->
+    <script th:if="${role == 'member'}" th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkbox = document.querySelector('input[type="checkbox"]');
+            const headlinesDiv = document.querySelector('.headlines');
+
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    club =/*[[${memberClub.club_name}]]*/ '';
+                    url = "/news?club=" + club;
+                } else {
+                    url = "/news";
+                }
+
+                headlinesDiv.innerHTML = '';
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        headlinesDiv.innerHTML = '';
+                        data.forEach(newsItem => {
+                            const newsDiv = document.createElement('div');
+                            newsDiv.classList.add('news-item');
+                            newsDiv.innerHTML = `
+                                    <p class="headline-title">${newsItem.news_title}</p>
+                                    <p class="headline-text">${newsItem.news_text}</p>
+                                `;
+                            headlinesDiv.appendChild(newsDiv);
+                        });
+                    })
+            });
+        });
+    </script>
 
 </body>
 
