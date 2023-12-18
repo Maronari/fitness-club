@@ -1,7 +1,7 @@
 package ru.mirea.app.fitness_club.Service;
 
 import java.util.List;
-import java.util.Comparator;
+import java.util.Set;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
@@ -31,17 +31,16 @@ public class MembersService {
         return member.getMemberAchievements();
     }
 
-    public List<TrainingSchedule> getListOfTrainingSchedule(int memberId) {
+    public Set<TrainingSchedule> getListOfTrainingSchedule(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
-        List<TrainingSchedule> memberTrainings = member.getMemberTrainingSchedules();
-        memberTrainings.sort(Comparator.comparing(TrainingSchedule::getSession_date));
+        Set<TrainingSchedule> memberTrainings = member.getMemberTrainingSchedules();
         return memberTrainings;
     }
 
-    public String getTrainingTypeName(int memberId) {
-        List<TrainingSchedule> trainingSchedule = getListOfTrainingSchedule(memberId);
-        return trainingSchedule.get(memberId).getTrainingType().getTraining_type_name();
-    }
+    // public String getTrainingTypeName(int memberId) {
+    //     Set<TrainingSchedule> trainingSchedule = getListOfTrainingSchedule(memberId);
+    //     return trainingSchedule.get(memberId).getTrainingType().getTraining_type_name();
+    // }
 
     public MembersAccounts getMemberAccount(int memberId) {
         Members member = membersRepository.findById(memberId).orElse(null);
@@ -50,7 +49,11 @@ public class MembersService {
 
     public String getPhotoUrl(int memberId) {
         MembersAccounts memberAccounts = getMemberAccount(memberId);
-        return memberAccounts.getUserPhoto().getImage_url();
+        try {
+            return memberAccounts.getUserPhoto().getImage_url();
+        } catch (Exception e) {
+            return "https://i.postimg.cc/Wbznd0qn/1674365371-3-34.jpg";
+        }
     }
 
     public List<Feedback> getListOFeedbacks(int memberId) {
@@ -93,9 +96,14 @@ public class MembersService {
         return member.getMemberEquipmentStatistics();
     }
 
-    public String getActivityName(int memberId) {
-        List<EquipmentStatistics> equipmentStatistics = getListOfEquipmentStatistics(memberId);
-        return equipmentStatistics.get(memberId).getActivityType().getActivity_name();
+    public String getActivityName(int memberId,int statisticsId) {
+        List<EquipmentStatistics> equipmentStatistics = getListOfEquipmentStatistics(memberId); 
+        for (EquipmentStatistics equipmentStatistic : equipmentStatistics) {
+            if (equipmentStatistic.getId_statistics() == statisticsId) {
+                return equipmentStatistic.getActivityType().getActivity_name();
+            }
+        }
+        return null;
     }
 
     public Members save(Members member) {

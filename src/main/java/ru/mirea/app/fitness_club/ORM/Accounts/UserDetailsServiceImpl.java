@@ -27,6 +27,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new User(username, password, new ArrayList<>());
     }
 
+    public UserDetails loadUserById(Integer userId) throws UsernameNotFoundException {
+        String username = allAccounts.getUsernameById(userId);
+        if (username == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        String password = allAccounts.getPasswordByUsername(username);
+        return new User(username, password, new ArrayList<>());
+    }
+
     public Integer getUserId(String username) {
         return allAccounts.getIdByUsername(username);
     }

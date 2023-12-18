@@ -48,32 +48,39 @@ insert into trainers_photo (image_url) values
 ("https://i.postimg.cc/Wbznd0qn/1674365371-3-34.jpg"),
 ("https://i.postimg.cc/Wbznd0qn/1674365371-3-34.jpg");
 
-insert into trainers_accounts values
-(1, "andrew.kachalkin", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 1 , current_date(), "2020-12-23", "TRAINER"),
-(2, "ivan.stepanov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b1", 2, current_date(), "2020-11-23", "TRAINER"),
-(3, "maria.vasilieva", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b2", 3, current_date(), "2020-03-23", "TRAINER"),
-(4, "anna.smirnova", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b3", 4, current_date(), "2020-09-23", "TRAINER"),
-(5, 'olga.smirnova', "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b4", 5, current_date(), "2020-01-23", "TRAINER"),
-(6, "evgeniy.orlov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2b5", 6, current_date(), "2020-06-23", "TRAINER");
+insert into trainers_accounts (username, password, id_trainers_photo, last_login, account_creation_date, user_role)  values
+("andrew.kachalkin", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 1 , current_date(), "2020-12-23", "TRAINER"),
+("ivan.stepanov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 2, current_date(), "2020-11-23", "TRAINER"),
+("maria.vasilieva", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 3, current_date(), "2020-03-23", "TRAINER"),
+("anna.smirnova", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 4, current_date(), "2020-09-23", "TRAINER"),
+("olga.smirnova", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 5, current_date(), "2020-01-23", "TRAINER"),
+("evgeniy.orlov", "$2y$10$z1VSMQ36/jxstCVWOG5A0uqlLMOIDRTeatfPzkQX6bWNICY9At2ba", 6, current_date(), "2020-06-23", "TRAINER");
 
 insert into position (role_name) values
 ("Администратор"),
 ('Менеджер'),
 ('Бугхалтер');
 
-insert into staff (id_position,first_name,second_name,phone_number,email,hire_date,staff_about,gender) values
+insert into staff (id_position, first_name, second_name, phone_number, email, hire_date, staff_about, gender) values
 (1, "Павел", "Петров", "12345678", "pavel.p@gmail.com", "2019-10-2", "Какой-то мужик", 1),
 (2, 'Никита', 'Козлов', '13467912', 'nikk@example.com', '2018-10-27', 'Менеджер по продажам', 1),
 (3, 'Яна', 'Кузнецова', '85246931', 'yaniik@example.com', '2018-10-26', 'Какая-то девушка', 0);
 
-insert into staff_accounts values
-(1, "pavelP", "$2y$10$AWFx1TzUBsvOeRw17pDYeeDR.V50yDQvqH4moueRUzZecQ0kg0hBa", current_date(), "2019-10-3", "STAFF"),
-(2, "nikitaM", "$2y$10$AWFx1TzUBsvOeRw17pDYeeDR.V50yDQvqH4moueRUzZecQ0kg0hBa", current_date(), "2019-11-3", "STAFF"),
-(3, "yanaB", "$2y$10$AWFx1TzUBsvOeRw17pDYeeDR.V50yDQvqH4moueRUzZecQ0kg0hBa", current_date(), "2019-02-3", "STAFF");
+
+insert into staff_photo (image_url) values
+("https://i.postimg.cc/7YdqTc0k/d0276bfac31e1954601d1409c76d8085.jpg"),
+("https://i.postimg.cc/Fz2cqpdJ/giga.jpg"),
+("https://i.postimg.cc/q7bGw8L2/photo-2023-11-26-15-43-47.jpg");
+
+insert into staff_accounts (id_staff, username, password, id_staff_photo, last_login, account_creation_date, user_role) values
+(1, "pavelP", "$2y$10$AWFx1TzUBsvOeRw17pDYeeDR.V50yDQvqH4moueRUzZecQ0kg0hBa", 1, current_date(), "2019-10-3", "STAFF"),
+(2, "nikitaM", "$2y$10$AWFx1TzUBsvOeRw17pDYeeDR.V50yDQvqH4moueRUzZecQ0kg0hBa", 2, current_date(), "2019-11-3", "STAFF"),
+(3, "yanaB", "$2y$10$AWFx1TzUBsvOeRw17pDYeeDR.V50yDQvqH4moueRUzZecQ0kg0hBa", 3, current_date(), "2019-02-3", "STAFF");
 
 insert into users_photo (image_url) values
 ("https://pushinka.top/uploads/posts/2023-03/thumbs/1679913315_pushinka-top-p-avatarki-s-gigachadom-vkontakte-58.webp"),
 ("https://i.postimg.cc/ZKw8Znfd/kiss-cut-stickers-5-5x5-5-default-63866219a9dc4-1200x.webp");
+
 
 insert into members_accounts values
 ("JohnDoe", 1, 1, "$2y$10$uXzTcs9nQcNo62JgoBzXJOjhyeuV5.kBUEt8l5l88XYVNtFnRPuGi", "2021-10-01", "2023-10-5", "MEMBER"),
@@ -83,15 +90,43 @@ insert into training_type(training_type_name, workout_description) values
 ("BODYPUMP", "Групповая тренировка со штангой. Отличный способ снижения веса. Развивает силу, повышает выносливость."),
 ("STRETCHING", "Программа для комплексного снятия усталости мышц, улучшения гибкости и подвижности суставов. Лучший способой раслабиться."),
 ("Зумба", "Танцевальная фитнес-программа, популярная во всем мире. Зумба - один из видов высокоинтенсивных аэробных уроков."),
-("Smart Start Fullbody", "Авторская программа XXD Fitness, которая включает в себя управжения на основные группы мышц.");
+("Smart Start Fullbody", "Авторская программа XXD Fitness, которая включает в себя управжения на основные группы мышц."),
+("Персональная тренировка", "Ваша тренировка с личным тренером");
 
 insert into training_schedule(id_trainer, id_training_type, session_date, session_time)  values 
-(1, 1, "2023-12-04 14:00:00", 55),
-(3, 3, "2023-11-13 14:30:00", 55),
-(1, 1, "2023-11-13 17:30:00", 55),
-(5, 4, "2023-11-14 15:30:00", 30),
-(4, 2, "2023-11-16 18:00:00", 55),
-(2, 2, "2023-12-05 10:30:00", 55);
+(2, 2, "2023-12-05 10:30:00", 55),
+(1, 1, '2023-12-01 10:00:00', 60),
+(2, 2, '2023-12-02 11:00:00', 90),
+(3, 3, '2023-12-03 12:00:00', 120),
+(1, 2, '2023-12-03 10:00:00', 60),
+(2, 2, '2023-12-03 11:00:00', 90),
+(3, 3, '2023-12-04 12:00:00', 120),
+(1, 1, '2023-12-04 15:00:00', 60),
+(3, 2, '2023-12-05 17:00:00', 90),
+(3, 4, '2023-12-09 18:00:00', 120),
+(3, 4, '2023-12-10 20:00:00', 60),
+(2, 2, '2023-12-10 21:00:00', 90),
+(3, 3, '2023-12-12 10:00:00', 120),
+(3, 1, '2023-12-12 12:00:00', 60),
+(2, 3, '2023-12-12 11:00:00', 90),
+(2, 3, '2023-12-12 13:00:00', 120),
+(1, 4, '2023-12-13 10:00:00', 60),
+(2, 2, '2023-12-13 11:00:00', 90),
+(3, 3, '2023-12-14 12:00:00', 120),
+(5, 3, '2023-12-15 10:00:00', 60),
+(3, 2, '2023-12-17 11:00:00', 90),
+(1, 3, '2023-12-18 11:00:00', 90),
+(2, 3, '2023-12-18 13:00:00', 120),
+(4, 4, '2023-12-18 10:00:00', 60),
+(1, 2, '2023-12-19 11:00:00', 90),
+(1, 3, '2023-12-20 12:00:00', 120),
+(3, 3, '2023-12-20 10:00:00', 60),
+(4, 3, '2023-12-21 11:00:00', 90),
+(1, 3, '2023-12-22 13:00:00', 120),
+(4, 4, '2023-12-23 10:00:00', 60),
+(3, 2, '2023-12-23 11:00:00', 90),
+(4, 3, '2023-12-24 12:00:00', 120),
+(5, 3, '2023-12-25 10:00:00', 60);
 
 insert into members_have_training_schedule values
 (1, 1),
@@ -118,11 +153,11 @@ insert into nutrition_plan(id_member,nutrition_description,start_date) values
 (5, 'План питания для снижения жира и поддержания мышечной формы', '2021-06-01');
 
 insert into visits_history(visit_date) values
-('2021-10-02'),
-('2021-10-08'),
-('2021-08-01'),
-('2021-10-02'),
-('2021-06-03');
+('2023-11-28'),
+('2023-11-29'),
+('2023-11-30'),
+('2023-12-1'),
+('2023-11-28');
 
 insert into equipment_type(type_name) values
 ('Гантели'),
@@ -166,12 +201,12 @@ insert into activity_type(activity_name) values
 ('Бег'),
 ('Аэробика');
 
-insert into staff_schedule(id_staff,clubs_name,weekday,shift) values
-(1, 'Авиапарк', '1', '1'),
-(1, 'Авиапарк', '2', '2'),
-(2, 'Первомайский', '1', '3'),
-(3, 'Первомайский', '5', '1'),
-(3, 'Первомайский', '6', '1');
+insert into staff_schedule(id_staff, club_name, date, shift) values
+(1, 'Авиапарк', "2023-12-01", '1'),
+(1, 'Авиапарк', "2023-12-02", '2'),
+(2, 'Первомайский', '2023-12-01', '3'),
+(3, 'Первомайский', '2023-12-02', '1'),
+(3, 'Первомайский', '2023-12-01', '2');
 
 insert into news(news_title,news_text) values
 ('Новый фитнесс клуб открыт', 'С радостью сообщаем, что у нас открылся новый фитнесс клуб!'),
@@ -179,7 +214,7 @@ insert into news(news_title,news_text) values
 ('Третий фитнесс клуб открылся!', 'С радостью сообщаем, что у нас открылся третий фитнесс клуб!'),
 ('Четвертый фитнесс клуб открылся!', 'С радостью сообщаем, что у нас открылся четвертый фитнесс клуб!');
 
-insert into clubs_have_news values
+insert into clubs_have_news (id_news, club_name) values
 (1,'Авиапарк'),
 (2,'Аквамолл'),
 (3,'Первомайский'),

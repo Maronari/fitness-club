@@ -6,18 +6,20 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.5</version>
+		<version>3.2.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.mirea.app</groupId>
 	<artifactId>fitness_club</artifactId>
-	<version>0.8</version>
+	<version>1.0RELEASE</version>
 	<name>fitness_club</name>
 	<description>the final project on the discipline PISiBDRV</description>
 	
 	<developers>
 		<developer>
 			<name>Ivan Korsunov</name>
+			<id>Maronari</id>
+			<email>ivan.corsunov@gmail.com</email>
 			<roles>
 				<role>DB architect</role>
 				<role>Backend developer</role>
@@ -26,6 +28,7 @@
 		</developer>
 		<developer>
 			<name>Mikhail Nikolaenko</name>
+			<id>MAMUER</id>
 			<roles>
 				<role>DB architect</role>
 				<role>Backend developer</role>
@@ -66,6 +69,7 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
+			<version>8.2.0</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -83,6 +87,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-java8time</artifactId>
+			<version>3.0.4.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>

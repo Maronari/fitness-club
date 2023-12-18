@@ -17,15 +17,38 @@
             <img th:src="@{/icons/logo.png}" alt="Logo">
         </div>
         <div class="icons">
-            <a class="profile" id="selected" href="">
-                <img th:src="@{/icons/profile-white.svg}" alt="Profile">
-            </a>
-            <a class="calendar" th:href="'/calendar/' + ${role} + '/' + ${id}">
-                <img th:src="@{/icons/calendar.svg}" alt="Calendar">
-            </a>
-            <a class="statistic" th:href="'/statistic/' + ${role} + '/' + ${id}">
-                <img th:src="@{/icons/statistic.svg}" alt="Statistic">
-            </a>
+            <th:block th:switch="${role}">
+                <div th:case="'member'">
+                    <a class="profile" id="selected" th:href="'/profile/member/' + ${memberId}">
+                        <img th:src="@{/icons/profile-white.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" th:href="'/calendar/member/' + ${memberId}">
+                        <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+                    </a>
+                    <a class="statistic" th:href="'/statistic/member/' + ${memberId}">
+                        <img th:src="@{/icons/statistic.svg}" alt="Statistic">
+                    </a>
+                    <a class="trainers" th:href="'/trainers'">
+                        <img th:src="@{/icons/trainers.svg}" alt="trainers">
+                    </a>
+                </div>
+                <div th:case="'trainer'">
+                    <a class="profile" id="selected" th:href="'/profile/trainer/' + ${trainerId}">
+                        <img th:src="@{/icons/profile-white.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" th:href="'/calendar/trainer/' + ${trainerId}">
+                        <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+                    </a>
+                </div>
+                <div th:case="'staff'">
+                    <a class="profile" id="selected" th:href="'/profile/staff/' + ${staffId}">
+                        <img th:src="@{/icons/profile-white.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" th:href="'/calendar/staff/' + ${staffId}">
+                        <img th:src="@{/icons/calendar.svg}" alt="Calendar">
+                    </a>
+                </div>
+            </th:block>
             <a class="logout" th:href="'/logout'">
                 <img th:src="@{/icons/logout.svg}" alt="Log out">
             </a>
@@ -35,39 +58,57 @@
     <div class="content">
         <h1>Профиль</h1>
         <div class="profile-info">
-            <div class="first-column">
+            <!--if {role} == member-->
+            <div th:if="${role == 'member'}" class="first-column">
                 <img th:src="${photoURL}" alt="Profile Photo" class="profile-photo">
-                <p th:if="${role == 'member'}" class="email" th:text="'Ваша почта: ' + ${member.email}"></p>
-                <p th:if="${role == 'trainer'}" class="email" th:text="'Ваша почта: ' + ${trainer.email}"></p>
-                <p class="last-visit">Последняя тренировка: вчера</p>
-                <p th:if="${role == 'member'}" class="payment-date">Ближайшая оплата абонемента: завтра</p>
-                    <h1>Новости</h1>
-                    <div class="news-item" th:each="headline: ${news}">
-                        <p th:text="${headline.getNews_title}"></p>
-                        <p th:text="${headline.getNews_text}"></p>
-                    </div>
+                <p class="email" th:text="'Ваша почта: ' + ${member.email}"></p>
+                <p class="last-visit"
+                    th:text="'Последняя тренировка: ' + ${#dates.format(member.membersVisits.get(member.membersVisits.size()-1).visit_date, 'dd-MM')}">
+                </p>
+                <span th:if="${member.end_trial_date != NULL AND member.end_trial_date > #dates.createNow()}">
+                    <p class="payment-date"
+                        th:text="'Ближайшая оплата абонемента: ' + ${#dates.format(member.end_trial_date, 'dd-MM')}">
+                    </p>
+                </span>
+            </div>
+            <!--if {role} == trainer-->
+            <div th:if="${role == 'trainer'}" class="first-column">
+                <img th:src="${photoURL}" alt="Profile Photo" class="profile-photo">
+                <p class="email" th:text="'Ваша почта: ' + ${trainer.email}"></p>
+            </div>
+            <!--if {role} == staff-->
+            <div th:if="${role == 'staff'}" class="first-column">
+                <img th:src="${photoURL}" alt="Profile Photo" class="profile-photo">
+                <p class="email" th:text="'Ваша почта: ' + ${staff.email}"></p>
             </div>
             <!--if {role} == member-->
             <div th:if="${role == 'member'}" class="info">
                 <p class="name" th:text="${member.first_name + ' ' + member.second_name}"></p>
                 <p class="gender"> Пол:
                     <span th:if="${member.gender == '0'}">женский</span>
-                    <span th:unless="${member.gender == '1'}">мужской</span>
+                    <span th:unless="${member.gender == '0'}">мужской</span>
                 </p>
-                <p class="birth-date" th:text="'День рождения: ' + ${member.birth_date}"></p>
+                <p class="birth-date" th:text="'День рождения: ' + ${#dates.format(member.birth_date, 'dd-MM-yyyy')}">
+                </p>
                 <p class="phone-number" th:text="'Телефон: ' + ${member.phone_number}"></p>
                 <p class="level" th:text="'Уровень: ' + ${roleName}"></p>
             </div>
             <!--if {role} == trainer-->
             <div th:if="${role == 'trainer'}" class="info">
                 <p class="name" th:text="${trainer.first_name + ' ' + trainer.second_name}"></p>
-                <p class="speciality" th:text="'Сппециальность: ' + ${trainer.speciality}"></p>
+                <p class="speciality" th:text="'Специальность: ' + ${trainer.speciality}"></p>
                 <p class="phone-number" th:text="'Телефон: ' + ${trainer.phone_number}"></p>
+            </div>
+            <!--if {role} == staff-->
+            <div th:if="${role == 'staff'}" class="info">
+                <p class="name" th:text="${staff.first_name + ' ' + staff.second_name}"></p>
+                <p class="speciality" th:text="${staff.staff_about}"></p>
+                <p class="phone-number" th:text="'Телефон: ' + ${staff.phone_number}"></p>
             </div>
             <div class="third-column">
                 <!--if {role} == member-->
                 <div th:if="${role == 'member'}" class="achievements-container">
-                    <p>Ваши достижения</p>
+                    <p class="workouts-title">Ваши достижения</p>
                     <div class="achievements">
                         <div class="achievement-item" th:each="achievement : ${achievements}">
                             <img th:src="${achievement.achievement_icon_url}">
@@ -75,20 +116,87 @@
                         </div>
                     </div>
                 </div>
-                <div class="workouts-container">
-                    <p>Запланированные тренировки</p>
+                <!--if {role} == member or trainer-->
+                <div th:if="${role != 'staff'}" class="workouts-container">
+                    <p class="workouts-title">Запланированные тренировки</p>
                     <div class="workouts">
                         <div class="workout-item" th:each="workout : ${workouts}">
                             <p th:text="${workout.trainingType.training_type_name}"></p>
-                            <p th:text="${workout.session_date}"></p>
+                            <p th:text="${#dates.format(workout.session_date, 'dd-MM HH:mm')}"></p>
                             <p th:text="${workout.session_time} + ' мин'"></p>
                         </div>
                     </div>
-                    <a class="all-training-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Все тренировки</a>
+                    <div class="container-bottom">
+                        <p class="other-workouts" th:if="${workoutsCount - 3 > 0}"
+                            th:text="'...еще ' + ${workoutsCount - 3}"></p>
+                        <a class="all-training-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Все тренировки</a>
+                    </div>
+                </div>
+                <!--if {role} == staff-->
+                <div th:if="${role == 'staff'}" class="schedule-container">
+                    <p class="schedule-title">Ближайшие задачи</p>
+                    <div class="schedule">
+                        <div class="schedule-item" th:each="element : ${staffSchedule}">
+                            <p th:text="${element.club.club_name}"></p>
+                            <p th:text="${#dates.format(element.date, 'dd-MM')}"></p>
+                            <th:block th:switch="${element.shift}">
+                                <p th:case="'1'" th:text="'6:00 - 12:00'"></p>
+                                <p th:case="'2'" th:text="'12:00 - 18:00'"></p>
+                                <p th:case="'3'" th:text="'18:00 - 0:00'"></p>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="container-bottom">
+                        <a class="all-schedule-button" th:href="'/calendar/' + ${role} + '/' + ${id}">Всё расписание</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="news" th:if="${role == 'member'}">
+            <h1>Новости</h1>
+            <input class="news-button" type="checkbox">Новости моего клуба</input>
+            <div class="headlines">
+                <div class="news-item" th:each="headline: ${allNews}">
+                    <p class="headline-title" th:text="${headline.getNews_title}"></p>
+                    <p class="headline-text" th:text="${headline.getNews_text}"></p>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- TODO: realize newsAPI -->
+    <script th:if="${role == 'member'}" th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkbox = document.querySelector('input[type="checkbox"]');
+            const headlinesDiv = document.querySelector('.headlines');
+
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    club =/*[[${memberClub.club_name}]]*/ '';
+                    url = "/news?club=" + club;
+                } else {
+                    url = "/news";
+                }
+
+                headlinesDiv.innerHTML = '';
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        headlinesDiv.innerHTML = '';
+                        data.forEach(newsItem => {
+                            const newsDiv = document.createElement('div');
+                            newsDiv.classList.add('news-item');
+                            newsDiv.innerHTML = `
+                                    <p class="headline-title">${newsItem.news_title}</p>
+                                    <p class="headline-text">${newsItem.news_text}</p>
+                                `;
+                            headlinesDiv.appendChild(newsDiv);
+                        });
+                    })
+            });
+        });
+    </script>
 
 </body>
 

@@ -9,10 +9,7 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Fira+Sans'>
-    <title>Training</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/sidebar.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/training.css}">
-    <title>Training</title>
+    <title>Тренировка</title>
 </head>
 
 <body>
@@ -22,17 +19,38 @@
             <img th:src="@{/icons/logo.png}" alt="Logo">
         </div>
         <div class="icons">
-            <a class="profile"
-                th:href="${role.equals('member')} ? '/profile/member/' + ${memberId} : '/profile/' + ${role} + '/' + ${id}">
-                <img th:src="@{/icons/profile.svg}" alt="Profile">
-            </a>
-            <a class="calendar" id="selected"
-                th:href="${role.equals('member')} ? '/calendar/member/' + ${memberId} : '/calendar/' + ${role} + '/' + ${id}">
-                <img th:src="@{/icons/calendar-white.svg}" alt="Calendar">
-            </a>
-            <a class="statistic" th:href="'/statistic/' + ${role} + '/' + ${id}">
-                <img th:src="@{/icons/statistic.svg}" alt="Statistic">
-            </a>
+            <th:block th:switch="${role}">
+                <div th:case="'member'">
+                    <a class="profile" th:href="'/profile/member/' + ${memberId}">
+                        <img th:src="@{/icons/profile.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" id="selected" th:href="'/calendar/member/' + ${memberId}">
+                        <img th:src="@{/icons/calendar-white.svg}" alt="Calendar">
+                    </a>
+                    <a class="statistic" th:href="'/statistic/member/' + ${memberId}">
+                        <img th:src="@{/icons/statistic.svg}" alt="Statistic">
+                    </a>
+                    <a class="trainers" th:href="'/trainers'">
+                        <img th:src="@{/icons/trainers.svg}" alt="trainers">
+                    </a>
+                </div>
+                <div th:case="'trainer'">
+                    <a class="profile" th:href="'/profile/trainer/' + ${trainerId}">
+                        <img th:src="@{/icons/profile.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" id="selected" th:href="'/calendar/trainer/' + ${trainerId}">
+                        <img th:src="@{/icons/calendar-white.svg}" alt="Calendar">
+                    </a>
+                </div>
+                <div th:case="'staff'">
+                    <a class="profile" th:href="'/profile/staff/' + ${staffId}">
+                        <img th:src="@{/icons/profile.svg}" alt="Profile">
+                    </a>
+                    <a class="calendar" id="selected" th:href="'/calendar/staff/' + ${staffId}">
+                        <img th:src="@{/icons/calendar-white.svg}" alt="Calendar">
+                    </a>
+                </div>
+            </th:block>
             <a class="logout" th:href="'/logout'">
                 <img th:src="@{/icons/logout.svg}" alt="Log out">
             </a>
@@ -43,35 +61,53 @@
         <h2 class="title" th:text="${training.trainingType.training_type_name}"></h2>
         <p class="club" th:text="'xxd София'"></p>
 
-        <div class="info-container">
-            <div class="workout-info">
-                <p class="description" th:text="${training.trainingType.workout_description}"></p>
-                <div class="workout-prop">
-                    <p class="date" th:text="${session_date}"></p>
-                    <p class="duration" th:text="${training.session_time}+' мин'"></p>
+        <div class="containers">
+            <div class="info-container">
+                <div class="workout-info">
+                    <p class="description" th:text="${training.trainingType.workout_description}"></p>
+                    <div class="workout-prop">
+                        <p class="date" th:text="${session_date}"></p>
+                        <p class="duration" th:text="${training.session_time}+' мин'"></p>
+                    </div>
                 </div>
             </div>
 
-            <div class="trainer-container">
-                <p class="trainer" th:text="'Тренер: ' + ${trainers.first_name}+' '+${trainers.second_name}"></p>
+            <div class="trainer-container" th:if="${role == 'member'}">
+                <p class="trainer" th:text="'Тренер: ' + ${trainer.first_name}+' '+${trainer.second_name}"></p>
+                <div class="trainer-photo">
+                    <img th:src="${trainer.trainerAccounts.trainerPhoto.image_url}">
+                </div>
             </div>
-        </div>
 
-        <div class="workout-program">
-            <h3>Программа тренировки</h3>
-            <p>5 минут - презентация</p>
-        </div>
+            <div class="members-container" th:if="${role == 'trainer'}">
+                <h3 class="members-title">Участники</h3>
+                <ul class="members-list">
+                    <li th:each="member : ${training.members}"
+                        th:text="${member.first_name} + ' ' + ${member.second_name}">
+                    </li>
 
-        <div class="buttons">
-            <form th:action="'/calendar/training/subscribe'" method="post" th:object="${TrainingForm}">
-                <input type="hidden" name="memberId" th:value="${memberId}">
-                <input type="hidden" name="trainingId" th:value="${id}">
-                <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
-                    th:classappend="${isSignedUp} ? 'gray-button' : ''"
-                    th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'"></button>
-                <button type="submit" class="unsubscribe-button" th:if="${isSignedUp}"
-                    formaction="/calendar/training/unsubscribe">Отписаться</button>
-            </form>
+                </ul>
+
+            </div>
+
+            <div class="buttons-container">
+                <th:block th:switch="${role}">
+                    <div th:case="'member'">
+                        <form th:action="'/calendar/training/subscribe'" method="post" th:object="${TrainingForm}">
+                            <input type="hidden" name="memberId" th:value="${memberId}">
+                            <input type="hidden" name="trainingId" th:value="${id}">
+                            <button type="submit" class="signup-button" th:disabled="${isSignedUp}"
+                                th:classappend="${isSignedUp} ? 'gray-button' : ''"
+                                th:text="${isSignedUp} ? 'Вы записаны' : 'Записаться'"></button>
+                            <button type="submit" class="unsubscribe-button" th:if="${isSignedUp}"
+                                formaction="/calendar/training/unsubscribe">Отписаться</button>
+                        </form>
+                    </div>
+                    <div th:case="'trainer'">
+                        <button type="submit" class="trainer-button">Вы ведете</button>
+                    </div>
+                </th:block>
+            </div>
         </div>
     </div>
 

@@ -3,7 +3,9 @@
 }
 
 body {
-    background-color: #dde5f4;    
+    margin: 0;
+    padding: 0;
+    background: #dde5f4;
 }
 
 #selected {
@@ -22,34 +24,156 @@ body {
     height: 50px;
 }
 
-#calendar {
-    max-width: calc(100% - 115px);
-    margin-left: 110px;
-    padding-top: 20px;
+.content {
+    flex-grow: 1;
+    width: calc(100% - 140px);
+    padding-left: 140px;
+}
+
+.container {
+    padding-top: 30px;
+    display: flex;
+    padding-right: 0;
+    margin: 0;
+}
+
+#calendar.member-calendar,
+#calendar.trainer-calendar {
+    width: 800px;
+    position: fixed;
+}
+
+#calendar.staff-calendar {
+    width: 1350px;
 }
 
 :root {
     --fc-button-bg-color: #3e4684;
+    --fc-neutral-bg-color: #f1f7fe;
+    --fc-list-event-hover-bg-color: #f1f7fe;
 }
 
 .fc-day-today {
     background: #b2b4d4 !important;
     border: none !important;
 }
-    
+
 .fc-event {
     padding: 2px;
 }
 
-.event-content {
+#calendar.member-calendar .fc-event:hover,
+#calendar.trainer-calendar .fc-event:hover{
+    cursor: pointer;
+}
+
+.fc-list-day-cushion {
+    background-color: #f1f7fe;
+}
+
+.filter, .create-training {
+    width: 400px;
+    margin-left: 850px;
+    background: #f1f7fe;
+    padding: 0 2em;
+    padding-top: 0;
+    padding-bottom: 0;
     display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 2em;
+}
+
+.filter p, create-training p {
+    padding-left: 10px;
+}
+
+input[id='date-select-start'],
+input[id='date-select-end'] {
+    background-color: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 5px;
+    margin: 10px;
+    width: 110px;
+    border-radius: 10px;
+    overflow-y: hidden;
+    border: none;
+    text-align: left;
+}
+
+.training-date .training-date-block {
+    display: inline-block;
+    float: left;
+    margin-right: 10px;
+}
+
+.training-date #date-select {
+    display: block;
+    background-color: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 0em;
+    margin: auto;
+    width: 300px;
+    border-radius: 10px;
+}
+
+.session-time input {
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    background-color: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    gap: 2em;
+    padding: 10px;
+    margin: auto;
+    width: 50px;
+    border-radius: 10px;
+    overflow-y: hidden;
+    border: none;
 }
 
-.event-title {
-    /* styles for the title */
+.session-time,
+.trainer-select, 
+.type-select,
+.training-date {
+    display: inline-block;
+    flex-direction: row;
+    justify-content: start;
+    background-color: white;
+    padding: 0 10px 10px;
+    margin: 10px;
+    width: 350px;
+    border-radius: 10px;
+    overflow-y: hidden;
 }
 
-.event-time {
-    /* styles for the time */
+.session-time-block {
+    display: block;
+    float: left;
+    margin-right: 10px;
+}
+
+#training-time {
+    width: 50px;
+    padding: 10px;
+    display: block;
+    float: left;
+}
+
+.create-training button {
+    margin-top: 15px;
+    background-color: #3e4684;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 0 2em #e6e9f9;
+    overflow-y: hidden;
 }

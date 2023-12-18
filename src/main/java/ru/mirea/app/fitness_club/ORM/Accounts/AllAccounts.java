@@ -66,4 +66,13 @@ public class AllAccounts {
         }
         return null;
     }
+
+    public String getUsernameById(Integer userId) {
+        for (Account account : accounts) {
+            if (account.getId() == userId) {
+                return account.getUsername();
+            }
+        }
+        return null;
+    }
 }
