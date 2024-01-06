@@ -66,7 +66,7 @@
                 <div class="workout-info">
                     <p class="description" th:text="${training.trainingType.workout_description}"></p>
                     <div class="workout-prop">
-                        <p class="date" th:text="${session_date}"></p>
+                        <p class="date" th:text="${#dates.format(session_date, 'HH:mm dd-MM, EE')}"></p>
                         <p class="duration" th:text="${training.session_time}+' мин'"></p>
                     </div>
                 </div>
@@ -110,6 +110,15 @@
             </div>
         </div>
     </div>
+
+    <script th:if="${role == 'member'}" th:inline="javascript">
+        var training_date = new Date(/*[[${session_date}]]*/);
+        var current_date = new Date();
+        if (training_date < current_date) {
+            var container = document.getElementsByClassName('buttons-container');
+            container[0].style.display = 'none';
+        }
+    </script>
 
 </body>
 

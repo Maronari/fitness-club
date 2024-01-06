@@ -175,10 +175,7 @@ public class FitnessController {
     public String training(@PathVariable Integer id, Model model) {
         TrainingSchedule workout = trainingScheduleService.getTraining(id);
         model.addAttribute("training", workout);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM, EE");
-        String date = sdf.format(workout.getSession_date());
-        model.addAttribute("session_date", date);
+        model.addAttribute("session_date", workout.getSession_date());
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String name = ((UserDetails) principal).getUsername();
