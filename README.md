@@ -1,12 +1,11 @@
-# fitness_club
- the final project on the discipline PISiBDRV.
-
-The model of the network of fitness clubs, based on the MVC pattern.
+# About
+Pet-проект, а так же итоговая работа для дисциплины ПИСиБДРВ (Проектирование информационных систем и баз данных реального времени).
+Это реализация backend'а сервиса сети фитнесс клубов, основанная на MVC
 
 ## Screenshots
 ![Profile](./screens/Profile.png "Title")
-![Profile](./screens/Calendar.png "Title")
-![Profile](./screens/Trainers.png "Title")
+![Calendar](./screens/Calendar.png "Title")
+![Trainers](./screens/Trainers.png "Title")
 
  ## Dependencies
 
