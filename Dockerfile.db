@@ -1,8 +1,6 @@
 FROM mysql:latest
-# RUN apt-get update
-# RUN apt-get install locales -y
-# RUN echo en_US.UTF-8 UTF-8 >> /etc/locale.gen
-# RUN echo ru_RU.UTF-8 UTF-8 >> /etc/locale.gen
-# RUN locale-gen
+
+RUN chown -R mysql:mysql /docker-entrypoint-initdb.d/
+
 ENV LANG=C.UTF-8
-ADD ./src/main/resources/DB /docker-entrypoint-initdb.d
+COPY ./src/main/resources/DB /docker-entrypoint-initdb.d

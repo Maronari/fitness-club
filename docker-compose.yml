@@ -2,10 +2,6 @@ version: '3'
 services:
   db:
     container_name: fintess-database
-    command: 
-      --default-authentication-plugin=caching_sha2_password
-      --character-set-server=utf8 
-      --collation-server=utf8_general_ci
     build:
       context: .
       dockerfile: Dockerfile.db
@@ -16,7 +12,6 @@ services:
       MYSQL_PASSWORD: spring
     ports:
       - 3307:3306
-    
     volumes:
       - db-data:/var/lib/mysql
     networks:
@@ -42,4 +37,4 @@ volumes:
   db-data:
 
 networks:
-  fitness-net: 
+  fitness-net:
